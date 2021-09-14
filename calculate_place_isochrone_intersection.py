@@ -27,7 +27,7 @@ def create_place_isochrones_table(engine, table_name, metadata, place_id, schema
         Table(table_name, metadata,
             Column("id", String, primary_key=True, nullable=False),
             Column("c28992r100", String),
-            Column(place_id, String), schema=schema)
+            Column(place_id, Numeric), schema=schema)
         metadata.create_all()
 
 
@@ -99,7 +99,7 @@ if __name__ == '__main__':
     # id column name of population data
     pop_id_col = 'c28992r100'
     isochrone_col = "iso_15_avg_speed_75_6"
-    cities = ["utrecht"]
+    cities = ["amsterdam"]
     for city_name in cities:
         pop_table = city_name + "." + city_name[0:3] + '_population_iso_2020_100'
         # place_table = 'fsq_ams_whole_40_msc_typel1'
@@ -114,11 +114,12 @@ if __name__ == '__main__':
         session, Table = setup_db(to_store_table, db_connection_string, id_col, city_name)
 
         # get all pois or isochrones
-        max_added_id =  'E1342N4552'
-        # max_added_id = ''
+        max_added_id =  'E1197N4822'
+        # max_added_id = 'E1377N4562' utrecht
+        # max_added_id = E0926N4313 rotterdam
 
         pop_isochrones = get_col_from_db(c, pop_id_col + ',' + isochrone_col, pop_table, pop_id_col, max_added_id)
-        added_mappings = get_col_from_db(c, 'id', to_store_table, 'id', '')
+        added_mappings = get_col_from_db(c, 'id', city_name + "." + to_store_table, 'id', '')
         added_mappings = [r['id'] for r in added_mappings]
         # calculate intersections -> places - isochrones
         for pop_square in pop_isochrones:
@@ -126,11 +127,11 @@ if __name__ == '__main__':
             start_time = time.time()
             print("Calculating --> " + pop_square[pop_id_col])
             results = get_place_that_interesect_with_polygon(c, place_table, pop_table, isochrone_col, pop_id_col, pop_square[pop_id_col])
-            # print("Time to get query results --- %s seconds ---" % (time.time() - start_time))
+            print("Time to get query results --- %s seconds ---" % (time.time() - start_time))
             count = 0
             if not results:
                 data["c28992r100"] = pop_square[pop_id_col]
-                data[id_col] = "None"
+                data[id_col] = None
                 data["id"] = pop_square[pop_id_col]
                 session.add(Table(**data))
 
