@@ -23,7 +23,7 @@ def create_poi_ages_table(engine, table_name, metadata):
 
 def create_place_isochrones_table(engine, table_name, metadata, place_id, schema):
     # if table does not exist
-    if not engine.dialect.has_table(engine, table_name):
+    # if not engine.dialect.has_table(engine, table_name, schema=schema):
         Table(table_name, metadata,
             Column("id", String, primary_key=True, nullable=False),
             Column("c28992r100", String),
@@ -114,7 +114,7 @@ if __name__ == '__main__':
         session, Table = setup_db(to_store_table, db_connection_string, id_col, city_name)
 
         # get all pois or isochrones
-        max_added_id =  'E1197N4822'
+        max_added_id =  ''
         # max_added_id = 'E1377N4562' utrecht
         # max_added_id = E0926N4313 rotterdam
 
