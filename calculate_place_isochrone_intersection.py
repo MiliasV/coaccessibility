@@ -99,24 +99,18 @@ if __name__ == '__main__':
     # id column name of population data
     pop_id_col = 'c28992r100'
     isochrone_col = "iso_15_avg_speed_75_6"
-    cities = ["amsterdam"]
+    cities = ["eindhoven"]
     for city_name in cities:
         pop_table = city_name + "." + city_name[0:3] + '_population_iso_2020_100'
         # place_table = 'fsq_ams_whole_40_msc_typel1'
-        place_table = city_name + ".osm_pois_" + city_name[0:3]
-        # place_table = 'fsq_ams_whole_40_msc_typel1'
-        # place_table = 'park_ams_all'
-        # id_col = 'fsq_id'
+        place_table = city_name + ".pois_" + city_name[0:3]
         id_col = 'osm_id'
-        # place_table = 'squares_ams_all'
         # create table if it doesn't exist
-        to_store_table = 'mapping_osm_pois_' + 'iso_' + city_name[0:3]
+        to_store_table = 'mapping_pois_' + 'iso_' + city_name[0:3]
         session, Table = setup_db(to_store_table, db_connection_string, id_col, city_name)
 
         # get all pois or isochrones
         max_added_id =  ''
-        # max_added_id = 'E1377N4562' utrecht
-        # max_added_id = E0926N4313 rotterdam
 
         pop_isochrones = get_col_from_db(c, pop_id_col + ',' + isochrone_col, pop_table, pop_id_col, max_added_id)
         added_mappings = get_col_from_db(c, 'id', city_name + "." + to_store_table, 'id', '')
