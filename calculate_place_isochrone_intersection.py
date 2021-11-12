@@ -82,9 +82,9 @@ if __name__ == '__main__':
     c = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     # id column name of population data
     pop_id_col = 'c28992r100'
-    isochrone_col = "iso_15_avg_speed_75_6"
-    # "eindhoven"
-    cities = ["rotterdam", "utrecht", "hague", "amsterdam"]
+    isochrone_col = "iso_15_avg_speed_75_6_2"
+    # "eindhoven", "rotterdam", "utrrecht", "amsterdam"
+    cities = ['hague']
     for city_name in cities:
         print("##### Processing .... #######" + city_name)
         pop_table = city_name + ".walking_pop_2020_100_" + city_name[0:3]
@@ -96,7 +96,7 @@ if __name__ == '__main__':
         session, Table = setup_db(to_store_table, db_connection_string, id_col, city_name)
 
         # get all pois or isochrones
-        max_added_id =  'E0891N4369'
+        max_added_id =  'E0813N4521'
 
         pop_isochrones = get_col_from_db(c, pop_id_col + ',' + isochrone_col, pop_table, pop_id_col, max_added_id)
         added_mappings = get_col_from_db(c, 'id', city_name + "." + to_store_table, 'id', '')
