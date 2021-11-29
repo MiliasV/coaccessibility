@@ -28,10 +28,10 @@ def setup_db(pois_table_name, db_connection, table_type, schema):
     create_place_isochrones_table(db, pois_table_name, metadata, table_type,schema)
     # reflect the tables
     Base.prepare(db, schema=schema,reflect=True)
-    Table = getattr(Base.classes, pois_table_name)
+    myTable = getattr(Base.classes, pois_table_name)
     # create a Session
     session = Session(db)
-    return session, Table
+    return session, myTable
 
 
 def insert_poi_polygon_to_db(conn, c, data , table, id_col):
@@ -46,13 +46,14 @@ def get_col_from_db(c, cols, table, id_col, max_added_id):
     return c.fetchall()
 
 
-def get_place_that_interesect_with_polygon(c, table_poi, table_pop,  poly_col, poly_id_col, poly_id):
+def get_place_that_interesect_with_polygon(c, table_poi, table_pop,  poly_col, poly_id_col, poly_id, table_map):
     c.execute('SELECT {poly_id_col}, id FROM {table_poi} place '
               ' INNER JOIN {table_pop} pop '
-              ' ON ST_Intersects(ST_SetSRID(place.geometry, 4326), ST_Transform(ST_GEOMFROMTEXT(pop.{poly_col}, 28992),4326)) '
-              " where pop.{poly_id_col}='{poly_id}'".format(table_poi=table_poi, table_pop=table_pop,
+              ' ON ST_Intersects(place.centroid, ST_GEOMFROMTEXT(pop.{poly_col}, 28992)) '
+              " where pop.{poly_id_col}='{poly_id}' "
+              " and id in (select osm_id from {table_map} where pop.{poly_id_col}='{poly_id}')".format(table_poi=table_poi, table_pop=table_pop,
                                                           poly_col = poly_col, poly_id_col = poly_id_col,
-                                                          poly_id = poly_id))
+                                                          poly_id = poly_id, table_map=table_map))
     return c.fetchall()
 
 
@@ -82,59 +83,71 @@ if __name__ == '__main__':
     c = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     # id column name of population data
     pop_id_col = 'c28992r100'
-    isochrone_col = "iso_15_avg_speed_75_6_2"
-    # "eindhoven", "rotterdam", "utrrecht", "amsterdam"
-    cities = ['hague']
-    for city_name in cities:
-        print("##### Processing .... #######" + city_name)
-        pop_table = city_name + ".walking_pop_2020_100_" + city_name[0:3]
-        # place_table = 'fsq_ams_whole_40_msc_typel1'
-        place_table = city_name + ".pois_buurt_" + city_name[0:3]
-        id_col = 'osm_id'
-        # create table if it doesn't exist
-        to_store_table = 'mapping_pois_' + 'walk_' + city_name[0:3]
-        session, Table = setup_db(to_store_table, db_connection_string, id_col, city_name)
+    walk_areas= ['5']
+    for walk_area in walk_areas:
+        isochrone_col = "iso_" + walk_area + "_avg_speed_75_6"
+        # "eindhoven" 15 done, need 5, 10 
+        #"rotterdam", "utrrecht", "amsterdam"
+        cities = ['amsterdam', 'utrecht']
+        for city_name in cities:
+            print("##### Processing .... #######" + city_name)
+            pop_table = city_name + ".iso_population_2020_100_" + walk_area  + "_" + city_name[0:3]
+            # place_table = 'fsq_ams_whole_40_msc_typel1'
+            # place_table = city_name + ".pois_buff_1000_buurt_" + city_name[0:3]
+            if walk_area=='15':
+                place_table = city_name + ".pois_extra_buff_" + city_name[0:3]
+                to_store_table = 'mapping_pois_extra_iso_' + walk_area + "_" + city_name[0:3]
+            elif int(walk_area)<15:
+                place_table = city_name + ".pois_buff_1000_" + city_name[0:3]
+                to_store_table = 'mapping_pois_iso_' + walk_area + "_" + city_name[0:3]
+            if int(walk_area)==10:
+                table_map = city_name + ".mapping_pois_iso_15_" + city_name[0:3]
+            if int(walk_area)==5:
+                table_map = city_name + ".mapping_pois_iso_10_" + city_name[0:3]
+            id_col = 'osm_id'
+            # create table if it doesn't exist
+            session, myTable = setup_db(to_store_table, db_connection_string, id_col, city_name)
 
-        # get all pois or isochrones
-        max_added_id =  'E0813N4521'
+            # get all pois or isochrones
+            max_added_id =  ''
 
-        pop_isochrones = get_col_from_db(c, pop_id_col + ',' + isochrone_col, pop_table, pop_id_col, max_added_id)
-        added_mappings = get_col_from_db(c, 'id', city_name + "." + to_store_table, 'id', '')
-        added_mappings = [r['id'] for r in added_mappings]
-        # calculate intersections -> places - isochrones
-        for pop_square in pop_isochrones:
-            data = {}
-            start_time = time.time()
-            #print("Calculating --> " + pop_square[pop_id_col])
-            results = get_place_that_interesect_with_polygon(c, place_table, pop_table, isochrone_col, pop_id_col, pop_square[pop_id_col])
-            #print("Time to get query results --- %s seconds ---" % (time.time() - start_time))
-            count = 0
-            if not results:
-                data["c28992r100"] = pop_square[pop_id_col]
-                data[id_col] = None
-                data["id"] = pop_square[pop_id_col]
-                session.add(Table(**data))
+            pop_isochrones = get_col_from_db(c, pop_id_col + ',' + isochrone_col, pop_table, pop_id_col, max_added_id)
+            added_mappings = get_col_from_db(c, 'id', city_name + "." + to_store_table, 'id', '')
+            added_mappings = [r['id'] for r in added_mappings]
+            # calculate intersections -> places - isochrones
+            for pop_square in pop_isochrones:
+                data = {}
+                start_time = time.time()
+                #print("Calculating --> " + pop_square[pop_id_col])
+                results = get_place_that_interesect_with_polygon(c, place_table, pop_table, isochrone_col, pop_id_col, pop_square[pop_id_col], table_map)
+                #print("Time to get query results --- %s seconds ---" % (time.time() - start_time))
+                count = 0
+                if not results:
+                    data["c28992r100"] = pop_square[pop_id_col]
+                    data[id_col] = None
+                    data["id"] = pop_square[pop_id_col]
+                    session.add(myTable(**data))
 
-            for res in results:
-                new_id = res["c28992r100"] + "_" + str(res["id"])
-                # avoid duplicate keys
-                if new_id not in added_mappings:
-                    added_mappings.append(new_id)
-                    # start_time = time.time()
-                    data["c28992r100"] = res["c28992r100"]
-                    data[id_col] = res["id"]
-                    data["id"] = new_id
-                    # insert_poi_polygon_to_db(conn, c, data, to_store_table, id_col)
-                    session.add(Table(**data))
+                for res in results:
+                    new_id = res["c28992r100"] + "_" + str(res["id"])
+                    # avoid duplicate keys
+                    if new_id not in added_mappings:
+                        added_mappings.append(new_id)
+                        # start_time = time.time()
+                        data["c28992r100"] = res["c28992r100"]
+                        data[id_col] = res["id"]
+                        data["id"] = new_id
+                        # insert_poi_polygon_to_db(conn, c, data, to_store_table, id_col)
+                        session.add(myTable(**data))
 
-                # print("Time to get add one record  --- %s seconds ---" % (time.time() - start_time))
+                    # print("Time to get add one record  --- %s seconds ---" % (time.time() - start_time))
 
-            # print("Time to get add to session --- %s seconds ---" % (time.time() - start_time))
-            # start_time = time.time()
-            count += 1
-            session.commit()
-            #print("~~  INSERTED - " + str(count))
-            #print("Time needed  --- %s seconds ---" % (time.time() - start_time))
+                # print("Time to get add to session --- %s seconds ---" % (time.time() - start_time))
+                # start_time = time.time()
+                count += 1
+                session.commit()
+                #print("~~  INSERTED - " + str(count))
+                #print("Time needed  --- %s seconds ---" % (time.time() - start_time))
 
 
 

@@ -7,6 +7,7 @@ import geopandas as gpd
 from sqlalchemy import create_engine
 from shapely.ops import transform
 import sys
+import numpy as np
 sys.path.append('../')
 from config import db_connection_string
 from descartes import PolygonPatch
@@ -84,15 +85,20 @@ if __name__ =='__main__':
     db_connection_string = 'postgresql://postgres:postgres@localhost/age_segregation'
     engine = create_engine(db_connection_string)
     # utrecht done
-    # rotterdam done
     # eindhoven done
-    cities = ["amsterdam", "rotterdam", "hague"]
+    # amsterdam done, hague done
+    cities = ["rotterdam"]
     # speed in meters per minute
     walking_speed = {'avg_speed': 75.6}
+    # 5, 10, 15
+    trip_times =[15]
     for city in cities:
         print(city)
-        # download the street network
-        G_wgs84 = ox.graph_from_place(city,retain_all=True, buffer_dist=1000, network_type='walk')
+        if city=='hague':
+            # download the street network
+            G_wgs84 = ox.graph_from_place(city + ",netherlands",retain_all=True, buffer_dist=1000, network_type='walk')
+        else:
+            G_wgs84 = ox.graph_from_place(city,retain_all=True, buffer_dist=1000, network_type='walk')
         #remove isolated nodes
         G_wgs84.remove_nodes_from(list(nx.isolates(G_wgs84)))
         # netherlands projection
@@ -110,24 +116,27 @@ if __name__ =='__main__':
         
         sql = "Select * from " + city + "." + city[0:3] + "_pop_2020_100"
 
-        trip_times = [15]
         for trip_time in trip_times:
             print(trip_time)
             # population data
-            gdf_pop = gpd.GeoDataFrame.from_postgis(sql, engine, geom_col='geometry')
-            #gdf_pop = gdf_pop.head(3)
-
-            # create centroids and project them to wgs84
-            gdf_pop["centroid_wgs84"] = gdf_pop.apply(lambda row: transform(project, row["geometry"].centroid), axis=1)
-            start_time = time.time()
-            for age in walking_speed:
-                walking_speed_col_name = str(walking_speed[age]).replace(".","_")
-                print("Done calculating speeds. Generating Polygons....")
-                for index, row in gdf_pop.iterrows():
-                    gdf_pop.loc[index,"iso_" + str(trip_time) +"_" + age + "_" + walking_speed_col_name] =  make_iso_polys(G, G_wgs84, gdf_pop.loc[index,'centroid_wgs84'], [trip_time], edge_buff=25, node_buff=0, infill=True)
-                # gdf_pop["iso_" + str(trip_time) +"_" + age + "_" + walking_speed_col_name] = gdf_pop.apply(lambda row: make_iso_polys(G, G_wgs84, row.centroid_wgs84, [trip_time], edge_buff=25, node_buff=0, infill=True), axis=1)
-            print("DONE )--> iso_" + str(trip_time) +"_" + age + "_" + str(walking_speed[age]))
-            
-            # gdf_pop.to_file(city + "_iso_15.geojson", driver='GeoJSON')
-            gdf_pop.to_postgis("iso_population_iso_2020_100_" + str(trip_time) + "_" + city[0:3] , con=engine, chunksize=50, schema=city)
-            print("Time needed --- %s seconds ---\n\n" % (time.time() - start_time))
+            gdf_pop_all = gpd.GeoDataFrame.from_postgis(sql, engine, geom_col='geometry')
+            #gdf_pop_all = gdf_pop_all.head(10)
+            gdf_list = np.array_split(gdf_pop_all,4)
+            count=0
+            for gdf_pop in gdf_list:
+                count+=1
+                print("Iteration: ", count)
+                if count ==1 or count==3 or count==4:
+                    continue
+                # create centroids and project them to wgs84
+                gdf_pop["centroid_wgs84"] = gdf_pop.apply(lambda row: transform(project, row["geometry"].centroid), axis=1)
+                start_time = time.time()
+                for age in walking_speed:
+                    walking_speed_col_name = str(walking_speed[age]).replace(".","_")
+                    print("Done calculating speeds. Generating Polygons....")
+                    for index, row in gdf_pop.iterrows():
+                        gdf_pop.loc[index,"iso_" + str(trip_time) +"_" + age + "_" + walking_speed_col_name] =  make_iso_polys(G, G_wgs84, gdf_pop.loc[index,'centroid_wgs84'], [trip_time], edge_buff=25, node_buff=0, infill=True)
+                        # gdf_pop["iso_" + str(trip_time) +"_" + age + "_" + walking_speed_col_name] = gdf_pop.apply(lambda row: make_iso_polys(G, G_wgs84, row.centroid_wgs84, [trip_time], edge_buff=25, node_buff=0, infill=True), axis=1)
+                print("DONE )--> iso_" + str(trip_time) +"_" + age + "_" + str(walking_speed[age]))
+                gdf_pop.to_postgis("iso_population_2020_100_" + str(trip_time) + "_" + city[0:3] , con=engine, if_exists='append', chunksize=50, schema=city)
+                print("Time needed --- %s seconds ---\n\n" % (time.time() - start_time))
