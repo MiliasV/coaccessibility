@@ -84,14 +84,11 @@ if __name__ =='__main__':
     # store to db
     db_connection_string = 'postgresql://postgres:postgres@localhost/age_segregation'
     engine = create_engine(db_connection_string)
-    # utrecht done
-    # eindhoven done
-    # amsterdam done, hague done
     cities = ["rotterdam"]
     # speed in meters per minute
     walking_speed = {'avg_speed': 75.6}
     # 5, 10, 15
-    trip_times =[15]
+    trip_times =[15, 10, 15]
     for city in cities:
         print(city)
         if city=='hague':
@@ -129,6 +126,7 @@ if __name__ =='__main__':
                 if count ==1 or count==3 or count==4:
                     continue
                 # create centroids and project them to wgs84
+                gdf_pop = gdf_pop.drop(gdf_pop[gdf_pop.geometry.geom_type=='MultiPolygon'].index)
                 gdf_pop["centroid_wgs84"] = gdf_pop.apply(lambda row: transform(project, row["geometry"].centroid), axis=1)
                 start_time = time.time()
                 for age in walking_speed:
