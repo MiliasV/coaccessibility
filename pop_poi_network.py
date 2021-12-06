@@ -77,7 +77,7 @@ if __name__ == '__main__':
             for part in count_order:
                 pop_squares = get_col_from_db_first_rows(c, 'c28992r100, neighbor_list', mapping_table, part[0], part[1])
                 print("after reading map table")
-                query = 'select c28992r100, pop."INW_014" as children,(pop."INW_1524" + pop."INW_2544" + pop."INW_4564") as adults, ' + \
+                query = 'select c28992r100, geometry, pop."INW_014" as children,(pop."INW_1524" + pop."INW_2544" + pop."INW_4564") as adults, ' + \
                     '(pop."INW_65PL") as elderly,(pop."INW_014" + pop."INW_1524" + pop."INW_2544"+ pop."INW_4564"+ pop."INW_65PL")  as total_pop '+ \
                     'from {pop_table} as pop'.format(pop_table=pop_table)
                 df_pop = pd.read_sql_query(query,con=engine)
