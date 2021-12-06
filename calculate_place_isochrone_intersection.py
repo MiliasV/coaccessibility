@@ -46,7 +46,16 @@ def get_col_from_db(c, cols, table, id_col, max_added_id):
     return c.fetchall()
 
 
-def get_place_that_interesect_with_polygon(c, table_poi, table_pop,  poly_col, poly_id_col, poly_id, table_map):
+def get_place_that_interesect_with_polygon(c, table_poi, table_pop,  poly_col, poly_id_col, poly_id):
+    c.execute('SELECT {poly_id_col}, id FROM {table_poi} place '
+              ' INNER JOIN {table_pop} pop '
+              ' ON ST_Intersects(place.centroid, ST_GEOMFROMTEXT(pop.{poly_col}, 28992)) '
+              " where pop.{poly_id_col}='{poly_id}' ".format(table_poi=table_poi, table_pop=table_pop,
+                                                          poly_col = poly_col, poly_id_col = poly_id_col,
+                                                          poly_id = poly_id))
+    return c.fetchall()
+
+def get_place_that_interesect_with_polygon_and_in_map_table(c, table_poi, table_pop,  poly_col, poly_id_col, poly_id, table_map):
     c.execute('SELECT {poly_id_col}, id FROM {table_poi} place '
               ' INNER JOIN {table_pop} pop '
               ' ON ST_Intersects(place.centroid, ST_GEOMFROMTEXT(pop.{poly_col}, 28992)) '
@@ -83,22 +92,17 @@ if __name__ == '__main__':
     c = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     # id column name of population data
     pop_id_col = 'c28992r100'
-    walk_areas= ['5']
+    walk_areas= ['15','10','5']
     for walk_area in walk_areas:
         isochrone_col = "iso_" + walk_area + "_avg_speed_75_6"
-        # "eindhoven" 15 done, need 5, 10 
-        #"rotterdam", "utrrecht", "amsterdam"
-        cities = ['amsterdam', 'utrecht']
+        cities = ['hague']
         for city_name in cities:
-            print("##### Processing .... #######" + city_name)
+            print("##### Processing .... #######" + city_name + ' ' + walk_area)
             pop_table = city_name + ".iso_population_2020_100_" + walk_area  + "_" + city_name[0:3]
-            # place_table = 'fsq_ams_whole_40_msc_typel1'
-            # place_table = city_name + ".pois_buff_1000_buurt_" + city_name[0:3]
-            if walk_area=='15':
-                place_table = city_name + ".pois_extra_buff_" + city_name[0:3]
+            place_table = city_name + ".pois_buff_1000_buurt_" + city_name[0:3]
+            if int(walk_area)==15:
                 to_store_table = 'mapping_pois_extra_iso_' + walk_area + "_" + city_name[0:3]
             elif int(walk_area)<15:
-                place_table = city_name + ".pois_buff_1000_" + city_name[0:3]
                 to_store_table = 'mapping_pois_iso_' + walk_area + "_" + city_name[0:3]
             if int(walk_area)==10:
                 table_map = city_name + ".mapping_pois_iso_15_" + city_name[0:3]
@@ -119,7 +123,10 @@ if __name__ == '__main__':
                 data = {}
                 start_time = time.time()
                 #print("Calculating --> " + pop_square[pop_id_col])
-                results = get_place_that_interesect_with_polygon(c, place_table, pop_table, isochrone_col, pop_id_col, pop_square[pop_id_col], table_map)
+                if int(walk_area)==15:
+                    results = get_place_that_interesect_with_polygon(c, place_table, pop_table, isochrone_col, pop_id_col, pop_square[pop_id_col])
+                else:
+                    results = get_place_that_interesect_with_polygon_and_in_map_table(c, place_table, pop_table, isochrone_col, pop_id_col, pop_square[pop_id_col], table_map)
                 #print("Time to get query results --- %s seconds ---" % (time.time() - start_time))
                 count = 0
                 if not results:
