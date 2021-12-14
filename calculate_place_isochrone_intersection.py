@@ -92,18 +92,16 @@ if __name__ == '__main__':
     c = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     # id column name of population data
     pop_id_col = 'c28992r100'
-    walk_areas= ['15','10','5']
+    walk_areas= ['15']
     for walk_area in walk_areas:
         isochrone_col = "iso_" + walk_area + "_avg_speed_75_6"
-        cities = ['hague']
+        cities = ['rotterdam','hague','utrecht']
         for city_name in cities:
             print("##### Processing .... #######" + city_name + ' ' + walk_area)
             pop_table = city_name + ".iso_population_2020_100_" + walk_area  + "_" + city_name[0:3]
             place_table = city_name + ".pois_buff_1000_buurt_" + city_name[0:3]
-            if int(walk_area)==15:
-                to_store_table = 'mapping_pois_extra_iso_' + walk_area + "_" + city_name[0:3]
-            elif int(walk_area)<15:
-                to_store_table = 'mapping_pois_iso_' + walk_area + "_" + city_name[0:3]
+            to_store_table = 'mapping_pois_iso_centroids_' + walk_area + "_" + city_name[0:3]
+            table_map = city_name + ".mapping_pois_iso_15_" + city_name[0:3]
             if int(walk_area)==10:
                 table_map = city_name + ".mapping_pois_iso_15_" + city_name[0:3]
             if int(walk_area)==5:
@@ -123,10 +121,10 @@ if __name__ == '__main__':
                 data = {}
                 start_time = time.time()
                 #print("Calculating --> " + pop_square[pop_id_col])
-                if int(walk_area)==15:
-                    results = get_place_that_interesect_with_polygon(c, place_table, pop_table, isochrone_col, pop_id_col, pop_square[pop_id_col])
-                else:
-                    results = get_place_that_interesect_with_polygon_and_in_map_table(c, place_table, pop_table, isochrone_col, pop_id_col, pop_square[pop_id_col], table_map)
+                #if int(walk_area)==15:
+                    #results = get_place_that_interesect_with_polygon(c, place_table, pop_table, isochrone_col, pop_id_col, pop_square[pop_id_col])
+                #else:
+                results = get_place_that_interesect_with_polygon_and_in_map_table(c, place_table, pop_table, isochrone_col, pop_id_col, pop_square[pop_id_col], table_map)
                 #print("Time to get query results --- %s seconds ---" % (time.time() - start_time))
                 count = 0
                 if not results:
