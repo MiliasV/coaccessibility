@@ -95,7 +95,8 @@ if __name__ == '__main__':
     walk_areas= ['15']
     for walk_area in walk_areas:
         isochrone_col = "iso_" + walk_area + "_avg_speed_75_6"
-        cities = ['rotterdam','hague','utrecht']
+        cities = ['rotterdam', 'hague','utrecht']
+        # rott not finished
         for city_name in cities:
             print("##### Processing .... #######" + city_name + ' ' + walk_area)
             pop_table = city_name + ".iso_population_2020_100_" + walk_area  + "_" + city_name[0:3]
@@ -112,7 +113,8 @@ if __name__ == '__main__':
 
             # get all pois or isochrones
             max_added_id =  ''
-
+            if city_name == 'rotterdam':
+                max_added_id='E0961N4339'
             pop_isochrones = get_col_from_db(c, pop_id_col + ',' + isochrone_col, pop_table, pop_id_col, max_added_id)
             added_mappings = get_col_from_db(c, 'id', city_name + "." + to_store_table, 'id', '')
             added_mappings = [r['id'] for r in added_mappings]
