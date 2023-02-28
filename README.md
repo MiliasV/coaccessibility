@@ -3,7 +3,7 @@
 Calculating the demographics of the people who have access to urban amenities within 0, 5, and 15 minutes walks.
 
 <p align="center">
-    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/concept.png" width="70%">
+    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/concept.png" width="30%">
 </p>
 
 ## Research 
