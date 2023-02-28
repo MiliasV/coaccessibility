@@ -1,6 +1,5 @@
-# social_cities
 
-## Co-ccessibility and Social segregation
+# Co-ccessibility and Social segregation
 Calculating  0, 5, and 15 minutes walking accessibility of urban facilities while accounting for the demographics of the people who have access to the same facilities.
 
 ## Code
