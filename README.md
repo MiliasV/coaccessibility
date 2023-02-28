@@ -2,6 +2,10 @@
 # Co-ccessibility and Social segregation
 Calculating the demographics of the people who have access to urban amenities within 0, 5, and 15 minutes walks.
 
+<p align="center">
+    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/concept.png" width="70%">
+</p>
+
 ## Research 
 To learn more about the concept of co-accessibility and an application of this code look at our paper entitled "Measuring spatial age segregation through the lens of co-accessibility to urban activities"  https://doi.org/10.1016/j.compenvurbsys.2022.101829
 
