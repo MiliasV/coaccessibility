@@ -1,8 +1,7 @@
 
-# Co-ccessibility and Social segregation
-### How could we measure how accessible a given destination is to individuals from different population groups (i.e. co-accessibility)?
-
-This repo contains code to calculate the demographics of the people who have access to urban amenities within 0, 5, and 15 minutes walks.
+# Co-accessibility and Spatial segregation
+### How could we assess how accessible a given destination is to people from different demographics (i.e., co-accessibility)?
+This repo contains code for calculating the demographics of people who can walk to urban amenities in 5, 10, and 15 minutes.
 
 <p align="center">
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/meth.jpg" width="46%">
@@ -13,8 +12,16 @@ This repo contains code to calculate the demographics of the people who have acc
 To learn more about the concept of co-accessibility and how this code has been used for research look at our paper entitled "Measuring spatial age segregation through the lens of co-accessibility to urban activities"  https://doi.org/10.1016/j.compenvurbsys.2022.101829
 
 <p align="center">
-    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/children_access_per_location.jpg" width="80%">
+    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/children_access_per_location.jpg" width="50%">
 </p>
+
+## Data
+Under the data folder you can find data related to co-accessibility for urban amenities located in one of the five most populous Dutch cities: Amsterdam, Rotterdam, The Hague, and Eindhoven. To learn more about this data look at https://doi.org/10.1016/j.compenvurbsys.2022.101829
+
+### Structure of the data
+| Geometry       | osm_id | children (0_15) | children_perc | adults (16_64)| adults_perc | elderly (65+)| elderly_perc |total_pop | age_entropy_index |wijk_age_entropy_index | buurt_age_entropy_index
+| :---        |    :----   |          :--- |            :--- |    :--- |    :--- |  :--- |    :--- |     :--- | :--- | :--- | :--- | 
+| EPSG:4326   | id of place from OpenStreetMap | Number of children who have access  | Percentage of children among the people who have access | Number of adults who have access | Percentage of adults among the people who have access | Number of elderly | Percentage of elderly among the people who have access | Total number of people who have access | age diversity of theh people who have access | age diversity of the people who live in that neighborhood (based on wijk) | age diversity of the people who live in the same neighborhood (based on buurt)
 
 ## Code
 Currently, the code uses a PostgreSQL database enriched with the PostGIS add-on to store and query the data. 
