@@ -1,8 +1,7 @@
 
 # Co-accessibility and Spatial segregation
-### How could we measure how accessible a given destination is to individuals from different population groups (i.e. co-accessibility)?
-
-This repo contains code to calculate the demographics of the people who have access to urban amenities within 5, 10, and 15 minutes walks.
+### How could we assess how accessible a given destination is to people from different demographics (i.e., co-accessibility)?
+This repo contains code for calculating the demographics of people who can walk to urban amenities in 5, 10, and 15 minutes.
 
 <p align="center">
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/meth.jpg" width="46%">
