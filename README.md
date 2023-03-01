@@ -21,8 +21,8 @@ Under the data folder you can find data relatred to co-accessibility for urban a
 
 The structure of the data is the following:
 | Geometry       | osm_id | children (0-15) | children_perc | adults (16-64)| adults_perc | elderly (65+)| elderly_perc |total_pop | age_entropy_index
-| :---        |    :----   |          :--- |            :--- |    :--- |    :--- |  :--- |    :--- |     :--- | 
-| EPSG:4326      | id of place from OpenStreetMap | Number of children who have access  | Percentage of children among the people who have access | Number of adults | Percentage of adults among the people who have access | Number of elderly | Percentage of elderly among the people who have access | Total number of people who have access | age diversity of theh people who have access
+| :---        |    :----   |          :--- |            :--- |    :--- |    :--- |  :--- |    :--- |     :--- | :--- | 
+| EPSG:4326   | id of place from OpenStreetMap | Number of children who have access  | Percentage of children among the people who have access | Number of adults | Percentage of adults among the people who have access | Number of elderly | Percentage of elderly among the people who have access | Total number of people who have access | age diversity of theh people who have access |
 
 ## Code
 Currently, the code uses a PostgreSQL database enriched with the PostGIS add-on to store and query the data. 
