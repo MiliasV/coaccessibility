@@ -16,6 +16,14 @@ To learn more about the concept of co-accessibility and how this code has been u
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/children_access_per_location.jpg" width="80%">
 </p>
 
+## Data
+Under the data folder you can find data relatred to co-accessibility for urban amenities locations in one of the five most populous Dutch cities: Amsterdam, Rotterdam, The Hague, and Eindhoven.
+
+The structure of the data is the following:
+| Geometry       | osm_id | children | children perc |
+| :---        |    :----   |          :--- |            :--- |
+| EPSG:4326      | id of place from OpenStreetMap | Number of Children who have access to this place  | Percentage of children among the people who have access to this place
+
 ## Code
 Currently, the code uses a PostgreSQL database enriched with the PostGIS add-on to store and query the data. 
 Adaptations are needed to use the code with other type of files (e.g., CSV).
