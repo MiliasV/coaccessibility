@@ -6,7 +6,6 @@ This repo contains code to calculate the demographics of the people who have acc
 
 <p float="left">
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/meth.jpg" width="40%">
-
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/concept.png" width="40%">
 </p>
 
