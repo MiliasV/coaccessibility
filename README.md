@@ -21,7 +21,7 @@ Under the data folder you can find data related to co-accessibility for urban am
 ### Structure of the data
 | Geometry       | osm_id | children (0_15) | children_perc | adults (16_64)| adults_perc | elderly (65+)| elderly_perc |total_pop | age_entropy_index |wijk_age_entropy_index | buurt_age_entropy_index
 | :---        |    :----   |          :--- |            :--- |    :--- |    :--- |  :--- |    :--- |     :--- | :--- | :--- | :--- | 
-| EPSG:4326   | id of place from OpenStreetMap | Number of children who have access  | Percentage of children among the people who have access | Number of adults who have access | Percentage of adults among the people who have access | Number of elderly | Percentage of elderly among the people who have access | Total number of people who have access | age diversity of theh people who have access | age diversity of the people who live in that neighborhood (based on wijk) | age diversity of the people who live in the same neighborhood (based on buurt)
+| EPSG:4326   | id of place from OpenStreetMap | Number of children who have access  | Percentage of children among the people who have access | Number of adults who have access | Percentage of adults among the people who have access | Number of elderly | Percentage of elderly among the people who have access | Total number of people who have access | age diversity of the people who have access | age diversity of the people who live in the same neighborhood (based on wijk) | age diversity of the people who live in the same neighborhood (based on buurt)
 
 ## Code
 Currently, the code uses a PostgreSQL database enriched with the PostGIS add-on to store and query the data. 
