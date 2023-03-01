@@ -4,7 +4,7 @@
 
 This repo contains code to calculate the demographics of the people who have access to urban amenities within 0, 5, and 15 minutes walks.
 
-<p float="center">
+<p align="center">
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/meth.jpg" width="40%">
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/concept.png" width="30%">
 </p>
