@@ -19,7 +19,7 @@ To learn more about the concept of co-accessibility and how this code has been u
 ## Data
 Under the data folder you can find data related to co-accessibility for urban amenities located in one of the five most populous Dutch cities: Amsterdam, Rotterdam, The Hague, and Eindhoven. To learn more about this data look at https://doi.org/10.1016/j.compenvurbsys.2022.101829
 
-The structure of the data is the following:
+### Structure of the data
 | Geometry       | osm_id | children (0_15) | children_perc | adults (16_64)| adults_perc | elderly (65+)| elderly_perc |total_pop | age_entropy_index |wijk_age_entropy_index | buurt_age_entropy_index
 | :---        |    :----   |          :--- |            :--- |    :--- |    :--- |  :--- |    :--- |     :--- | :--- | :--- | :--- | 
 | EPSG:4326   | id of place from OpenStreetMap | Number of children who have access  | Percentage of children among the people who have access | Number of adults who have access | Percentage of adults among the people who have access | Number of elderly | Percentage of elderly among the people who have access | Total number of people who have access | age diversity of theh people who have access | age diversity of the people who live in that neighborhood (based on wijk) | age diversity of the people who live in the same neighborhood (based on buurt)
