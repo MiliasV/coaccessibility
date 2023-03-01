@@ -5,7 +5,7 @@ This repo contains code for calculating the demographics of people who can walk 
 
 <p align="center">
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/meth.jpg" width="40%">
-    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/concept.png" width="27%">
+    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/concept.png" width="26%">
 </p>
 
 ## Research 
