@@ -14,6 +14,9 @@ To learn more about the concept of co-accessibility and an application of this c
 </p>
 
 ## Code
+Currently, the code uses a PostgreSQL database enriched with the PostGIS add-on to store and query the data. 
+Adaptations are needed to use the code with other type of files (e.g., CSV).
+
 * notebooks/collect_osm_data..ipynb --> Collecting seleted urban amenities from OSM for different cities
 * notebooks/get_cbs_data.ipynb --> Collecting population data from the Netherlands (CBS - 100x100m grid), clipping and storing the data per city and computing the areas that people can access by waalking for 15 minutes based on the walkable street network of OSM.
 * calculate_walkable_isochrones.py --> Calculate the 5, 10, and 15 minutes walkable environments.
