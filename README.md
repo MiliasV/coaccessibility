@@ -4,8 +4,8 @@
 This repo contains code for calculating the demographics of people who can walk to urban amenities in 5, 10, and 15 minutes.
 
 <p align="center">
-    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/meth.jpg" width="46%">
-    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/concept.png" width="30%">
+    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/meth.jpg" width="40%">
+    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/concept.png" width="24%">
 </p>
 
 ## Research 
