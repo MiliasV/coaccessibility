@@ -1,5 +1,5 @@
 
-# Co-ccessibility and Social segregation
+# Co-accessibility and Social segregation
 ### How could we measure how accessible a given destination is to individuals from different population groups (i.e. co-accessibility)?
 
 This repo contains code to calculate the demographics of the people who have access to urban amenities within 0, 5, and 15 minutes walks.
