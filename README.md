@@ -10,7 +10,7 @@ This repo contains code for calculating the demographics of people who can walk 
 
 If you use the code or data shared in this repo in your work, please cite the journal article:
 
-Milias, V., & Psyllidis, A. (2022). Measuring spatial age segregation through the lens of co-accessibility to urban activities. Computers, Environment and Urban Systems, 95, 101829.
+[Milias, V., & Psyllidis, A. (2022). Measuring spatial age segregation through the lens of co-accessibility to urban activities. Computers, Environment and Urban Systems, 95, 101829](https://doi.org/10.1016/j.compenvurbsys.2022.101829)
 
 
 ## Research 
