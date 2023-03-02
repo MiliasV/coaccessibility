@@ -8,6 +8,11 @@ This repo contains code for calculating the demographics of people who can walk 
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/concept.png" width="26%">
 </p>
 
+If you use the code or data shared in this repo in your work, please cite the journal article:
+
+Milias, V., & Psyllidis, A. (2022). Measuring spatial age segregation through the lens of co-accessibility to urban activities. Computers, Environment and Urban Systems, 95, 101829.
+
+
 ## Research 
 To learn more about the concept of co-accessibility and how this code has been used for research look at our paper entitled "Measuring spatial age segregation through the lens of co-accessibility to urban activities"  https://doi.org/10.1016/j.compenvurbsys.2022.101829
 
@@ -16,7 +21,7 @@ To learn more about the concept of co-accessibility and how this code has been u
 </p>
 
 ## Data
-Under the data folder you can find data related to co-accessibility for urban amenities located in one of the five most populous Dutch cities: Amsterdam, Rotterdam, The Hague, and Eindhoven. To learn more about this data look at https://doi.org/10.1016/j.compenvurbsys.2022.101829
+Under the data folder you can find data related to co-accessibility for urban amenities located in one of the five most populous Dutch cities: Amsterdam, Rotterdam, The Hague, and Eindhoven. To learn more about this data look at our paper.
 
 ### Structure of the data
 | Geometry       | osm_id | children (0_15) | children_perc | adults (16_64)| adults_perc | elderly (65+)| elderly_perc |total_pop | age_entropy_index |wijk_age_entropy_index | buurt_age_entropy_index
