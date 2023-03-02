@@ -14,7 +14,7 @@ Milias, V., & Psyllidis, A. (2022). Measuring spatial age segregation through th
 
 
 ## Research 
-To learn more about the concept of co-accessibility and how this code has been used for research look at our paper entitled "Measuring spatial age segregation through the lens of co-accessibility to urban activities"  https://doi.org/10.1016/j.compenvurbsys.2022.101829
+To learn more about the concept of co-accessibility and how this code has been used for research look at our paper:   https://doi.org/10.1016/j.compenvurbsys.2022.101829
 
 <p align="center">
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/children_access_ex.png" width="70%">
