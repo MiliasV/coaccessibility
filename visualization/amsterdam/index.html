@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8" />
+<title>Accessibilty and Co-Accessibility in Amsterdam</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+<!-- Primary Meta Tags -->
+<title>Accessibilty and Co-Accessibility in Amsterdam<</title>
+<meta name="title" content="Social Distancing in Amsterdam">
+<meta name="description" content="The “social distancing society” will require fundamental changes in how people behave in public spaces. But can the city infrastructure facilitate social distancing?">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://covid19.social-glass.tudelft.nl/amsterdam">
+<meta property="og:title" content="Social Distancing in Amsterdam">
+<meta property="og:description" content="The “social distancing society” will require fundamental changes in how people behave in public spaces. But can the city infrastructure facilitate social distancing?">
+<meta property="og:image" content="https://social-glass.tudelft.nl/wp-content/uploads/SocialDistancing_AMS_buurten_card.png">
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="https://covid19.social-glass.tudelft.nl/amsterdam">
+<meta property="twitter:title" content="Social Distancing in Amsterdam">
+<meta property="twitter:description" content="The “social distancing society” will require fundamental changes in how people behave in public spaces. But can the city infrastructure facilitate social distancing?">
+<meta property="twitter:image" content="https://social-glass.tudelft.nl/wp-content/uploads/SocialDistancing_AMS_buurten_card.png">
+
+<link rel='icon' href='../favicon.ico?v=2' type='image/x-icon'/ >
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="../css/styles.css"></link>
+
+<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+<link
+rel="stylesheet"
+href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+type="text/css"
+/>
+<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
+</head>
+<body>
+
+	<div id="menu">
+		<button id="info-button" title="Toggle info "class="button circle-button" onclick="toggleInfo()">
+			<img src="../assets/information-15_off.png"></img>
+		</button>
+
+		<button id="legend-button" title="Toggle legend" class="button circle-button" onclick="toggleLegend()">
+			<img src="../assets/legend.png"></img>
+		</button>
+
+		<button id="layer-button" title="Toggle walkable street layer" class="button circle-button" onclick="toggleStreetLayer()">
+			<img id="layer-button-img" src="../assets/dist_on.png"></img>
+		</button>
+
+<!-- 		<button id="layer-button5" title="Toggle sidewalk polygon layer" class="button circle-button" onclick="toggleSidewalkPolygonLayer()">
+			<img id="layer-button5-img" src="../assets/polygon_on.png"></img>
+		</button> -->
+
+		<button id="layer-button2" title="Toggle neighborhood layer" class="button circle-button" onclick="toggleNeighborhoodLayer()">
+			<img id="layer-button2-img" src="../assets/house_on.png"></img>
+		</button>
+<!-- 
+		<button id="layer-button3" title="Toggle pedestrian areas layer" class="button circle-button" onclick="togglePedestrianLayer()">
+			<img id="layer-button3-img" src="../assets/pedestrian_off.png"></img>
+		</button> -->
+
+		<button id="layer-button4" title="Toggle coaccessibility layer" class="button circle-button" onclick="togglePOILayer()">
+			<img id="layer-button4-img" src="../assets/polygon_off.png"></img>
+		</button>
+
+	</div>
+
+  <div id="info" class="window" style="display: block;">
+    <div class="window-content">
+      <h2>Accessibilty and Co-Accessibility in Amsterdam</h2>
+      <p>The “social distancing society” will require fundamental changes in how people behave in public spaces. But can the city infrastructure facilitate social distancing? </p><p> This map focuses on Amsterdam’s sidewalks, pedestrian areas, and public transportation infrastructure. The goal is to showcase the suitability of current sidewalks in complying with the social distancing rules. It further highlights how public transport hubs could hinder the ability of pedestrians to practice social distancing.</p><p>To learn more about how the map was produced, visit our <a href="http://social-glass.tudelft.nl/social-distancing/" target="_blank">Project description page</a>.
+		</p>
+		<p><small>Toggle map layers <span style="color: orange;">on</span> or <span style="color:white;">off</span>:<br>
+			<div>
+			  <img style="vertical-align:middle" src="../assets/dist_on.png">
+			  <span style="">Sidewalk Centerline layer</span>
+			</div>
+			<div>
+			  <img style="vertical-align:middle" src="../assets/polygon_on.png">
+			  <span style="">Sidewalk Polygon layer</span>
+			</div>
+			<div>
+			  <img style="vertical-align:middle" src="../assets/area_on.png">
+			  <span style="">Neighbourhood layer</span>
+			</div>
+			<div>
+			  <img style="vertical-align:middle" src="../assets/bus-15_on.png">
+			  <span style="">Public transit stops layer</span>
+			</div>
+			<div>
+			  <img style="vertical-align:middle" src="../assets/pedestrian_on.png">
+			  <span style="">Pedestrian Areas layer</span>
+			</div>
+		</p>
+      <p><small>DISCLAIMER</small><br>
+      	<div>
+      		<img style="vertical-align:middle" src="../assets/attention.png">
+      		<span><small><b>As a response to social distancing regulations, several cities have already deployed interventions like closing streets to traffic, thus widening the space available to pedestrians.</b> This map shows data from the <a href="https://www.geobasisregistraties.nl/basisregistraties/grootschalige-topografie" target="_blank">BGT</a>, and might not reflect the current status of mobility in Amsterdam. <b>For updated mobility information, refer to the  <a href="https://amsterdamcity.nl/wp-content/uploads/2020/05/menukaart_tijdelijke_maatregelen_openbare_ruimte_-_we_geven_elkaar_de_ruimte_200508_2_1.pdf" target="_blank"> Website of the Gemeente Amsterdam</a></b></small></span>
+		</div>
+    </div>
+    <div class="close-window" onclick="toggleInfo()">
+      <button class="button">Explore the Map</button>
+    </div>
+  </div>
+
+	<div id="legend-window" class="window" style="display: none;">
+		<div class="window-content">
+			<h1>Legend</h1>
+			<ul id="legend-main" class="legend">
+			</ul>
+			<p><small>DISCLAIMER</small><br>
+      	<div>
+      		<img style="vertical-align:middle" src="../assets/attention.png">
+      		<span><small><b>As a response to social distancing regulations, several cities have already deployed interventions like closing streets to traffic, thus widening the space available to pedestrians.</b> This map shows data from the <a href="https://www.geobasisregistraties.nl/basisregistraties/grootschalige-topografie" target="_blank">BGT</a>, and might not reflect the current status of mobility in Amsterdam. <b>For updated mobility information, refer to the  <a href="https://amsterdamcity.nl/wp-content/uploads/2020/05/menukaart_tijdelijke_maatregelen_openbare_ruimte_-_we_geven_elkaar_de_ruimte_200508_2_1.pdf" target="_blank"> Website of the Gemeente Amsterdam</a></b></small></span>
+		</div>
+		<div class="close-window" onclick="toggleLegend()">
+			<button class="button">Return to map</button>
+		</div>
+		</div>
+		
+	</div>
+
+  <div id="map"></div>
+
+	<script src="js/settings.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
