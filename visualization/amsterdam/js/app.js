@@ -26,11 +26,11 @@ function toggleStreetLayer() {
 	// toggle layer visibility by changing the layout object's visibility property
 	if (visibility === 'visible') {
 		map.setLayoutProperty('street', 'visibility', 'none');
-		document.getElementById('layer-button-img').src = '../assets/dist_off.png'
+		document.getElementById('layer-button-img').src = '../assets/street_off.png'
 		//this.className = '';
 	} else {
 		//this.className = 'active';
-		document.getElementById('layer-button-img').src = '../assets/dist_on.png'
+		document.getElementById('layer-button-img').src = '../assets/street_on.png'
 		map.setLayoutProperty('street', 'visibility', 'visible');
 	}
 }
@@ -48,7 +48,7 @@ function toggleNeighborhoodLayer() {
 	if (color === 'cyan') {
 		map.setLayoutProperty('population', 'visibility', 'visible');
     map.setPaintProperty('population', 'fill-color', populationColor); // change fill color to blue
-    map.setPaintProperty('population', 'fill-opacity', 0.4); // change fill color to blue
+    map.setPaintProperty('population', 'fill-opacity', 0.6); // change fill color to blue
 
 		document.getElementById('layer-button2-img').src = '../assets/house_on.png'
 		//this.className = '';
@@ -70,12 +70,14 @@ function togglePOILayer() {
 	// toggle layer visibility by changing the layout object's visibility property
 	if (visibility === 'visible') {
 		map.setLayoutProperty('coaccess', 'visibility', 'none');
+    document.getElementById('layer-button4-img').src = '../assets/poi_off.png'
+
 
   }
 	 else {
 		//this.className = 'active';
 		map.setLayoutProperty('coaccess', 'visibility', 'visible');
-		document.getElementById('layer-button4-img').src = '../assets/polygon_on.png'
+		document.getElementById('layer-button4-img').src = '../assets/poi_on.png'
 	};
 };
 
@@ -84,10 +86,10 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 var map = new mapboxgl.Map({
   container: 'map',
   style: MAPBOX_STYLE,
-  center: [4.8952, 52.3702],
-  zoom: 0,
-  maxZoom: 22,
-  minZoom: 0,
+  center: [4.892920941577979, 52.375580457763256,],
+  zoom: 18,
+  maxZoom: 18,
+  minZoom: 5,
   maxBounds: [
     [4.72, 52.25], // Southwest coordinates
     [5.11, 52.44] // Northeast coordinates
@@ -130,10 +132,10 @@ map.on('load', function() {
      url: ACCESS_AREA_TILESET
   });
 	
-  map.addSource('pop_per_poi', {
-     type: 'vector',
-     url: POPPERPOI_TILESET
-  });
+  // map.addSource('pop_per_poi', {
+  //    type: 'vector',
+  //    url: POPPERPOI_TILESET
+  // });
 	
   map.addSource('coaccess', {
      type: 'vector',
@@ -166,19 +168,7 @@ map.on('load', function() {
   
   // add the layer to the map
 
-  map.addLayer({
-    'id': 'street',
-    'type': 'fill',
-    'source': 'street',
-    'source-layer': STREETS_LAYER,
-     'paint': {
-    'fill-opacity' : 1,
-    // 'fill-color' : '',
-    'fill-outline-color' : '#C4A875'
-       },
-  },
-  labelLayerId
-  );
+  
   
  map.addLayer({
     'id': 'population',
@@ -186,8 +176,8 @@ map.on('load', function() {
     'source': 'population',
     'source-layer': POP_LAYER,
    'paint': {
-    'fill-opacity' : 0.4,
-    'fill-color': populationColor,
+    'fill-opacity' : 0.1  ,
+    'fill-color': 'cyan',
     // 'fill-outline-color' : 'populationColor'
    }
   },
@@ -207,19 +197,35 @@ map.on('load', function() {
   labelLayerId
   );
 	
- map.addLayer({
-    'id': 'pop_per_poi',
-    'type': 'fill',
-    'source': 'pop_per_poi',
-    'source-layer': POPPERPOI_LAYER,
-	  'paint': {
-		'fill-opacity' : 0,
-		'fill-color' : 'cyan'
-	 }
+ // map.addLayer({
+ //    'id': 'pop_per_poi',
+ //    'type': 'fill',
+ //    'source': 'pop_per_poi',
+ //    'source-layer': POPPERPOI_LAYER,
+	//   'paint': {
+	// 	'fill-opacity' : 0,
+	// 	'fill-color' : 'cyan'
+	//  }
+ //  },
+ //  labelLayerId
+ //  );
+	
+   map.addLayer({
+    'id': 'street',
+    'type': 'line',
+    'source': 'street',
+    'source-layer': STREETS_LAYER,
+     'paint': {
+    // 'fill-opacity' : 1,
+    // 'fill-color' : '#C4A875',
+    // 'fill-outline-color' : '#C4A875'
+     'line-color': '#9B7944',
+    'line-width': 3
+       },
   },
   labelLayerId
   );
-	
+  
  map.addLayer({
     'id': 'coaccess',
     'type': 'circle',
@@ -228,59 +234,22 @@ map.on('load', function() {
     paint: {
       // Use a data-driven style property to color the points based on their value
 'circle-color': circleColor,
-      'circle-radius': 5,
-      'circle-stroke-width': 0.1,
+      'circle-radius': 6,
+      'circle-stroke-width': 0,
       // 'circle-stroke-color': '#ffffff'
     }
   },
   labelLayerId
   );
 
+
  
-	
- // map.addLayer({
- //    'id': 'stops_icon',
- //    'type': 'symbol',
- //    'source': 'coaccess',
- //    'source-layer': COACCESS_LAYER,
-	// 'layout': {
-	// 	'icon-image': stopIcon
-	// }
- //  },
- //  labelLayerId
- //  );
-	
-
-	
-  // map.addLayer({
-  //   'id': 'buurten_lines',
-  //   'type': 'line',
-  //   'source': 'buurten',
-  //   'source-layer': POP_LAYER,
-  //   'layout': {
-  //     'line-cap': 'round',
-  //   },
-  //   'paint': {
-  //     'line-width': [
-  //       'interpolate',
-  //       ['linear'],
-  //       ['zoom'],
-  //       14, 1,
-  //       19, 10,
-  //     ],
-  //     'line-color': '#000000',
-  //     'line-opacity': 0.5,
-  //   },
-  // },
-  // labelLayerId
-  // );
-
 // set visibility of the layers
 map.setLayoutProperty('street', 'visibility', 'visible');
 map.setLayoutProperty('population', 'visibility', 'visible');
-map.setLayoutProperty('coaccess', 'visibility', 'none');
+map.setLayoutProperty('coaccess', 'visibility', 'visible');
 map.setLayoutProperty('iso_viz', 'visibility', 'visible');
-map.setLayoutProperty('pop_per_poi', 'visibility', 'visible');
+// map.setLayoutProperty('pop_per_poi', 'visibility', 'visible');
 
   var filters = [];
 
@@ -402,23 +371,25 @@ map.setLayoutProperty('pop_per_poi', 'visibility', 'visible');
      var age_diversity = e.features[0].properties['Age diversity(%)']
 
 		 description =
+ 
+      '<div style="color:' + lineColor + '" class="message"> Place Info </div> ' + 
+      '<ul>' + 
+      '<li><div style="color:' + lineColor + '" class="message"> Name of Place: ' + name  + '</div>' +
+      '<li><div style="color:' + lineColor + '" class="message"> Category: ' + category  + '</div>' +
+      '<li><div style="color:' + lineColor + '" class="message"> Subcategory: ' + subcategory  + '</div>' +
+      '</ul>' + 
+      
+      '<div style="color:' + lineColor + '" class="name"> ------------------------------------------------------------------------------ </div>' +
       '<div class="message">Who can access this place within a 5 minute walk? </div>' +
-      '<ul>' + 
-      '<li><div style="color:' + lineColor + '" class="name"> Number of Children: ' + children  + '</div>' +
-      '<li><div style="color:' + lineColor + '" class="name"> Number of Adults: ' + adults  + '</div>' +
-      '<li><div style="color:' + lineColor + '" class="name"> Number of Elderly: ' + elderly  + '</div>' +
-      '</ul>' + 
-      '<div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' % </div>' +
-      '<div style="color:' + lineColor + '" class="name"> -------------------------------- </div>' +
 
-      '<div style="color:' + lineColor + '" class="message"> Place Info </div>' +
 
-      '<ul>' + 
-      '<li><div style="color:' + lineColor + '" class="name"> Name of Place: ' + name  + '</div>' +
-      '<li><div style="color:' + lineColor + '" class="name"> Category: ' + category  + '</div>' +
-      '<li><div style="color:' + lineColor + '" class="name"> Subcategory: ' + subcategory  + '</div>' +
+       '<ul>' + 
+      '<li><div style="color:' + lineColor + '" class="message"> Number of Children: ' + children  + '</div>' +
+      '<li><div style="color:' + lineColor + '" class="message"> Number of Adults: ' + adults  + '</div>' +
+      '<li><div style="color:' + lineColor + '" class="message"> Number of Elderly: ' + elderly  + '</div>' +
       '</ul>' + 
-      '<div style="color:' + lineColor + '" class="name"> -------------------------------- </div>' 
+        '<div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' % </div>' 
+
 
 
 	 }
@@ -443,11 +414,11 @@ map.setLayoutProperty('pop_per_poi', 'visibility', 'visible');
         '<div class="message"> Accessible within a 5 minute walk </div> ' +
           '<ul>' + 
 
-        '<li> <div style="color:' + lineColor + '" class="name"> # Public places: ' + public  + '</div></li>' +
-        '<li> <div style="color:' + lineColor + '" class="name"> # Culture places: ' + culture  + '</div></li>' +
-        '<li> <div style="color:' + lineColor + '" class="name"> # Food/drink places: ' + food_drink  + '</div></li>' +
-        '<li> <div style="color:' + lineColor + '" class="name"> # Shops: ' + shop  + '</div></li>' +
-        '<li> <div style="color:' + lineColor + '" class="name"> Walking Area (m2): ' + walk_area  + '</div></li>' + 
+        '<li> <div style="color:' + lineColor + '" class="message"> Public places: ' + public  + '</div></li>' +
+        '<li> <div style="color:' + lineColor + '" class="message"> Culture places: ' + culture  + '</div></li>' +
+        '<li> <div style="color:' + lineColor + '" class="message"> Food/drink places: ' + food_drink  + '</div></li>' +
+        '<li> <div style="color:' + lineColor + '" class="message"> Shops: ' + shop  + '</div></li></br>' +
+        '<li> <div style="color:' + lineColor + '" class="message"> Walking Area (m2): ' + walk_area  + '</div></li>' + 
         '</ul>' +
        '<div style="color:' + lineColor + '" class="name"> -------------------------------- ' + '</div>' +
        '<div style="color:' + lineColor + '" class="message"> Total number of places: ' + places  + '</div>'
@@ -539,24 +510,24 @@ map.setLayoutProperty('pop_per_poi', 'visibility', 'visible');
 
 map.on('mousemove', function (e) {
     // get the features under the mouse cursor for the source of the invisible layer
-    var features = map.queryRenderedFeatures(e.point, {
-        layers: ['coaccess'],
-        filter: ['==', '$type', 'Point']
-    });
+    // var features = map.queryRenderedFeatures(e.point, {
+    //     layers: ['coaccess'],
+    //     filter: ['==', '$type', 'Point']
+    // });
     // get the id of the selected feature
-    if (features.length > 0) {
-        // remove the iso_viz layer
-        map.setPaintProperty('iso_viz', 'fill-opacity',  0);
+    // if (features.length > 0) {
+    //     // remove the iso_viz layer
+    //     map.setPaintProperty('iso_viz', 'fill-opacity',  0);
 
-        var id = features[0].properties.osm_id;
-        // console.log(id)
-        map.setPaintProperty('pop_per_poi', 'fill-color', ['match', ['get', 'osm_id'], id, '#5997CA', 'gray']);
-        map.setPaintProperty('pop_per_poi', 'fill-opacity', ['match', ['get', 'osm_id'], id, 0.8, 0]);
+    //     var id = features[0].properties.osm_id;
+    //     // console.log(id)
+    //     // map.setPaintProperty('pop_per_poi', 'fill-color', ['match', ['get', 'osm_id'], id, '#5997CA', 'gray']);
+    //     // map.setPaintProperty('pop_per_poi', 'fill-opacity', ['match', ['get', 'osm_id'], id, 0.8, 0]);
 
-    }   
-    else{
-        map.setPaintProperty('pop_per_poi', 'fill-opacity',  0);
-        var features = map.queryRenderedFeatures(e.point, {
+    // }   
+    // else{
+        // map.setPaintProperty('pop_per_poi', 'fill-opacity',  0);
+    var features = map.queryRenderedFeatures(e.point, {
           layers: ['population'],
           filter: ['==', '$type', 'Polygon']
       });
@@ -568,7 +539,7 @@ map.on('mousemove', function (e) {
 
         }  
 
-    }
+    
 });
 
   // map.on('mouseleave', 'population', function() {
