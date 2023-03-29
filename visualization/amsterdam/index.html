@@ -45,31 +45,25 @@ type="text/css"
 
 	<div id="menu">
 		<button id="info-button" title="Toggle info "class="button circle-button" onclick="toggleInfo()">
-			<img src="../assets/info_off.png"></img>
+			<img src="../assets/info_off.png" style="width: 28px; height: 28;"></img>
 		</button>
 
 		<button id="legend-button" title="Toggle legend" class="button circle-button" onclick="toggleLegend()">
-			<img src="../assets/legend_off.png"></img>
+			<img src="../assets/legend_off.png " style="width: 28px; height: 28px;"></img>
 		</button>
 
 		<button id="layer-button" title="Toggle walkable street layer" class="button circle-button" onclick="toggleStreetLayer()">
-			<img id="layer-button-img" src="../assets/street_on.png"></img>
+			<img id="layer-button-img" src="../assets/street_on.png" style="width: 28px; height: 28px;"></img>
 		</button>
 
-<!-- 		<button id="layer-button5" title="Toggle sidewalk polygon layer" class="button circle-button" onclick="toggleSidewalkPolygonLayer()">
-			<img id="layer-button5-img" src="../assets/polygon_on.png"></img>
-		</button> -->
 
 		<button id="layer-button2" title="Toggle neighborhood layer" class="button circle-button" onclick="toggleNeighborhoodLayer()">
-			<img id="layer-button2-img" src="../assets/house_off.png"></img>
+			<img id="layer-button2-img" src="../assets/house_off.png" style="width: 28px; height: 28px;"></img>
 		</button>
-<!-- 
-		<button id="layer-button3" title="Toggle pedestrian areas layer" class="button circle-button" onclick="togglePedestrianLayer()">
-			<img id="layer-button3-img" src="../assets/pedestrian_off.png"></img>
-		</button> -->
+
 
 		<button id="layer-button4" title="Toggle coaccessibility layer" class="button circle-button" onclick="togglePOILayer()">
-			<img id="layer-button4-img" src="../assets/poi_on.png"></img>
+			<img id="layer-button4-img" src="../assets/poi_on.png" style="width: 28px; height: 28px;"></img>
 		</button>
 
 	</div>
@@ -97,21 +91,17 @@ type="text/css"
 								</br>
 
 			<h3>
-			  <img style="vertical-align:middle" src="../assets/house_on.png">
+			  <img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/house_on.png">
 			  <span style="">Housing Blocks layer</span>
 			</h3>
 			</br>
 				<span style="">People's residences in a spatial resolution of 100x100m2 (CBS data).  </span>
 				</br>
+			<ul>
+					<li><span style=""><strong>Color:</strong> Number of accessible places within a 5-minute walk</span></li>
 			</br>
-					<span style=""><strong> -> Color:</strong> Number of accessible places within a 5-minute walk</span>
-			</br>
-
-				<span style=""><strong>-> Click:</strong> Info about the accessible places within a 5-minute walk/span>
-			</br>
-
-
-						</br>
+				<li><span style=""><strong>Click:</strong> Info about the accessible places within a 5-minute walk</span> </li>
+			</ul>		
 
 			<h3>
 			  <img style="vertical-align:middle" src="../assets/poi_on.png">
@@ -121,13 +111,14 @@ type="text/css"
 
 					<span style="">Places collected from OpenStreetMap.  </span>
 			</br>
-			</br>
-					<span style=""><strong> -> Color:</strong> Age diversity of the people who have access to each place within a 5-minute walk</span>
-			</br>
-				<span style=""><strong>-> Click: </strong>Info about the ages of the people who have access to each place within a 5-minute walk</span>
-			</br>
+				<ul>
+				<li><span style=""><strong> Color:</strong> Age diversity of the people who have access to each place within a 5-minute walk</span></li>
+				</br>
+				<li><span style=""><strong>Click: </strong>Info about the people who have access to the clicked place within a 5-minute walk</span></li>
+			</ul>
+				
 <!-- 				<span style=""><strong>-> Data Source: OpenStreetMap </strong>  </span>
- -->				</br>
+ -->				
 
 			<div>
 
@@ -136,7 +127,7 @@ type="text/css"
       <p><small>DISCLAIMER</small><br>
       	<div>
       		<img style="vertical-align:middle" src="../assets/attention.png">
-      		<span><small><b>This map shows data from the <a href="https://www.geobasisregistraties.nl/basisregistraties/grootschalige-topografie" target="_blank">BGT</a>, and might not reflect the current status of mobility in Amsterdam. <b>For updated mobility information, refer to the  <a href="https://amsterdamcity.nl/wp-content/uploads/2020/05/menukaart_tijdelijke_maatregelen_openbare_ruimte_-_we_geven_elkaar_de_ruimte_200508_2_1.pdf" target="_blank"> Website of the Gemeente Amsterdam</a></b></small></span>
+      		<span><small><b>This map shows data from  <a href="https://www.cbs.nl/nl-nl/dossier/nederland-regionaal/geografische-data/kaart-van-100-meter-bij-100-meter-met-statistieken" target="_blank">CBS</a> and <a href="https://www.openstreetmap.org/#map=12/46.9661/11.3897" target="_blank">OpenStreetMap</a> . It might not reflect the current status of population, walkable street network, or available places in Amsterdam. <b> </a></b></small></span>
 		</div>
     </div>
     <div class="close-window" onclick="toggleInfo()">

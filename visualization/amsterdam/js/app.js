@@ -87,7 +87,7 @@ var map = new mapboxgl.Map({
   container: 'map',
   style: MAPBOX_STYLE,
   center: [4.892920941577979, 52.375580457763256,],
-  zoom: 18,
+  zoom: 1,
   maxZoom: 18,
   minZoom: 5,
   maxBounds: [
