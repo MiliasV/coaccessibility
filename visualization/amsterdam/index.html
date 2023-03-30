@@ -57,12 +57,12 @@ type="text/css"
 		</button>
 
 
-		<button id="layer-button2" title="Toggle neighborhood layer" class="button circle-button" onclick="toggleNeighborhoodLayer()">
+		<button id="layer-button2" title="Toggle neighborhood layer" class="button circle-button" onclick="toggleHouseLayer()">
 			<img id="layer-button2-img" src="../assets/house_off.png" style="width: 28px; height: 28px;"></img>
 		</button>
 
 
-		<button id="layer-button4" title="Toggle coaccessibility layer" class="button circle-button" onclick="togglePOILayer()">
+		<button id="layer-button4" title="Toggle POI layer" class="button circle-button" onclick="togglePOILayer()">
 			<img id="layer-button4-img" src="../assets/poi_on.png" style="width: 28px; height: 28px;"></img>
 		</button>
 
@@ -70,25 +70,18 @@ type="text/css"
 
   <div id="info" class="window" style="display: block;">
     <div class="window-content">
-      <h2>Accessibilty and Co-Accessibility in Amsterdam</h2>
-      <!-- <p>The “social distancing society” will require fundamental changes in how people behave in public spaces. But can the city infrastructure facilitate social distancing?  -->
-
-      <!-- </p><p> This map focuses on Amsterdam’s sidewalks, pedestrian areas, and public transportation infrastructure. The goal is to showcase the suitability of current sidewalks in complying with the social distancing rules. It further highlights how public transport hubs could hinder the ability of pedestrians to practice social distancing. -->
-
-      <!-- </p><p>To learn more about how the map was produced, visit our <a href="http://social-glass.tudelft.nl/social-distancing/" target="_blank">Project description page</a>. -->
+      <h2>Accessibilty and Co-Accessibility in Amsterdam within a 5-minute walk</h2>
 		</p>
 		<p><large><u>Toggle map layers <span style="color: orange;">on</span> or <span style="color:white;">off</span>:</u></large><br>
 			
 			<h3>
 			  <img style="vertical-align:middle" src="../assets/street_on.png">
-
 			  <span style="">Walkable Street layer</span>
-			  								</br>
-			  											  								</br>
+			  </br>
+			  </br>
 			</h3>
-			  			  <span style="">The walkable street network from OpenStreetMap that is used in this project.</span>
-
-								</br>
+			  <span style="">The walkable street network from OpenStreetMap that is used in this project.</span>
+					</br>
 
 			<h3>
 			  <img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/house_on.png">
@@ -108,7 +101,6 @@ type="text/css"
 			  <span style="">Places layer</span>
 			</h3>
 						</br>
-
 					<span style="">Places collected from OpenStreetMap.  </span>
 			</br>
 				<ul>
@@ -116,13 +108,7 @@ type="text/css"
 				</br>
 				<li><span style=""><strong>Click: </strong>Info about the people who have access to the clicked place within a 5-minute walk</span></li>
 			</ul>
-				
-<!-- 				<span style=""><strong>-> Data Source: OpenStreetMap </strong>  </span>
- -->				
 
-			<div>
-
-			</div>
 		</p>
       <p><small>DISCLAIMER</small><br>
       	<div>
@@ -137,19 +123,28 @@ type="text/css"
 
 	<div id="legend-window" class="window" style="display: none;">
 		<div class="window-content">
-			<h1>Legend</h1>
+			<h1>Legends</h1>
+			<h3>
+			  <img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/house_on.png">
+			  <span style="">Number of accessible places within a 5 minute walk from each housing block </span>
+			</h3>
+		
 			<ul id="legend-main" class="legend">
 			</ul>
+			<p>The estimation of Age Diversity is based on the Shannon's Equitability Index (EI): EI= (&sum; P<sub>i</sub> ln(P<sub>i</sub>) )/ ln(k)</p>	
+
+			<p>For further information please refer to our open access journal article which you can find <a href="https://doi.org/10.1016/j.compenvurbsys.2022.101829" target="_blank">HERE</a>   </p>	
+
 			<p><small>DISCLAIMER</small><br>
       	<div>
       		<img style="vertical-align:middle" src="../assets/attention.png">
-      		<span><small><b>As a response to social distancing regulations, several cities have already deployed interventions like closing streets to traffic, thus widening the space available to pedestrians.</b> This map shows data from the <a href="https://www.geobasisregistraties.nl/basisregistraties/grootschalige-topografie" target="_blank">BGT</a>, and might not reflect the current status of mobility in Amsterdam. <b>For updated mobility information, refer to the  <a href="https://amsterdamcity.nl/wp-content/uploads/2020/05/menukaart_tijdelijke_maatregelen_openbare_ruimte_-_we_geven_elkaar_de_ruimte_200508_2_1.pdf" target="_blank"> Website of the Gemeente Amsterdam</a></b></small></span>
+      		<span><small><b>This map shows data from  <a href="https://www.cbs.nl/nl-nl/dossier/nederland-regionaal/geografische-data/kaart-van-100-meter-bij-100-meter-met-statistieken" target="_blank">CBS</a> and <a href="https://www.openstreetmap.org/#map=12/46.9661/11.3897" target="_blank">OpenStreetMap</a>. It might not reflect the current status of population, walkable street network, or available places in Amsterdam.</a></b></small></span>
 		</div>
+
+</div>		
 		<div class="close-window" onclick="toggleLegend()">
-			<button class="button">Return to map</button>
+			<button class="button">Return to Map</button>
 		</div>
-		</div>
-		
 	</div>
 
   <div id="map"></div>

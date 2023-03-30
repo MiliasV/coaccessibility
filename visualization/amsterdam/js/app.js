@@ -1,4 +1,11 @@
-//functions for button presses that toggle the different layers
+
+/////////////////////////////////////////////////////////////////
+//functions for button presses that toggle the different layers // 
+/////////////////////////////////////////////////////////////////
+
+// INFO BUTTON
+//// when button is pressed show the "info-window" and hide the legend-window if shownn
+
 function toggleInfo() {
   var x = document.getElementById("info");
   if (x.style.display === "block") {
@@ -9,6 +16,9 @@ function toggleInfo() {
   }
 }
 
+
+// LEGEND BUTTON
+// when button is pressed show the "legend-window" by changing its style from 'none' to 'block' and hide the info-window
 function toggleLegend() {
   var x = document.getElementById("legend-window");
   if (x.style.display === "block") {
@@ -20,6 +30,7 @@ function toggleLegend() {
 }
 
 
+// WALKABLE STREET LAYER BUTTON
 function toggleStreetLayer() {
 	var visibility = map.getLayoutProperty('street', 'visibility');
 
@@ -36,10 +47,8 @@ function toggleStreetLayer() {
 }
 
 
-
-// Toggle population ICON #############################################################
-
-function toggleNeighborhoodLayer() {
+// HOUSING BLOCK LAYER
+function toggleHouseLayer() {
 	var visibility = map.getLayoutProperty('population', 'visibility');
   var color = map.getPaintProperty('population', 'fill-color');
   console.log(color)
@@ -64,19 +73,20 @@ function toggleNeighborhoodLayer() {
 }
 
 
+// POI Layer
 function togglePOILayer() {
-	var visibility = map.getLayoutProperty('coaccess', 'visibility');
+	var visibility = map.getLayoutProperty('poi', 'visibility');
  
 	// toggle layer visibility by changing the layout object's visibility property
 	if (visibility === 'visible') {
-		map.setLayoutProperty('coaccess', 'visibility', 'none');
+		map.setLayoutProperty('poi', 'visibility', 'none');
     document.getElementById('layer-button4-img').src = '../assets/poi_off.png'
 
 
   }
 	 else {
 		//this.className = 'active';
-		map.setLayoutProperty('coaccess', 'visibility', 'visible');
+		map.setLayoutProperty('poi', 'visibility', 'visible');
 		document.getElementById('layer-button4-img').src = '../assets/poi_on.png'
 	};
 };
@@ -132,14 +142,11 @@ map.on('load', function() {
      url: ACCESS_AREA_TILESET
   });
 	
-  // map.addSource('pop_per_poi', {
-  //    type: 'vector',
-  //    url: POPPERPOI_TILESET
-  // });
+
 	
-  map.addSource('coaccess', {
+  map.addSource('poi', {
      type: 'vector',
-     url: COACCESS_TILESET
+     url: POI_TILESET
   });
       map.addSource('street', {
      type: 'vector',
@@ -147,28 +154,9 @@ map.on('load', function() {
   });
 
 
-  // set color according to values that the layer has
-  var lineColor = ["step", ["get", 'width']]
-
-  for (var i=0; i<GROUPS.length; i++) {
-    if (i==0) lineColor.push(GROUPS[0].color)
-    else lineColor.push(GROUPS[i].value, GROUPS[i].color)
-  }
-	
-  var polColor = ["step", ["get", 'avg_width']]
-
-  for (var i=0; i<GROUPS.length; i++) {
-    if (i==0) polColor.push(GROUPS[0].color)
-    else polColor.push(GROUPS[i].value, GROUPS[i].color)
-  }
-	
-  var stopIcon = ["get","type"]
-
 
   
   // add the layer to the map
-
-  
   
  map.addLayer({
     'id': 'population',
@@ -197,18 +185,7 @@ map.on('load', function() {
   labelLayerId
   );
 	
- // map.addLayer({
- //    'id': 'pop_per_poi',
- //    'type': 'fill',
- //    'source': 'pop_per_poi',
- //    'source-layer': POPPERPOI_LAYER,
-	//   'paint': {
-	// 	'fill-opacity' : 0,
-	// 	'fill-color' : 'cyan'
-	//  }
- //  },
- //  labelLayerId
- //  );
+
 	
    map.addLayer({
     'id': 'street',
@@ -220,22 +197,23 @@ map.on('load', function() {
     // 'fill-color' : '#C4A875',
     // 'fill-outline-color' : '#C4A875'
      'line-color': '#9B7944',
-    'line-width': 3
+     // '#9B7944',
+    'line-width': 2.3
        },
   },
   labelLayerId
   );
   
  map.addLayer({
-    'id': 'coaccess',
+    'id': 'poi',
     'type': 'circle',
-    'source': 'coaccess',
-    'source-layer': COACCESS_LAYER,
+    'source': 'poi',
+    'source-layer': POI_LAYER,
     paint: {
       // Use a data-driven style property to color the points based on their value
 'circle-color': circleColor,
       'circle-radius': 6,
-      'circle-stroke-width': 0,
+      'circle-stroke-width': 0.2,
       // 'circle-stroke-color': '#ffffff'
     }
   },
@@ -247,83 +225,92 @@ map.on('load', function() {
 // set visibility of the layers
 map.setLayoutProperty('street', 'visibility', 'visible');
 map.setLayoutProperty('population', 'visibility', 'visible');
-map.setLayoutProperty('coaccess', 'visibility', 'visible');
+map.setLayoutProperty('poi', 'visibility', 'visible');
 map.setLayoutProperty('iso_viz', 'visibility', 'visible');
 // map.setLayoutProperty('pop_per_poi', 'visibility', 'visible');
 
   var filters = [];
 
-  function filterSidewalks(index) {
-
-    if (filters[index].active == false) {
-      filters[index].active = true;
-    }
-    else {
-      filters[index].active = false;
-    }
-
-    var conditions = ['any'];
-
-    for (var i = 0; i < filters.length; i++) {
-      if (filters[i].active == true)
-        conditions.push(filters[i].condition);
-    }
-    console.log(conditions)
-    map.setFilter('sidewalk', conditions);
-  }
-
-  function getMaxValue(groups) {
-    maxValue = 0.0
-    for (var i=0; i<groups.length; i++) {
-      console.log(groups[i].value, maxValue)
-      if (groups[i].value > maxValue) {
-        maxValue = groups[i].value
-      }
-    }
-    return maxValue
-  }
 
   // add a legend item
+  //The function takes two parameters: "item" and "index". 
+  //"item" is an object that contains information about a group, including its rating, value, and color. 
+  //"index" is the index of the group in an array of groups called "GROUPS".
+
+  //The function first checks if the previous group (i.e., the group with an index one less than the current group's index) exists. 
+  //For instance, if it does not exist (i.e., the current group is the first group), then the low value of the group's range is set to the group's value, 
+  //and the high value is set to infinity. The string variable is set to the low value.
+
+  //The function then adds a filter object to an array called "filters". 
+  // The filter object represents the range of values for the group, and it is used to filter the data that is displayed in the visualization. 
+  // The filter object contains a "condition" property that is an array of two conditions: 
+  //one that checks if a data point's "width" property is greater than the low value of the group's range, 
+  //and another that checks if the "width" property is less than or equal to the high value of the group's range. 
+  //The "active" property of the filter object is initially set to false.
+
   function addLegendItem(item, index) {
 
-    if (GROUPS[index - 1] == null) {
-      var low = item.value
-      var high = Infinity
-      var string = low + UNITS + '+'
-    }
+      if (item.group==0){
+        group = GROUPS_HOMES
+      }
+      else{
+        group = GROUPS_POIS
+        if (index == 0) {  
+          var legend_title = '</br><h3><img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/poi_on.png"> ' +
+          ' <span style="">Age diversity of the people who have access to each place within a 5 minute walk </span> </h3>'
+          var newElement = document.createElement('div');
+          newElement.innerHTML = legend_title;
 
-    else {
-      if (item.value == 0)
-        var low = 0
-      else
+      var textNode = document.createTextNode(legend_title);
+document.getElementById("legend-main").appendChild(newElement);
+
+        }
+      }
+
+      if (group[index - 1] == null) {
         var low = item.value
+        var high = Infinity
+        var string = low + item.unit + ' (+)'
 
-      var high = GROUPS[index - 1].value
-      var string = low + ' - ' + high + UNITS
+      }
+
+      else {
+        if (item.value==0)
+          var low = 0
+        else
+          var low =item.value
+
+        var high = group[index - 1].value
+        var string = low + ' - ' + high + item.unit
+      }
+
+      // filters.push({'condition': ['all',['>', 'width', low],['<=', 'width', high]], 'active': false})
+
+      var row = document.createElement("LI");
+      var rowContent = document.createElement("DIV");
+      var rowLeft = document.createElement("DIV");
+      var color = document.createElement("DIV");
+      var rowRight = document.createElement("DIV");
+
+      // rowLeft.innerHTML = "<p>" + item.rating + "</p>"
+      rowLeft.classList.add("row-left");
+      color.classList.add("color");
+      color.setAttribute("style", "background:" + item.color + ";");
+      rowLeft.appendChild(color)
+      row.appendChild(rowLeft)
+      rowRight.classList.add("row-right");
+      rowRight.innerHTML = "<p>" + string + "</p>";
+      row.appendChild(rowRight);
+      document.getElementById("legend-main").appendChild(row);
     }
+  
 
-    filters.push({'condition': ['all',['>', 'width', low],['<=', 'width', high]], 'active': false})
 
-    var row = document.createElement("LI");
-    var rowContent = document.createElement("DIV");
-    var rowLeft = document.createElement("DIV");
-    var color = document.createElement("DIV");
-    var rowRight = document.createElement("DIV");
+  GROUPS_HOMES.reverse().forEach(addLegendItem);
 
-    rowLeft.innerHTML = "<p>" + item.rating + "</p>"
-    rowLeft.classList.add("row-left");
-    color.classList.add("color");
-    color.setAttribute("style", "background:" + item.color + ";");
-    rowLeft.appendChild(color)
-    row.appendChild(rowLeft)
-    rowRight.classList.add("row-right");
-    rowRight.innerHTML = "<p>" + string + "</p>";
-    row.appendChild(rowRight);
-    document.getElementById("legend-main").appendChild(row);
-  }
+  GROUPS_POIS.reverse().forEach(addLegendItem);
 
-  GROUPS.reverse().forEach(addLegendItem);
-  GROUPS.reverse()
+  // GROUPS_HOMES.reverse()
 
   var popup = new mapboxgl.Popup({
     closeButton: true,
@@ -357,7 +344,7 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
 
 	var description = ''
 
-	 if(e.features[0].source === "coaccess"){
+	 if(e.features[0].source === "poi"){
      var lineColor = e.features[0].layer.paint['circle-color'];
 
 		 var children = e.features[0].properties['Number of children']
@@ -422,10 +409,7 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
         '</ul>' +
        '<div style="color:' + lineColor + '" class="name"> -------------------------------- ' + '</div>' +
        '<div style="color:' + lineColor + '" class="message"> Total number of places: ' + places  + '</div>'
-
-
    }
-
 
 
     popup.setLngLat(coordinates)
@@ -496,7 +480,6 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
   // map.on('touchstart', 'population', function(e) {
   //   addPopup(e);
   // })
-// let coaccessLayerPopup = 0;
 
 
   map.on('click', 'population', function(e) {
@@ -504,29 +487,11 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
     
   });
 
-  map.on('click', 'coaccess', function(e) {
+  map.on('click', 'poi', function(e) {
     addPopup(e);
 });
 
 map.on('mousemove', function (e) {
-    // get the features under the mouse cursor for the source of the invisible layer
-    // var features = map.queryRenderedFeatures(e.point, {
-    //     layers: ['coaccess'],
-    //     filter: ['==', '$type', 'Point']
-    // });
-    // get the id of the selected feature
-    // if (features.length > 0) {
-    //     // remove the iso_viz layer
-    //     map.setPaintProperty('iso_viz', 'fill-opacity',  0);
-
-    //     var id = features[0].properties.osm_id;
-    //     // console.log(id)
-    //     // map.setPaintProperty('pop_per_poi', 'fill-color', ['match', ['get', 'osm_id'], id, '#5997CA', 'gray']);
-    //     // map.setPaintProperty('pop_per_poi', 'fill-opacity', ['match', ['get', 'osm_id'], id, 0.8, 0]);
-
-    // }   
-    // else{
-        // map.setPaintProperty('pop_per_poi', 'fill-opacity',  0);
     var features = map.queryRenderedFeatures(e.point, {
           layers: ['population'],
           filter: ['==', '$type', 'Polygon']
@@ -534,9 +499,12 @@ map.on('mousemove', function (e) {
       if (features.length > 0) {
         var id = features[0].properties.c28992r100;
         // console.log(id)
-        map.setPaintProperty('iso_viz', 'fill-color', ['match', ['get', 'c28992r100'], id, '#5997CA', 'gray']);
+        map.setPaintProperty('iso_viz', 'fill-color', ['match', ['get', 'c28992r100'], id, '#3182bd', 'gray']);
         map.setPaintProperty('iso_viz', 'fill-opacity', ['match', ['get', 'c28992r100'], id, 0.8, 0]);
 
+
+        // 'fill-outline-color' : 
+// 5997CA
         }  
 
     
