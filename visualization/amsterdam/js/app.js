@@ -99,7 +99,7 @@ var map = new mapboxgl.Map({
   center: [4.892920941577979, 52.375580457763256,],
   zoom: 1,
   maxZoom: 18,
-  minZoom: 5,
+  minZoom: 1,
   maxBounds: [
     [4.72, 52.25], // Southwest coordinates
     [5.11, 52.44] // Northeast coordinates
@@ -141,8 +141,11 @@ map.on('load', function() {
      type: 'vector',
      url: ACCESS_AREA_TILESET
   });
-	
 
+  //   map.addSource('iso_viz_15', {
+  //    type: 'vector',
+  //    url: ACCESS_AREA_TILESET_15
+  // });
 	
   map.addSource('poi', {
      type: 'vector',
@@ -172,6 +175,21 @@ map.on('load', function() {
   labelLayerId
   );
 
+
+
+  //   map.addLayer({
+  //   'id': 'iso_viz_15',
+  //   'type': 'fill',
+  //   'source': 'iso_viz_15',
+  //   'source-layer': ACCESS_AREA_LAYER_15,
+  //   'paint': {
+  //   'fill-opacity' : 0,
+  //   'fill-color' : 'gray',
+  //  }
+  // },
+  // labelLayerId
+  // );
+	
   map.addLayer({
     'id': 'iso_viz',
     'type': 'fill',
@@ -184,8 +202,6 @@ map.on('load', function() {
   },
   labelLayerId
   );
-	
-
 	
    map.addLayer({
     'id': 'street',
@@ -227,6 +243,8 @@ map.setLayoutProperty('street', 'visibility', 'visible');
 map.setLayoutProperty('population', 'visibility', 'visible');
 map.setLayoutProperty('poi', 'visibility', 'visible');
 map.setLayoutProperty('iso_viz', 'visibility', 'visible');
+map.setLayoutProperty('iso_viz_15', 'visibility', 'visible');
+
 // map.setLayoutProperty('pop_per_poi', 'visibility', 'visible');
 
   var filters = [];
@@ -498,9 +516,22 @@ map.on('mousemove', function (e) {
       });
       if (features.length > 0) {
         var id = features[0].properties.c28992r100;
+        var filter = ['==', 'c28992r100', id];
+        map.setPaintProperty('iso_viz', 'fill-color', '#3182bd');
+        map.setPaintProperty('iso_viz', 'fill-opacity', 0.8);
+        map.setFilter('iso_viz', filter);
+
+        map.setPaintProperty('iso_viz_15', 'fill-color', '#3182bd');
+        map.setPaintProperty('iso_viz_15', 'fill-opacity', 0.8);
+        map.setFilter('iso_viz_15', filter);
+
+
         // console.log(id)
-        map.setPaintProperty('iso_viz', 'fill-color', ['match', ['get', 'c28992r100'], id, '#3182bd', 'gray']);
-        map.setPaintProperty('iso_viz', 'fill-opacity', ['match', ['get', 'c28992r100'], id, 0.8, 0]);
+        // map.setPaintProperty('iso_viz', 'fill-color', ['match', ['get', 'c28992r100'], id, '#3182bd', 'gray']);
+        // map.setPaintProperty('iso_viz', 'fill-opacity', ['match', ['get', 'c28992r100'], id, 0.8, 0]);
+
+        // map.setPaintProperty('iso_viz_15', 'fill-color', ['match', ['get', 'c28992r100'], id, '#253494', 'gray']);
+        // map.setPaintProperty('iso_viz_15', 'fill-opacity', ['match', ['get', 'c28992r100'], id, 0.8, 0]);
 
 
         // 'fill-outline-color' : 
