@@ -1,4 +1,4 @@
-
+//AMSTERDAM
 /////////////////////////////////////////////////////////////////
 //functions for button presses that toggle the different layers // 
 /////////////////////////////////////////////////////////////////
@@ -16,6 +16,63 @@ function toggleInfo() {
   }
 }
 
+function minutesLayer(event) {
+  // Get the ID of the button that was clicked
+  var buttonId = event.target.id;
+  var button = document.getElementById(buttonId);
+
+  // Perform different actions based on the button ID
+  if (buttonId == "5min") {
+    var otherbutton = document.getElementById("15min");
+
+    if (button.style.color=='white'){
+      button.style.color='#FFAF33'
+      otherbutton.style.color='white'
+
+    }
+
+    map.removeLayer('iso_viz')
+    map.addLayer({
+    'id': 'iso_viz',
+    'type': 'fill',
+    'source': 'iso_viz',
+    'source-layer': ACCESS_AREA_LAYER,
+    'paint': {
+    'fill-opacity' : 0,
+    'fill-color' : 'gray',
+   }
+  },
+  );
+
+  } 
+
+  else if (buttonId == "15min") {
+    var otherbutton = document.getElementById("5min");
+    if (button.style.color=='white'){
+      button.style.color='#FFAF33'
+      otherbutton.style.color='white'
+    }
+
+    // Do something for 15 minutes button
+    map.removeLayer('iso_viz')
+    map.addLayer({
+      'id': 'iso_viz',
+      'type': 'fill',
+      'source': 'iso_viz_15',
+      'source-layer': ACCESS_AREA_LAYER_15,
+      'paint': {
+      'fill-opacity' : 0,
+      'fill-color' : 'gray',
+     }
+  },
+  );
+  }
+  // var style = map.getStyle();
+  // map.setStyle(null);
+  // map.setStyle(style);
+
+
+}
 
 // LEGEND BUTTON
 // when button is pressed show the "legend-window" by changing its style from 'none' to 'block' and hide the info-window
@@ -137,19 +194,29 @@ map.on('load', function() {
      url: POP_TILESET
   });
 
+    map.addSource('population_15', {
+     type: 'vector',
+     url: POP_TILESET_15
+  });
+
   map.addSource('iso_viz', {
      type: 'vector',
      url: ACCESS_AREA_TILESET
   });
 
-  //   map.addSource('iso_viz_15', {
-  //    type: 'vector',
-  //    url: ACCESS_AREA_TILESET_15
-  // });
+    map.addSource('iso_viz_15', {
+     type: 'vector',
+     url: ACCESS_AREA_TILESET_15
+  });
 	
   map.addSource('poi', {
      type: 'vector',
      url: POI_TILESET
+  });
+
+    map.addSource('poi_15', {
+     type: 'vector',
+     url: POI_TILESET_15
   });
       map.addSource('street', {
      type: 'vector',
@@ -243,7 +310,7 @@ map.setLayoutProperty('street', 'visibility', 'visible');
 map.setLayoutProperty('population', 'visibility', 'visible');
 map.setLayoutProperty('poi', 'visibility', 'visible');
 map.setLayoutProperty('iso_viz', 'visibility', 'visible');
-map.setLayoutProperty('iso_viz_15', 'visibility', 'visible');
+// map.setLayoutProperty('iso_viz_15', 'visibility', 'visible');
 
 // map.setLayoutProperty('pop_per_poi', 'visibility', 'visible');
 
@@ -338,96 +405,80 @@ document.getElementById("legend-main").appendChild(newElement);
   function addPopup(e) {
 
     map.getCanvas().style.cursor = 'pointer';
-  	//console.log(e.features[0])
-  	// if (e.features[0].source === "buurten"){
-  	// 	e.features[0].properties['width'] = e.features[0].properties.avg_width
-  	// 	//console.log(e.features[0].properties.avg_width)
-  	// }
 
-      // var lineColor = e.features[0].layer.paint['line-color']
-      var coordinates = e.lngLat;
-      // var stopIndex;
-
-      // for (i=0; i < GROUPS.length; i++) {
-      //   if (GROUPS[i + 1] == null) {
-      //     if (lineWidth >= GROUPS[i].value) {
-      //       groupIndex = i;
-      //     }
-      //   } else {
-      //     if (lineWidth >= GROUPS[i].value && lineWidth < GROUPS[i + 1].value) {
-      //       groupIndex = i;
-      //     }
-      //   }
-      // }
-
-	var description = ''
-
-	 if(e.features[0].source === "poi"){
-     var lineColor = e.features[0].layer.paint['circle-color'];
-
-		 var children = e.features[0].properties['Number of children']
-     var adults = e.features[0].properties['Number of adults']
-     var elderly = e.features[0].properties['Number of elderly']
-
-     var name = e.features[0].properties['name']
-     var category = e.features[0].properties['category']
-     var subcategory = e.features[0].properties['subcategory']
-
-     var age_diversity = e.features[0].properties['Age diversity(%)']
-
-		 description =
- 
-      '<div style="color:' + lineColor + '" class="message"> Place Info </div> ' + 
-      '<ul>' + 
-      '<li><div style="color:' + lineColor + '" class="message"> Name of Place: ' + name  + '</div>' +
-      '<li><div style="color:' + lineColor + '" class="message"> Category: ' + category  + '</div>' +
-      '<li><div style="color:' + lineColor + '" class="message"> Subcategory: ' + subcategory  + '</div>' +
-      '</ul>' + 
-      
-      '<div style="color:' + lineColor + '" class="name"> ------------------------------------------------------------------------------ </div>' +
-      '<div class="message">Who can access this place within a 5 minute walk? </div>' +
-
-
-       '<ul>' + 
-      '<li><div style="color:' + lineColor + '" class="message"> Number of Children: ' + children  + '</div>' +
-      '<li><div style="color:' + lineColor + '" class="message"> Number of Adults: ' + adults  + '</div>' +
-      '<li><div style="color:' + lineColor + '" class="message"> Number of Elderly: ' + elderly  + '</div>' +
-      '</ul>' + 
-        '<div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' % </div>' 
+    var coordinates = e.lngLat;
+    // coordinates = [coordinates.lng, coordinates.lat + 0.003];
 
 
 
-	 }
+  	var description = ''
 
-    else  if(e.features[0].source === "population"){
-      var lineColor = e.features[0].layer.paint['fill-color'];
-      // var lineColor = 'cyan';
+  	 if(e.features[0].source === "poi"){
+       var lineColor = e.features[0].layer.paint['circle-color'];
 
-      var places = e.features[0].properties['All Places']
-      var public = e.features[0].properties['Public Places']
-      var shop = e.features[0].properties['shop_count']
-      var culture = e.features[0].properties['Culture Places']
-      var food_drink = e.features[0].properties['Food/Drink Places']
+  		 var children = e.features[0].properties['Number of children']
+       var adults = e.features[0].properties['Number of adults']
+       var elderly = e.features[0].properties['Number of elderly']
 
-      var walk_area = Math.round(e.features[0].properties['Walking Area (m2)'])
+       var name = e.features[0].properties['name']
+       var category = e.features[0].properties['category']
+       var subcategory = e.features[0].properties['subcategory']
 
-      walk_area = walk_area.toLocaleString('en', {useGrouping:true})
+       var age_diversity = e.features[0].properties['Age diversity(%)']
+
+  		 description =
+   
+        '<div style="color:' + lineColor + '" class="message"> Place Info </div> ' + 
+        '<ul>' + 
+        '<li><div style="color:' + lineColor + '" class="message"> Name of Place: ' + name  + '</div>' +
+        '<li><div style="color:' + lineColor + '" class="message"> Category: ' + category  + '</div>' +
+        '<li><div style="color:' + lineColor + '" class="message"> Subcategory: ' + subcategory  + '</div>' +
+        '</ul>' + 
+        
+        '<div style="color:' + lineColor + '" class="name"> ------------------------------------------------------------------------------ </div>' +
+        '<div class="message">Who can access this place within a 5 minute walk? </div>' +
+
+
+         '<ul>' + 
+        '<li><div style="color:' + lineColor + '" class="message"> Number of Children: ' + children  + '</div>' +
+        '<li><div style="color:' + lineColor + '" class="message"> Number of Adults: ' + adults  + '</div>' +
+        '<li><div style="color:' + lineColor + '" class="message"> Number of Elderly: ' + elderly  + '</div>' +
+        '</ul>' + 
+          '<div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' % </div>' 
 
 
 
-      description = 
-        '<div class="message"> Accessible within a 5 minute walk </div> ' +
-          '<ul>' + 
+  	 }
 
-        '<li> <div style="color:' + lineColor + '" class="message"> Public places: ' + public  + '</div></li>' +
-        '<li> <div style="color:' + lineColor + '" class="message"> Culture places: ' + culture  + '</div></li>' +
-        '<li> <div style="color:' + lineColor + '" class="message"> Food/drink places: ' + food_drink  + '</div></li>' +
-        '<li> <div style="color:' + lineColor + '" class="message"> Shops: ' + shop  + '</div></li></br>' +
-        '<li> <div style="color:' + lineColor + '" class="message"> Walking Area (m2): ' + walk_area  + '</div></li>' + 
-        '</ul>' +
-       '<div style="color:' + lineColor + '" class="name"> -------------------------------- ' + '</div>' +
-       '<div style="color:' + lineColor + '" class="message"> Total number of places: ' + places  + '</div>'
-   }
+      else  if(e.features[0].source === "population"){
+        var lineColor = e.features[0].layer.paint['fill-color'];
+        // var lineColor = 'cyan';
+
+        var places = e.features[0].properties['All Places']
+        var public = e.features[0].properties['Public Places']
+        var shop = e.features[0].properties['shop_count']
+        var culture = e.features[0].properties['Culture Places']
+        var food_drink = e.features[0].properties['Food/Drink Places']
+
+        var walk_area = Math.round(e.features[0].properties['Walking Area (m2)'])
+
+        walk_area = walk_area.toLocaleString('en', {useGrouping:true})
+
+
+
+        description = 
+          '<div class="message"> Accessible within a 5 minute walk </div> ' +
+            '<ul>' + 
+
+          '<li> <div style="color:' + lineColor + '" class="message"> Public places: ' + public  + '</div></li>' +
+          '<li> <div style="color:' + lineColor + '" class="message"> Culture places: ' + culture  + '</div></li>' +
+          '<li> <div style="color:' + lineColor + '" class="message"> Food/drink places: ' + food_drink  + '</div></li>' +
+          '<li> <div style="color:' + lineColor + '" class="message"> Shops: ' + shop  + '</div></li></br>' +
+          '<li> <div style="color:' + lineColor + '" class="message"> Walking Area (m2): ' + walk_area  + '</div></li>' + 
+          '</ul>' +
+         '<div style="color:' + lineColor + '" class="name"> -------------------------------- ' + '</div>' +
+         '<div style="color:' + lineColor + '" class="message"> Total number of places: ' + places  + '</div>'
+     }
 
 
     popup.setLngLat(coordinates)
@@ -521,17 +572,11 @@ map.on('mousemove', function (e) {
         map.setPaintProperty('iso_viz', 'fill-opacity', 0.8);
         map.setFilter('iso_viz', filter);
 
-        map.setPaintProperty('iso_viz_15', 'fill-color', '#3182bd');
-        map.setPaintProperty('iso_viz_15', 'fill-opacity', 0.8);
-        map.setFilter('iso_viz_15', filter);
+        // map.setPaintProperty('iso_viz_15', 'fill-color', '#3182bd');
+        // map.setPaintProperty('iso_viz_15', 'fill-opacity', 0.8);
+        // map.setFilter('iso_viz_15', filter);
 
 
-        // console.log(id)
-        // map.setPaintProperty('iso_viz', 'fill-color', ['match', ['get', 'c28992r100'], id, '#3182bd', 'gray']);
-        // map.setPaintProperty('iso_viz', 'fill-opacity', ['match', ['get', 'c28992r100'], id, 0.8, 0]);
-
-        // map.setPaintProperty('iso_viz_15', 'fill-color', ['match', ['get', 'c28992r100'], id, '#253494', 'gray']);
-        // map.setPaintProperty('iso_viz_15', 'fill-opacity', ['match', ['get', 'c28992r100'], id, 0.8, 0]);
 
 
         // 'fill-outline-color' : 

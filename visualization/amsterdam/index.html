@@ -1,3 +1,4 @@
+<!-- AMSTERDAM -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,8 +27,11 @@
 <meta property="twitter:image" content="https://social-glass.tudelft.nl/wp-content/uploads/SocialDistancing_AMS_buurten_card.png">
 
 <!-- <link rel='icon' href='../favicon.ico?v=2' type='image/x-icon'/ > -->
-<script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
+<script src='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js'></script>
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet" />
+
+
 <link rel="stylesheet" type="text/css" href="../css/styles.css"></link>
 
 <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
@@ -65,6 +69,13 @@ type="text/css"
 		<button id="layer-button4" title="Toggle POI layer" class="button circle-button" onclick="togglePOILayer()">
 			<img id="layer-button4-img" src="../assets/poi_on.png" style="width: 28px; height: 28px;"></img>
 		</button>
+</br></br>
+
+
+			<button id="5min" title="Toggle POI layer" class="button" onclick="minutesLayer(event)"   style="margin-left: 15px;font-size : 20px; color: #FFAF33;"> 5 minutes </button>
+
+			<button id="15min" title="Toggle POI layer" class="button" onclick="minutesLayer(event)"  style=" margin-left: 15px; font-size : 20px; color:white"> 15 minutes </button>
+
 
 	</div>
 
