@@ -20,6 +20,10 @@ function minutesLayer(event) {
   // Get the ID of the button that was clicked
   var buttonId = event.target.id;
   var button = document.getElementById(buttonId);
+  var poi_visibility = map.getLayoutProperty('poi', 'visibility');
+  var pop_color = map.getPaintProperty('population', 'fill-color');
+
+
 
   // Perform different actions based on the button ID
   if (buttonId == "5min") {
@@ -28,22 +32,67 @@ function minutesLayer(event) {
     if (button.style.color=='white'){
       button.style.color='#FFAF33'
       otherbutton.style.color='white'
+      }
+
+    map.removeLayer('population')
+     map.addLayer({
+        'id': 'population',
+        'type': 'fill',
+        'source': 'population',
+        'source-layer': POP_LAYER,
+       'paint': {
+        'fill-opacity' : 0.1  ,
+        'fill-color': 'cyan',
+        // 'fill-outline-color' : 'populationColor'
+       }
+      },
+      
+      );
+     map.setPaintProperty('population', 'fill-color', pop_color)
+    // remove existing and add the 5-minute isochrones layer
+    map.removeLayer('iso_viz')
+    map.addLayer({  
+        'id': 'iso_viz',
+        'type': 'fill',
+        'source': 'iso_viz',
+        'source-layer': ACCESS_AREA_LAYER,
+        'paint': {
+          'fill-opacity' : 0,
+          'fill-color' : 'gray',
+        }
+     },
+    );
+  // remove existing and add 5-minute poi layer
+  map.removeLayer('poi')
+   map.addLayer({
+    'id': 'poi',
+    'type': 'circle',
+    'source': 'poi',
+    'source-layer': POI_LAYER,
+    // paint: {
+    //   // Use a data-driven style property to color the points based on their value
+    //   'circle-color': circleColor,
+    //   'circle-radius': 6,
+    //   'circle-stroke-width': 0.2,
+    //   // 'circle-stroke-color': '#ffffff'
+    // }
+        paint: {
+      'circle-radius': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        1,
+        5],
+      'circle-opacity': 1,
+      'circle-color': circleColor,
+      //  'circle-stroke-width': 0.2,
+
+      // 'circle-stroke-color': 'black'
 
     }
-
-    map.removeLayer('iso_viz')
-    map.addLayer({
-    'id': 'iso_viz',
-    'type': 'fill',
-    'source': 'iso_viz',
-    'source-layer': ACCESS_AREA_LAYER,
-    'paint': {
-    'fill-opacity' : 0,
-    'fill-color' : 'gray',
-   }
   },
+  
   );
-
   } 
 
   else if (buttonId == "15min") {
@@ -53,6 +102,20 @@ function minutesLayer(event) {
       otherbutton.style.color='white'
     }
 
+     map.removeLayer('population')
+     map.addLayer({
+        'id': 'population',
+        'type': 'fill',
+        'source': 'population_15',
+        'source-layer': POP_LAYER_15,
+       'paint': {
+        'fill-opacity' : 0.1  ,
+        'fill-color': 'cyan',
+        // 'fill-outline-color' : 'populationColor'
+       }
+      },
+      
+      );
     // Do something for 15 minutes button
     map.removeLayer('iso_viz')
     map.addLayer({
@@ -66,12 +129,64 @@ function minutesLayer(event) {
      }
   },
   );
+
+  map.removeLayer('poi')
+  map.addLayer({
+    'id': 'poi',
+    'type': 'circle',
+    'source': 'poi_15',
+    'source-layer': POI_LAYER_15,
+    // paint: {
+    //   // Use a data-driven style property to color the points based on their value
+    //   'circle-color': circleColor,
+    //   'circle-radius': 6,
+    //   'circle-stroke-width': 0.2,
+    //   // 'circle-stroke-color': '#ffffff'
+    // }
+        paint: {
+      'circle-radius': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        1,
+        5],
+      'circle-opacity': 1,
+      'circle-color': circleColor,
+      //  'circle-stroke-width': 0.2,
+
+      // 'circle-stroke-color': 'black'
+
+    }
+  },
+  
+  );
   }
-  // var style = map.getStyle();
-  // map.setStyle(null);
-  // map.setStyle(style);
+   map.setPaintProperty('population', 'fill-color', pop_color)
+   if (pop_color!='cyan'){
+      map.setPaintProperty('population', 'fill-opacity', 0.6); // change fill color to blue
+    }
 
+   map.removeLayer('street')
+   map.addLayer({
+    'id': 'street',
+    'type': 'line',
+    'source': 'street',
+    'source-layer': STREETS_LAYER,
+     'paint': {
+      'line-color': '#9B7944',
+      'line-width': 2.3
+       },
+  },
+  );
 
+  //keep the poi layer visible or invisble
+  if (poi_visibility!='visible'){
+    map.setLayoutProperty('poi', 'visibility', 'none');
+  }
+  else{
+      map.setLayoutProperty('poi', 'visibility', 'visible');
+
+  }
 }
 
 // LEGEND BUTTON
@@ -211,12 +326,16 @@ map.on('load', function() {
 	
   map.addSource('poi', {
      type: 'vector',
-     url: POI_TILESET
+     url: POI_TILESET,
+
   });
 
     map.addSource('poi_15', {
      type: 'vector',
-     url: POI_TILESET_15
+     url: POI_TILESET_15,
+       cluster: true,
+  clusterMaxZoom: 12, // set maximum zoom level for clustering
+  clusterRadius: 50 // set cluster radius
   });
       map.addSource('street', {
      type: 'vector',
@@ -224,8 +343,6 @@ map.on('load', function() {
   });
 
 
-
-  
   // add the layer to the map
   
  map.addLayer({
@@ -242,20 +359,6 @@ map.on('load', function() {
   labelLayerId
   );
 
-
-
-  //   map.addLayer({
-  //   'id': 'iso_viz_15',
-  //   'type': 'fill',
-  //   'source': 'iso_viz_15',
-  //   'source-layer': ACCESS_AREA_LAYER_15,
-  //   'paint': {
-  //   'fill-opacity' : 0,
-  //   'fill-color' : 'gray',
-  //  }
-  // },
-  // labelLayerId
-  // );
 	
   map.addLayer({
     'id': 'iso_viz',
@@ -292,16 +395,33 @@ map.on('load', function() {
     'type': 'circle',
     'source': 'poi',
     'source-layer': POI_LAYER,
+    // Radius of each cluster when clustering points (defaults to 50)
+    // paint: {
+    //   // Use a data-driven style property to color the points based on their value
+    //   'circle-color': circleColor,
+    //   'circle-radius': 6,
+    //   'circle-stroke-width': 0.2,
+
+    //   // 'circle-stroke-color': '#ffffff'
+    // }
     paint: {
-      // Use a data-driven style property to color the points based on their value
-'circle-color': circleColor,
-      'circle-radius': 6,
-      'circle-stroke-width': 0.2,
-      // 'circle-stroke-color': '#ffffff'
+      'circle-radius': [
+        'interpolate',
+        ['linear'],
+        ['zoom'],
+        1,
+        5],
+      'circle-opacity': 1,
+      'circle-color': circleColor,
+      //  'circle-stroke-width': 0.2,
+
+      // 'circle-stroke-color': 'black'
+
     }
   },
   labelLayerId
   );
+
 
 
  
@@ -407,13 +527,11 @@ document.getElementById("legend-main").appendChild(newElement);
     map.getCanvas().style.cursor = 'pointer';
 
     var coordinates = e.lngLat;
-    // coordinates = [coordinates.lng, coordinates.lat + 0.003];
-
-
+    // coordinates = [coordinates.lng, coordinates.lat + 0.003];  
 
   	var description = ''
 
-  	 if(e.features[0].source === "poi"){
+  	 if(e.features[0].source === "poi" || e.features[0].source === "poi_15"){
        var lineColor = e.features[0].layer.paint['circle-color'];
 
   		 var children = e.features[0].properties['Number of children']
@@ -445,12 +563,9 @@ document.getElementById("legend-main").appendChild(newElement);
         '<li><div style="color:' + lineColor + '" class="message"> Number of Elderly: ' + elderly  + '</div>' +
         '</ul>' + 
           '<div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' % </div>' 
-
-
-
   	 }
 
-      else  if(e.features[0].source === "population"){
+      else  if(e.features[0].source === "population" || e.features[0].source === "population_15"){
         var lineColor = e.features[0].layer.paint['fill-color'];
         // var lineColor = 'cyan';
 
@@ -463,7 +578,6 @@ document.getElementById("legend-main").appendChild(newElement);
         var walk_area = Math.round(e.features[0].properties['Walking Area (m2)'])
 
         walk_area = walk_area.toLocaleString('en', {useGrouping:true})
-
 
 
         description = 
@@ -479,7 +593,6 @@ document.getElementById("legend-main").appendChild(newElement);
          '<div style="color:' + lineColor + '" class="name"> -------------------------------- ' + '</div>' +
          '<div style="color:' + lineColor + '" class="message"> Total number of places: ' + places  + '</div>'
      }
-
 
     popup.setLngLat(coordinates)
     popup.setHTML(description)
@@ -510,46 +623,6 @@ document.getElementById("legend-main").appendChild(newElement);
     console.log(e)
   })
 
-// map.on('mousemove', 'pop_per_poi', function (e) {
-
-//     // get the features under the mouse cursor for the invisible layer
-//     console.log(e.features[0].osm_id)
-//     // do something with the selected features
-// });
-
-//   map.on('mouseleave', 'pop_per_poi', function() {
-//     map.getCanvas().style.cursor = '';
-//     popup.remove();
-//   });
-
-// map.on('mousemove', function (e) {
-//     // get the features under the mouse cursor for the source of the invisible layer
-//     var features = map.querySourceFeatures('pop_per_poi',{
-//         sourceLayer: 'pop_per_poi',
-//         // filter: ['==', '$type', 'Polygon']
-//     });
-//     console.log(features)
-//     // get the id of the selected feature
-//     if (features.length > 0) {
-//         var id = features[0].properties.osm_id;
-//         console.log(id);
-//     }
-// });
-
-
-  // map.on('mousemove', 'sidewalks_poly', function(e) {
-  //   addPopup(e);
-  // });
-
-  // map.on('mouseleave', 'sidewalks_poly', function() {
-  //   map.getCanvas().style.cursor = '';
-  //   popup.remove();
-  // });
-	
-  // map.on('touchstart', 'population', function(e) {
-  //   addPopup(e);
-  // })
-
 
   map.on('click', 'population', function(e) {
     addPopup(e);
@@ -572,99 +645,12 @@ map.on('mousemove', function (e) {
         map.setPaintProperty('iso_viz', 'fill-opacity', 0.8);
         map.setFilter('iso_viz', filter);
 
-        // map.setPaintProperty('iso_viz_15', 'fill-color', '#3182bd');
-        // map.setPaintProperty('iso_viz_15', 'fill-opacity', 0.8);
-        // map.setFilter('iso_viz_15', filter);
-
-
-
-
-        // 'fill-outline-color' : 
-// 5997CA
         }  
+
+
 
     
 });
 
-  // map.on('mouseleave', 'population', function() {
-  //   map.getCanvas().style.cursor = '';
-  //   popup.remove();
-  // });
-
-// map.on('mousemove', function (e) {
-//     // get the features under the mouse cursor for the source of the invisible layer
-//     var features = map.querySourceFeatures('pop_per_poi' ,{
-//         sourceLayer: ['pop_per_poi'],
-//         filter: ['==', '$type', 'Polygon'],
-//          includeGeometry: true,
-//         layers: ['pop_per_poi']
-//     });
-//     console.log(features)
-//     // get the id of the selected feature
-//     if (features.length > 0) {
-//         var id = features[0].properties.osm_id;
-
-//     }
-// });
-
-// map.on('click', function(e) {
-//   addPopup(e)
-//   // var features = map.queryRenderedFeatures(e.point, {layers: ['coaccess', 'population'] });
-//   // console.log(features[0].layer)
-//   // if (features.length === 1) {
-//   //   addPopup(e)
-//   //   console.log("1")
-//     // var layerName = features[0].layer.id;
-//     // if (layerName === 'coaccess') {
-//     //   // Call function to handle click on 'coaccess' layer
-//     //   addPopup(features[0].layer);
-//     // } else if (layerName === 'population') {
-//     //   // Call function to handle click on 'population' layer
-//     //   addPopup(e);
-//     // }
-//   // }
-// });
-
-
-
-// map.on('click', function() {
-//   if (popup.isOpen()) {
-//     popup.remove();
-//   }
-// });
-
-  // map.on('mouseleave', 'population', function() {
-  //   map.getCanvas().style.cursor = '';
-  //   popup.remove();
-  // });
-	
-  // map.on('touchstart', 'voetgangers_gebieden', function(e) {
-	 // e.features[0].properties.width = 3
-  //   addPopup(e);
-  // })
-
-  // map.on('mousemove', 'voetgangers_gebieden', function(e) {
-	 //  e.features[0].properties.width = 3
-  //   addPopup(e);
-  // });
-
-  // map.on('mouseleave', 'voetgangers_gebieden', function() {
-  //   map.getCanvas().style.cursor = '';
-  //   popup.remove();
-  // });
-	
-  // map.on('touchstart', 'coaccess', function(e) {
-	 // e.features[0].properties.width = 1
-  //   addPopup(e);
-  // })
-
-  // map.on('mousemove', 'coaccess', function(e) {
-  //   addPopup(e);
-  // });
-
-  // map.on('mouseleave', 'coaccess', function() {
-  //   map.getCanvas().style.cursor = '';
-  //   popup.remove();
-  // });
 
 });
