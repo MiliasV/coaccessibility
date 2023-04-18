@@ -21,6 +21,7 @@ function minutesLayer(event) {
   var buttonId = event.target.id;
   var button = document.getElementById(buttonId);
   var poi_visibility = map.getLayoutProperty('poi', 'visibility');
+  var pop_opacity = map.getPaintProperty('population', 'fill-opacity');
   var pop_color = map.getPaintProperty('population', 'fill-color');
 
 
@@ -33,7 +34,6 @@ function minutesLayer(event) {
       button.style.color='#FFAF33'
       otherbutton.style.color='white'
       }
-
     map.removeLayer('population')
      map.addLayer({
         'id': 'population',
@@ -41,9 +41,8 @@ function minutesLayer(event) {
         'source': 'population',
         'source-layer': POP_LAYER,
        'paint': {
-        'fill-opacity' : 0.1  ,
-        'fill-color': 'cyan',
-        // 'fill-outline-color' : 'populationColor'
+        'fill-opacity' : pop_opacity ,
+        'fill-color': '#0B0B0B',
        }
       },
       
@@ -64,18 +63,13 @@ function minutesLayer(event) {
     );
   // remove existing and add 5-minute poi layer
   map.removeLayer('poi')
+  map.removeLayer('poi-labels')
+
    map.addLayer({
     'id': 'poi',
     'type': 'circle',
     'source': 'poi',
     'source-layer': POI_LAYER,
-    // paint: {
-    //   // Use a data-driven style property to color the points based on their value
-    //   'circle-color': circleColor,
-    //   'circle-radius': 6,
-    //   'circle-stroke-width': 0.2,
-    //   // 'circle-stroke-color': '#ffffff'
-    // }
         paint: {
       'circle-radius': [
         'interpolate',
@@ -85,14 +79,34 @@ function minutesLayer(event) {
         5],
       'circle-opacity': 1,
       'circle-color': circleColor,
-      //  'circle-stroke-width': 0.2,
+       'circle-stroke-width': 0.2,
 
-      // 'circle-stroke-color': 'black'
+      'circle-stroke-color': 'black'
 
     }
   },
   
   );
+
+ map.addLayer({
+  'id': 'poi-labels',
+  'type': 'symbol',
+  'source': 'poi',
+  'source-layer': POI_LAYER,
+  layout: {
+    'text-field': ['get', 'subcategory'], // set the label text to the 'name' property of your data
+    'text-size': 14,
+    'text-offset': [0, 1], // adjust the offset of the label from the circle
+    'text-allow-overlap': false // allow labels to overlap with each other
+  },
+  paint: {
+    "text-color": "#A67F0E",
+    "text-halo-color": "#fff",
+                "text-halo-width": 100
+  }
+
+});
+
   } 
 
   else if (buttonId == "15min") {
@@ -109,8 +123,8 @@ function minutesLayer(event) {
         'source': 'population_15',
         'source-layer': POP_LAYER_15,
        'paint': {
-        'fill-opacity' : 0.1  ,
-        'fill-color': 'cyan',
+        'fill-opacity' : pop_opacity  ,
+        'fill-color': pop_color,
         // 'fill-outline-color' : 'populationColor'
        }
       },
@@ -136,13 +150,6 @@ function minutesLayer(event) {
     'type': 'circle',
     'source': 'poi_15',
     'source-layer': POI_LAYER_15,
-    // paint: {
-    //   // Use a data-driven style property to color the points based on their value
-    //   'circle-color': circleColor,
-    //   'circle-radius': 6,
-    //   'circle-stroke-width': 0.2,
-    //   // 'circle-stroke-color': '#ffffff'
-    // }
         paint: {
       'circle-radius': [
         'interpolate',
@@ -152,20 +159,41 @@ function minutesLayer(event) {
         5],
       'circle-opacity': 1,
       'circle-color': circleColor,
-      //  'circle-stroke-width': 0.2,
+       'circle-stroke-width': 0.2,
 
-      // 'circle-stroke-color': 'black'
+      'circle-stroke-color': 'black'
 
     }
   },
-  
   );
-  }
-   map.setPaintProperty('population', 'fill-color', pop_color)
-   if (pop_color!='cyan'){
-      map.setPaintProperty('population', 'fill-opacity', 0.6); // change fill color to blue
-    }
+  map.removeLayer('poi-labels')
 
+ map.addLayer({
+  'id': 'poi-labels',
+  'type': 'symbol',
+  'source': 'poi_15',
+  'source-layer': POI_LAYER_15,
+  layout: {
+    'text-field': ['get', 'subcategory'], // set the label text to the 'name' property of your data
+    'text-size': 14,
+    'text-offset': [0, 1], // adjust the offset of the label from the circle
+    'text-allow-overlap': false // allow labels to overlap with each other
+  },
+  paint: {
+    "text-color": "#A67F0E",
+    "text-halo-color": "#fff",
+                "text-halo-width": 100
+  }
+
+});
+
+  }
+   // map.setPaintProperty('population', 'fill-color', pop_color)
+   // if (pop_color!='#0B0B0B'){
+   //    map.setPaintProperty('population', 'fill-opacity', 0.6); // change fill color to blue
+   //  }
+
+  color = map.getPaintProperty('street','line-color')
    map.removeLayer('street')
    map.addLayer({
     'id': 'street',
@@ -173,8 +201,9 @@ function minutesLayer(event) {
     'source': 'street',
     'source-layer': STREETS_LAYER,
      'paint': {
-      'line-color': '#9B7944',
-      'line-width': 2.3
+      'line-color': color,
+      // 'line-color': '#DFDFDF',
+      'line-width': 1.6
        },
   },
   );
@@ -187,6 +216,14 @@ function minutesLayer(event) {
       map.setLayoutProperty('poi', 'visibility', 'visible');
 
   }
+
+  // if (pop_visibility!='visible'){
+  //   map.setLayoutProperty('population', 'visibility', 'none');
+  // }
+  // else{
+  //     map.setLayoutProperty('population', 'visibility', 'visible');
+
+  // }
 }
 
 // LEGEND BUTTON
@@ -204,17 +241,35 @@ function toggleLegend() {
 
 // WALKABLE STREET LAYER BUTTON
 function toggleStreetLayer() {
-	var visibility = map.getLayoutProperty('street', 'visibility');
+	// var visibility = map.getLayoutProperty('street', 'visibility');
+  var color = map.getPaintProperty('street', 'line-color');
 
 	// toggle layer visibility by changing the layout object's visibility property
-	if (visibility === 'visible') {
-		map.setLayoutProperty('street', 'visibility', 'none');
+	// if (visibility === 'visible') {
+  if (color === '#A67F0E') {
+
+		// map.setLayoutProperty('street', 'visibility', 'none');
+    map.setPaintProperty('street', 'line-color', 'white');
+
 		document.getElementById('layer-button-img').src = '../assets/street_off.png'
 		//this.className = '';
-	} else {
+	} 
+  else {
 		//this.className = 'active';
 		document.getElementById('layer-button-img').src = '../assets/street_on.png'
-		map.setLayoutProperty('street', 'visibility', 'visible');
+    map.removeLayer('street')
+   map.addLayer({
+    'id': 'street',
+    'type': 'line',
+    'source': 'street',
+    'source-layer': STREETS_LAYER,
+     'paint': {
+     'line-color': '#A67F0E',
+    'line-width': 2.3
+       },
+  },
+  );
+    // map.setPaintProperty('street', 'line-color', '#9B7944');
 	}
 }
 
@@ -223,11 +278,12 @@ function toggleStreetLayer() {
 function toggleHouseLayer() {
 	var visibility = map.getLayoutProperty('population', 'visibility');
   var color = map.getPaintProperty('population', 'fill-color');
+  var opacity = map.getPaintProperty('population', 'fill-opacity');
+
   console.log(color)
  
 	// toggle layer visibility by changing the layout object's visibility property
-	if (color === 'cyan') {
-		map.setLayoutProperty('population', 'visibility', 'visible');
+	if (opacity === 0) {
     map.setPaintProperty('population', 'fill-color', populationColor); // change fill color to blue
     map.setPaintProperty('population', 'fill-opacity', 0.6); // change fill color to blue
 
@@ -235,9 +291,8 @@ function toggleHouseLayer() {
 		//this.className = '';
 	} else {
 		//this.className = 'active';
-		map.setLayoutProperty('population', 'visibility', 'visible');
-    map.setPaintProperty('population', 'fill-color', 'cyan'); // change fill color to blue
-    map.setPaintProperty('population', 'fill-opacity', 0.1); // change fill color to blue
+    // map.setPaintProperty('population', 'fill-color', '#0B0B0B'); // change fill color to blue
+    map.setPaintProperty('population', 'fill-opacity', 0); // change fill color to blue
 
 
 		document.getElementById('layer-button2-img').src = '../assets/house_off.png'
@@ -252,13 +307,14 @@ function togglePOILayer() {
 	// toggle layer visibility by changing the layout object's visibility property
 	if (visibility === 'visible') {
 		map.setLayoutProperty('poi', 'visibility', 'none');
+    map.setLayoutProperty('poi-labels', 'visibility', 'none');
     document.getElementById('layer-button4-img').src = '../assets/poi_off.png'
-
 
   }
 	 else {
 		//this.className = 'active';
 		map.setLayoutProperty('poi', 'visibility', 'visible');
+    map.setLayoutProperty('poi-labels', 'visibility', 'visible');
 		document.getElementById('layer-button4-img').src = '../assets/poi_on.png'
 	};
 };
@@ -268,14 +324,11 @@ mapboxgl.accessToken = MAPBOX_TOKEN;
 var map = new mapboxgl.Map({
   container: 'map',
   style: MAPBOX_STYLE,
-  center: [4.892920941577979, 52.375580457763256,],
+  center: CENTER,
   zoom: 1,
   maxZoom: 18,
   minZoom: 1,
-  maxBounds: [
-    [4.72, 52.25], // Southwest coordinates
-    [5.11, 52.44] // Northeast coordinates
-  ],
+  maxBounds:MAXBOUNDS,
   hash: true
 });
 
@@ -301,7 +354,6 @@ map.on('load', function() {
       break;
     }
   }
-
 
   // add layer sources to the map
   map.addSource('population', {
@@ -330,7 +382,7 @@ map.on('load', function() {
 
   });
 
-    map.addSource('poi_15', {
+  map.addSource('poi_15', {
      type: 'vector',
      url: POI_TILESET_15,
        cluster: true,
@@ -351,8 +403,8 @@ map.on('load', function() {
     'source': 'population',
     'source-layer': POP_LAYER,
    'paint': {
-    'fill-opacity' : 0.1  ,
-    'fill-color': 'cyan',
+    'fill-opacity' : 0 ,
+    'fill-color': populationColor,
     // 'fill-outline-color' : 'populationColor'
    }
   },
@@ -373,37 +425,13 @@ map.on('load', function() {
   labelLayerId
   );
 	
-   map.addLayer({
-    'id': 'street',
-    'type': 'line',
-    'source': 'street',
-    'source-layer': STREETS_LAYER,
-     'paint': {
-    // 'fill-opacity' : 1,
-    // 'fill-color' : '#C4A875',
-    // 'fill-outline-color' : '#C4A875'
-     'line-color': '#9B7944',
-     // '#9B7944',
-    'line-width': 2.3
-       },
-  },
-  labelLayerId
-  );
+
   
  map.addLayer({
     'id': 'poi',
     'type': 'circle',
     'source': 'poi',
     'source-layer': POI_LAYER,
-    // Radius of each cluster when clustering points (defaults to 50)
-    // paint: {
-    //   // Use a data-driven style property to color the points based on their value
-    //   'circle-color': circleColor,
-    //   'circle-radius': 6,
-    //   'circle-stroke-width': 0.2,
-
-    //   // 'circle-stroke-color': '#ffffff'
-    // }
     paint: {
       'circle-radius': [
         'interpolate',
@@ -413,45 +441,71 @@ map.on('load', function() {
         5],
       'circle-opacity': 1,
       'circle-color': circleColor,
-      //  'circle-stroke-width': 0.2,
+       'circle-stroke-width': 0.2,
+      'circle-stroke-color': 'black'
 
-      // 'circle-stroke-color': 'black'
+    },
 
-    }
+}, labelLayerId
+);
+
+ map.addLayer({
+  'id': 'poi-labels',
+  'type': 'symbol',
+  'source': 'poi',
+  'source-layer': POI_LAYER,
+  layout: {
+    'text-field': ['get', 'subcategory'], // set the label text to the 'name' property of your data
+    'text-size': 14,
+    'text-offset': [0, 1], // adjust the offset of the label from the circle
+    'text-allow-overlap': false // allow labels to overlap with each other
+  },
+  paint: {
+    "text-color": "#A67F0E",
+    "text-halo-color": "#fff",
+                "text-halo-width": 100
+  }
+
+});
+
+   map.addLayer({
+    'id': 'street',
+    'type': 'line',
+    'source': 'street',
+    'source-layer': STREETS_LAYER,
+     'paint': {
+     'line-color': 'white',
+    'line-width': 1.8
+       },
   },
   labelLayerId
   );
-
-
-
  
 // set visibility of the layers
+map.setLayoutProperty('poi-labels', 'visibility', 'visible');
 map.setLayoutProperty('street', 'visibility', 'visible');
 map.setLayoutProperty('population', 'visibility', 'visible');
 map.setLayoutProperty('poi', 'visibility', 'visible');
 map.setLayoutProperty('iso_viz', 'visibility', 'visible');
-// map.setLayoutProperty('iso_viz_15', 'visibility', 'visible');
 
-// map.setLayoutProperty('pop_per_poi', 'visibility', 'visible');
-
-  var filters = [];
+// var filters = [];
 
 
-  // add a legend item
-  //The function takes two parameters: "item" and "index". 
-  //"item" is an object that contains information about a group, including its rating, value, and color. 
-  //"index" is the index of the group in an array of groups called "GROUPS".
+// add a legend item
+//The function takes two parameters: "item" and "index". 
+//"item" is an object that contains information about a group, including its rating, value, and color. 
+//"index" is the index of the group in an array of groups called "GROUPS".
 
-  //The function first checks if the previous group (i.e., the group with an index one less than the current group's index) exists. 
-  //For instance, if it does not exist (i.e., the current group is the first group), then the low value of the group's range is set to the group's value, 
-  //and the high value is set to infinity. The string variable is set to the low value.
+//The function first checks if the previous group (i.e., the group with an index one less than the current group's index) exists. 
+//For instance, if it does not exist (i.e., the current group is the first group), then the low value of the group's range is set to the group's value, 
+//and the high value is set to infinity. The string variable is set to the low value.
 
-  //The function then adds a filter object to an array called "filters". 
-  // The filter object represents the range of values for the group, and it is used to filter the data that is displayed in the visualization. 
-  // The filter object contains a "condition" property that is an array of two conditions: 
-  //one that checks if a data point's "width" property is greater than the low value of the group's range, 
-  //and another that checks if the "width" property is less than or equal to the high value of the group's range. 
-  //The "active" property of the filter object is initially set to false.
+//The function then adds a filter object to an array called "filters". 
+// The filter object represents the range of values for the group, and it is used to filter the data that is displayed in the visualization. 
+// The filter object contains a "condition" property that is an array of two conditions: 
+//one that checks if a data point's "width" property is greater than the low value of the group's range, 
+//and another that checks if the "width" property is less than or equal to the high value of the group's range. 
+//The "active" property of the filter object is initially set to false.
 
   function addLegendItem(item, index) {
 
@@ -567,7 +621,7 @@ document.getElementById("legend-main").appendChild(newElement);
 
       else  if(e.features[0].source === "population" || e.features[0].source === "population_15"){
         var lineColor = e.features[0].layer.paint['fill-color'];
-        // var lineColor = 'cyan';
+        // var lineColor = '#0B0B0B';
 
         var places = e.features[0].properties['All Places']
         var public = e.features[0].properties['Public Places']
@@ -578,8 +632,6 @@ document.getElementById("legend-main").appendChild(newElement);
         var walk_area = Math.round(e.features[0].properties['Walking Area (m2)'])
 
         walk_area = walk_area.toLocaleString('en', {useGrouping:true})
-
-
         description = 
           '<div class="message"> Accessible within a 5 minute walk </div> ' +
             '<ul>' + 
@@ -593,6 +645,7 @@ document.getElementById("legend-main").appendChild(newElement);
          '<div style="color:' + lineColor + '" class="name"> -------------------------------- ' + '</div>' +
          '<div style="color:' + lineColor + '" class="message"> Total number of places: ' + places  + '</div>'
      }
+     console.log(description)
 
     popup.setLngLat(coordinates)
     popup.setHTML(description)
@@ -642,15 +695,22 @@ map.on('mousemove', function (e) {
         var id = features[0].properties.c28992r100;
         var filter = ['==', 'c28992r100', id];
         map.setPaintProperty('iso_viz', 'fill-color', '#3182bd');
-        map.setPaintProperty('iso_viz', 'fill-opacity', 0.8);
+        map.setPaintProperty('iso_viz', 'fill-opacity', 0.4);
         map.setFilter('iso_viz', filter);
 
         }  
-
-
-
-    
 });
 
+map.on('zoom', function() {
+  var zoom = map.getZoom();
+  // console.log(zoom)
+  if (zoom <= 14) { // change 10 to the desired zoom level
+    map.setLayoutProperty('poi-labels', 'visibility', 'none');
+  } else if (map.getLayoutProperty('poi', 'visibility') === 'visible')
+{
+       map.setLayoutProperty('poi-labels', 'visibility', 'visible');
+
+  }
+});
 
 });
