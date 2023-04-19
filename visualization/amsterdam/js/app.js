@@ -1,6 +1,6 @@
 //AMSTERDAM
 /////////////////////////////////////////////////////////////////
-//functions for button presses that toggle the different layers // 
+//functions for presses that toggle the different layers // 
 /////////////////////////////////////////////////////////////////
 
 // INFO BUTTON
@@ -16,14 +16,50 @@ function toggleInfo() {
   }
 }
 
+
+function ageLayer(event){
+  var buttonId = event.target.id;
+  var button = document.getElementById(buttonId);
+
+  if (buttonId=='children'){
+      map.setPaintProperty('poi', 'circle-color', childCircleColor);
+      button.style.color='#FFAF33';
+      var eldbutton = document.getElementById("elderly");
+      var agedivbutton = document.getElementById("agediv");
+      eldbutton.style.color='white';
+      agedivbutton.style.color='white';
+
+  }
+   else if (buttonId=='elderly'){
+      map.setPaintProperty('poi', 'circle-color', elderlyCircleColor);
+      button.style.color='#FFAF33';
+      var childbutton = document.getElementById("children");
+      var agedivbutton = document.getElementById("agediv");
+      childbutton.style.color='white'
+      agedivbutton.style.color='white'
+
+  }
+  else{
+    map.setPaintProperty('poi', 'circle-color', circleColor)
+    button.style.color='#FFAF33'
+    var childbutton = document.getElementById("children");
+    var eldbutton = document.getElementById("elderly");
+    childbutton.style.color='white'
+    eldbutton.style.color='white'
+
+
+  }
+
+}
+
 function minutesLayer(event) {
   // Get the ID of the button that was clicked
   var buttonId = event.target.id;
   var button = document.getElementById(buttonId);
   var poi_visibility = map.getLayoutProperty('poi', 'visibility');
+  var poi_labels_visibility = map.getLayoutProperty('poi-labels', 'visibility');
   var pop_opacity = map.getPaintProperty('population', 'fill-opacity');
   var pop_color = map.getPaintProperty('population', 'fill-color');
-
 
 
   // Perform different actions based on the button ID
@@ -47,7 +83,7 @@ function minutesLayer(event) {
       },
       
       );
-     map.setPaintProperty('population', 'fill-color', pop_color)
+    map.setPaintProperty('population', 'fill-color', pop_color)
     // remove existing and add the 5-minute isochrones layer
     map.removeLayer('iso_viz')
     map.addLayer({  
@@ -79,9 +115,9 @@ function minutesLayer(event) {
         5],
       'circle-opacity': 1,
       'circle-color': circleColor,
-       'circle-stroke-width': 0.2,
+      //  'circle-stroke-width': 0.2,
 
-      'circle-stroke-color': 'black'
+      // 'circle-stroke-color': 'black'
 
     }
   },
@@ -102,7 +138,7 @@ function minutesLayer(event) {
   paint: {
     "text-color": "#A67F0E",
     "text-halo-color": "#fff",
-                "text-halo-width": 100
+    "text-halo-width": 100
   }
 
 });
@@ -159,9 +195,9 @@ function minutesLayer(event) {
         5],
       'circle-opacity': 1,
       'circle-color': circleColor,
-       'circle-stroke-width': 0.2,
+      //  'circle-stroke-width': 0.2,
 
-      'circle-stroke-color': 'black'
+      // 'circle-stroke-color': 'black'
 
     }
   },
@@ -182,16 +218,12 @@ function minutesLayer(event) {
   paint: {
     "text-color": "#A67F0E",
     "text-halo-color": "#fff",
-                "text-halo-width": 100
+     "text-halo-width": 100
   }
 
 });
 
   }
-   // map.setPaintProperty('population', 'fill-color', pop_color)
-   // if (pop_color!='#0B0B0B'){
-   //    map.setPaintProperty('population', 'fill-opacity', 0.6); // change fill color to blue
-   //  }
 
   color = map.getPaintProperty('street','line-color')
    map.removeLayer('street')
@@ -203,19 +235,22 @@ function minutesLayer(event) {
      'paint': {
       'line-color': color,
       // 'line-color': '#DFDFDF',
-      'line-width': 1.6
+      'line-width': 0.8
        },
   },
   );
 
   //keep the poi layer visible or invisble
-  if (poi_visibility!='visible'){
-    map.setLayoutProperty('poi', 'visibility', 'none');
-  }
-  else{
-      map.setLayoutProperty('poi', 'visibility', 'visible');
+  // if (poi_visibility!='visible'){
+  //   map.setLayoutProperty('poi', 'visibility', 'none');
+  // }
+  // else{
+  //     map.setLayoutProperty('poi', 'visibility', 'visible');
 
-  }
+  // }
+  map.setLayoutProperty('poi', 'visibility', poi_visibility);
+  map.setLayoutProperty('poi-labels', 'visibility', poi_labels_visibility);
+
 
   // if (pop_visibility!='visible'){
   //   map.setLayoutProperty('population', 'visibility', 'none');
@@ -265,7 +300,7 @@ function toggleStreetLayer() {
     'source-layer': STREETS_LAYER,
      'paint': {
      'line-color': '#A67F0E',
-    'line-width': 2.3
+    'line-width': 0.8
        },
   },
   );
@@ -314,7 +349,7 @@ function togglePOILayer() {
 	 else {
 		//this.className = 'active';
 		map.setLayoutProperty('poi', 'visibility', 'visible');
-    map.setLayoutProperty('poi-labels', 'visibility', 'visible');
+    map.setLayoutProperty('poi-labels', 'visibility', 'none');
 		document.getElementById('layer-button4-img').src = '../assets/poi_on.png'
 	};
 };
@@ -441,8 +476,8 @@ map.on('load', function() {
         5],
       'circle-opacity': 1,
       'circle-color': circleColor,
-       'circle-stroke-width': 0.2,
-      'circle-stroke-color': 'black'
+      //  'circle-stroke-width': 0.2,
+      // 'circle-stroke-color': 'black'
 
     },
 
@@ -463,7 +498,7 @@ map.on('load', function() {
   paint: {
     "text-color": "#A67F0E",
     "text-halo-color": "#fff",
-                "text-halo-width": 100
+    "text-halo-width": 100
   }
 
 });
@@ -475,14 +510,14 @@ map.on('load', function() {
     'source-layer': STREETS_LAYER,
      'paint': {
      'line-color': 'white',
-    'line-width': 1.8
+    'line-width': 0.8
        },
   },
   labelLayerId
   );
  
 // set visibility of the layers
-map.setLayoutProperty('poi-labels', 'visibility', 'visible');
+map.setLayoutProperty('poi-labels', 'visibility', 'none');
 map.setLayoutProperty('street', 'visibility', 'visible');
 map.setLayoutProperty('population', 'visibility', 'visible');
 map.setLayoutProperty('poi', 'visibility', 'visible');
@@ -516,7 +551,7 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
         group = GROUPS_POIS
         if (index == 0) {  
           var legend_title = '</br><h3><img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/poi_on.png"> ' +
-          ' <span style="">Age diversity of the people who have access to each place within a 5 minute walk </span> </h3>'
+          ' <span style="">Age diversity of the people who have access to each place within an X-minute walk </span> </h3>'
           var newElement = document.createElement('div');
           newElement.innerHTML = legend_title;
 
@@ -582,7 +617,15 @@ document.getElementById("legend-main").appendChild(newElement);
 
     var coordinates = e.lngLat;
     // coordinates = [coordinates.lng, coordinates.lat + 0.003];  
-
+    var walk = '5'
+    var button = document.getElementById("5min");
+    console.log(button.style.color)
+    if (button.style.color==='white'){
+      walk = '15'
+    }
+    else {
+      walk='5'
+    }
   	var description = ''
 
   	 if(e.features[0].source === "poi" || e.features[0].source === "poi_15"){
@@ -608,7 +651,7 @@ document.getElementById("legend-main").appendChild(newElement);
         '</ul>' + 
         
         '<div style="color:' + lineColor + '" class="name"> ------------------------------------------------------------------------------ </div>' +
-        '<div class="message">Who can access this place within a 5 minute walk? </div>' +
+        '<div class="message">Who can access this place within a ' + walk + ' minute walk? </div>' +
 
 
          '<ul>' + 
@@ -633,7 +676,7 @@ document.getElementById("legend-main").appendChild(newElement);
 
         walk_area = walk_area.toLocaleString('en', {useGrouping:true})
         description = 
-          '<div class="message"> Accessible within a 5 minute walk </div> ' +
+          '<div class="message"> Accessible within a ' + walk + '  minute walk </div> ' +
             '<ul>' + 
 
           '<li> <div style="color:' + lineColor + '" class="message"> Public places: ' + public  + '</div></li>' +
@@ -645,7 +688,7 @@ document.getElementById("legend-main").appendChild(newElement);
          '<div style="color:' + lineColor + '" class="name"> -------------------------------- ' + '</div>' +
          '<div style="color:' + lineColor + '" class="message"> Total number of places: ' + places  + '</div>'
      }
-     console.log(description)
+     // console.log(description)
 
     popup.setLngLat(coordinates)
     popup.setHTML(description)
@@ -684,6 +727,10 @@ document.getElementById("legend-main").appendChild(newElement);
 
   map.on('click', 'poi', function(e) {
     addPopup(e);
+    var properties = e.features[0].properties;
+        console.log(properties['Number of children']/properties['Number of people']);
+
+
 });
 
 map.on('mousemove', function (e) {
