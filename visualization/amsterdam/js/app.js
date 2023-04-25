@@ -20,137 +20,198 @@ function toggleInfo() {
 function ageLayer(event){
   var buttonId = event.target.id;
   var button = document.getElementById(buttonId);
+  var button_5 = document.getElementById('5min');
+  var button_5_color = rgbToHex(button_5.style.color)
+
 
   if (buttonId=='children'){
-      map.setPaintProperty('poi', 'circle-color', childCircleColor);
-      button.style.color='#FFAF33';
+    if (button_5_color==button_col_on){
+      map.setPaintProperty('poi', 'circle-color', childCircleColor_5);
+    }
+    else {
+            map.setPaintProperty('poi', 'circle-color', childCircleColor_15);
+    }
+      button.style.color=button_col_on;
       var eldbutton = document.getElementById("elderly");
       var agedivbutton = document.getElementById("agediv");
-      eldbutton.style.color='white';
-      agedivbutton.style.color='white';
+      eldbutton.style.color=button_col_off;
+      agedivbutton.style.color=button_col_off;
 
   }
    else if (buttonId=='elderly'){
-      map.setPaintProperty('poi', 'circle-color', elderlyCircleColor);
-      button.style.color='#FFAF33';
+      if (button_5_color==button_col_on){
+        map.setPaintProperty('poi', 'circle-color', elderlyCircleColor_5);
+    }
+    else {
+            map.setPaintProperty('poi', 'circle-color', elderlyCircleColor_15);
+    }
+      button.style.color=button_col_on;
       var childbutton = document.getElementById("children");
       var agedivbutton = document.getElementById("agediv");
-      childbutton.style.color='white'
-      agedivbutton.style.color='white'
+      childbutton.style.color=button_col_off
+      agedivbutton.style.color=button_col_off
 
   }
   else{
-    map.setPaintProperty('poi', 'circle-color', circleColor)
-    button.style.color='#FFAF33'
+    if (button_5_color==button_col_on){
+      map.setPaintProperty('poi', 'circle-color', ageDivColor_5);
+    }
+    else {
+            map.setPaintProperty('poi', 'circle-color', ageDivColor_15);
+    }
+    button.style.color=button_col_on
     var childbutton = document.getElementById("children");
     var eldbutton = document.getElementById("elderly");
-    childbutton.style.color='white'
-    eldbutton.style.color='white'
+    childbutton.style.color=button_col_off
+    eldbutton.style.color=button_col_off
 
 
   }
 
 }
 
+function rgbToHex(rgbString) {
+var rgbValues = rgbString.substring(4, rgbString.length - 1)
+                           .replace(/ /g, '')
+                           .split(',');
+var r = parseInt(rgbValues[0]);
+var g = parseInt(rgbValues[1]);
+var b = parseInt(rgbValues[2]);
+
+  var hex = ((r << 16) | (g << 8) | b).toString(16);
+  return "#" + ("000000" + hex).slice(-6);
+}
+
+
 function minutesLayer(event) {
   // Get the ID of the button that was clicked
   var buttonId = event.target.id;
   var button = document.getElementById(buttonId);
+  var button_color = rgbToHex(button.style.color)
+
   var poi_visibility = map.getLayoutProperty('poi', 'visibility');
   var poi_labels_visibility = map.getLayoutProperty('poi-labels', 'visibility');
   var pop_opacity = map.getPaintProperty('population', 'fill-opacity');
   var pop_color = map.getPaintProperty('population', 'fill-color');
 
+  var childbutton = document.getElementById("children");
+  var eldbutton = document.getElementById("elderly");
+
+
+  childbutton_col = rgbToHex(childbutton.style.color)
+  eldbutton_col = rgbToHex(eldbutton.style.color)
 
   // Perform different actions based on the button ID
   if (buttonId == "5min") {
-    var otherbutton = document.getElementById("15min");
+          if (childbutton_col==button_col_on){
+            circleColor = childCircleColor_5
+          }
+          else if (eldbutton_col==button_col_on){
+            circleColor=elderlyCircleColor_5
+          }
+          else{
+            circleColor= ageDivColor_5
+          }
 
-    if (button.style.color=='white'){
-      button.style.color='#FFAF33'
-      otherbutton.style.color='white'
-      }
-    map.removeLayer('population')
-     map.addLayer({
-        'id': 'population',
-        'type': 'fill',
-        'source': 'population',
-        'source-layer': POP_LAYER,
-       'paint': {
-        'fill-opacity' : pop_opacity ,
-        'fill-color': '#0B0B0B',
-       }
-      },
-      
-      );
-    map.setPaintProperty('population', 'fill-color', pop_color)
-    // remove existing and add the 5-minute isochrones layer
-    map.removeLayer('iso_viz')
-    map.addLayer({  
-        'id': 'iso_viz',
-        'type': 'fill',
-        'source': 'iso_viz',
-        'source-layer': ACCESS_AREA_LAYER,
-        'paint': {
-          'fill-opacity' : 0,
-          'fill-color' : 'gray',
-        }
-     },
-    );
-  // remove existing and add 5-minute poi layer
-  map.removeLayer('poi')
-  map.removeLayer('poi-labels')
+          var otherbutton = document.getElementById("15min");
 
-   map.addLayer({
-    'id': 'poi',
-    'type': 'circle',
-    'source': 'poi',
-    'source-layer': POI_LAYER,
+          if (button_color==button_col_off){
+            button.style.color=button_col_on
+            otherbutton.style.color=button_col_off
+            }
+
+          map.removeLayer('population')
+           map.addLayer({
+              'id': 'population',
+              'type': 'fill',
+              'source': 'population',
+              'source-layer': POP_LAYER,
+             'paint': {
+              'fill-opacity' : pop_opacity ,
+              'fill-color': '#0B0B0B',
+             }
+            },
+            
+            );
+          map.setPaintProperty('population', 'fill-color', pop_color)
+          // remove existing and add the 5-minute isochrones layer
+          map.removeLayer('iso_viz')
+          map.addLayer({  
+              'id': 'iso_viz',
+              'type': 'fill',
+              'source': 'iso_viz',
+              'source-layer': ACCESS_AREA_LAYER,
+              'paint': {
+                'fill-opacity' : 0,
+                'fill-color' : 'gray',
+              }
+           },
+          );
+        // remove existing and add 5-minute poi layer
+        map.removeLayer('poi')
+        map.removeLayer('poi-labels')
+
+         map.addLayer({
+          'id': 'poi',
+          'type': 'circle',
+          'source': 'poi',
+          'source-layer': POI_LAYER,
+              paint: {
+            'circle-radius': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              1,
+              5],
+            'circle-opacity': 1,
+            'circle-color': circleColor,
+            //  'circle-stroke-width': 0.2,
+
+            // 'circle-stroke-color': 'black'
+
+          }
+        },
+        
+        );
+
+       map.addLayer({
+        'id': 'poi-labels',
+        'type': 'symbol',
+        'source': 'poi',
+        'source-layer': POI_LAYER,
+        layout: {
+          'text-field': ['get', 'subcategory'], // set the label text to the 'name' property of your data
+          'text-size': 14,
+          'text-offset': [0, 1], // adjust the offset of the label from the circle
+          'text-allow-overlap': false // allow labels to overlap with each other
+        },
         paint: {
-      'circle-radius': [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        1,
-        5],
-      'circle-opacity': 1,
-      'circle-color': circleColor,
-      //  'circle-stroke-width': 0.2,
+          "text-color": "white",
+          // "text-halo-color": "#fff",
+          // "text-halo-width": 100
+        }
 
-      // 'circle-stroke-color': 'black'
-
-    }
-  },
-  
-  );
-
- map.addLayer({
-  'id': 'poi-labels',
-  'type': 'symbol',
-  'source': 'poi',
-  'source-layer': POI_LAYER,
-  layout: {
-    'text-field': ['get', 'subcategory'], // set the label text to the 'name' property of your data
-    'text-size': 14,
-    'text-offset': [0, 1], // adjust the offset of the label from the circle
-    'text-allow-overlap': false // allow labels to overlap with each other
-  },
-  paint: {
-    "text-color": "#A67F0E",
-    "text-halo-color": "#fff",
-    "text-halo-width": 100
-  }
-
-});
+      });
 
   } 
 
   else if (buttonId == "15min") {
     var otherbutton = document.getElementById("5min");
-    if (button.style.color=='white'){
-      button.style.color='#FFAF33'
-      otherbutton.style.color='white'
+    if (button_color==button_col_off){
+      button.style.color=button_col_on
+      otherbutton.style.color=button_col_off
     }
+
+     if (childbutton_col==button_col_on){
+      console.log('here')
+            circleColor = childCircleColor_15
+          }
+     else if (eldbutton_col==button_col_on){
+            circleColor=elderlyCircleColor_15
+          }
+     else{
+            circleColor= ageDivColor_15
+          }
 
      map.removeLayer('population')
      map.addLayer({
@@ -195,9 +256,6 @@ function minutesLayer(event) {
         5],
       'circle-opacity': 1,
       'circle-color': circleColor,
-      //  'circle-stroke-width': 0.2,
-
-      // 'circle-stroke-color': 'black'
 
     }
   },
@@ -216,38 +274,15 @@ function minutesLayer(event) {
     'text-allow-overlap': false // allow labels to overlap with each other
   },
   paint: {
-    "text-color": "#A67F0E",
-    "text-halo-color": "#fff",
-     "text-halo-width": 100
+    "text-color": "white",
+    // "text-halo-color": "#fff",
+     // "text-halo-width": 100
   }
 
 });
 
   }
 
-  color = map.getPaintProperty('street','line-color')
-   map.removeLayer('street')
-   map.addLayer({
-    'id': 'street',
-    'type': 'line',
-    'source': 'street',
-    'source-layer': STREETS_LAYER,
-     'paint': {
-      'line-color': color,
-      // 'line-color': '#DFDFDF',
-      'line-width': 0.8
-       },
-  },
-  );
-
-  //keep the poi layer visible or invisble
-  // if (poi_visibility!='visible'){
-  //   map.setLayoutProperty('poi', 'visibility', 'none');
-  // }
-  // else{
-  //     map.setLayoutProperty('poi', 'visibility', 'visible');
-
-  // }
   map.setLayoutProperty('poi', 'visibility', poi_visibility);
   map.setLayoutProperty('poi-labels', 'visibility', poi_labels_visibility);
 
@@ -276,15 +311,14 @@ function toggleLegend() {
 
 // WALKABLE STREET LAYER BUTTON
 function toggleStreetLayer() {
-	// var visibility = map.getLayoutProperty('street', 'visibility');
-  var color = map.getPaintProperty('street', 'line-color');
+	var visibility = map.getLayoutProperty('street', 'visibility');
+  // var color = map.getPaintProperty('street', 'line-color');
 
 	// toggle layer visibility by changing the layout object's visibility property
-	// if (visibility === 'visible') {
-  if (color === '#A67F0E') {
-
-		// map.setLayoutProperty('street', 'visibility', 'none');
-    map.setPaintProperty('street', 'line-color', 'white');
+	if (visibility === 'visible') {
+  // if (color === street_color_on) {
+		map.setLayoutProperty('street', 'visibility', 'none');
+    // map.setPaintProperty('street', 'line-color', street_color_off);
 
 		document.getElementById('layer-button-img').src = '../assets/street_off.png'
 		//this.className = '';
@@ -292,19 +326,20 @@ function toggleStreetLayer() {
   else {
 		//this.className = 'active';
 		document.getElementById('layer-button-img').src = '../assets/street_on.png'
-    map.removeLayer('street')
-   map.addLayer({
-    'id': 'street',
-    'type': 'line',
-    'source': 'street',
-    'source-layer': STREETS_LAYER,
-     'paint': {
-     'line-color': '#A67F0E',
-    'line-width': 0.8
-       },
-  },
-  );
-    // map.setPaintProperty('street', 'line-color', '#9B7944');
+      map.setLayoutProperty('street', 'visibility', 'visible');
+
+  //   map.removeLayer('street')
+  //  map.addLayer({
+  //   'id': 'street',
+  //   'type': 'line',
+  //   'source': 'street',
+  //   'source-layer': STREETS_LAYER,
+  //    'paint': {
+  //    'line-color': street_color_on,// '#A67F0E',
+  //   'line-width': 1.2
+  //      },
+  // },
+  // );
 	}
 }
 
@@ -314,13 +349,19 @@ function toggleHouseLayer() {
 	var visibility = map.getLayoutProperty('population', 'visibility');
   var color = map.getPaintProperty('population', 'fill-color');
   var opacity = map.getPaintProperty('population', 'fill-opacity');
-
-  console.log(color)
- 
+  var button = document.getElementById('5min');
+  var button_color = rgbToHex(button.style.color)
+   
 	// toggle layer visibility by changing the layout object's visibility property
 	if (opacity === 0) {
-    map.setPaintProperty('population', 'fill-color', populationColor); // change fill color to blue
-    map.setPaintProperty('population', 'fill-opacity', 0.6); // change fill color to blue
+    if (button_color==button_col_on){
+      map.setPaintProperty('population', 'fill-color', populationColor_5); // change fill color to blue
+    }
+    else {
+            map.setPaintProperty('population', 'fill-color', populationColor_15); // change fill color to blue
+
+    }
+    map.setPaintProperty('population', 'fill-opacity', 0.8); // change fill color to blue
 
 		document.getElementById('layer-button2-img').src = '../assets/house_on.png'
 		//this.className = '';
@@ -439,7 +480,7 @@ map.on('load', function() {
     'source-layer': POP_LAYER,
    'paint': {
     'fill-opacity' : 0 ,
-    'fill-color': populationColor,
+    'fill-color': populationColor_5,
     // 'fill-outline-color' : 'populationColor'
    }
   },
@@ -454,14 +495,26 @@ map.on('load', function() {
     'source-layer': ACCESS_AREA_LAYER,
     'paint': {
     'fill-opacity' : 0,
-    'fill-color' : 'gray',
+    'fill-color' : 'black',
    }
   },
   labelLayerId
   );
 	
 
-  
+     map.addLayer({
+    'id': 'street',
+    'type': 'line',
+    'source': 'street',
+    'source-layer': STREETS_LAYER,
+     'paint': {
+     'line-color': street_color_on,
+    'line-width': 1.2
+       },
+  },
+  labelLayerId
+  );
+     
  map.addLayer({
     'id': 'poi',
     'type': 'circle',
@@ -475,7 +528,7 @@ map.on('load', function() {
         1,
         5],
       'circle-opacity': 1,
-      'circle-color': circleColor,
+      'circle-color': ageDivColor_5,
       //  'circle-stroke-width': 0.2,
       // 'circle-stroke-color': 'black'
 
@@ -491,34 +544,26 @@ map.on('load', function() {
   'source-layer': POI_LAYER,
   layout: {
     'text-field': ['get', 'subcategory'], // set the label text to the 'name' property of your data
-    'text-size': 14,
+    'text-size': 12,
     'text-offset': [0, 1], // adjust the offset of the label from the circle
     'text-allow-overlap': false // allow labels to overlap with each other
   },
   paint: {
-    "text-color": "#A67F0E",
-    "text-halo-color": "#fff",
-    "text-halo-width": 100
+    // "text-color": "#A67F0E",
+    // "text-halo-color": "#fff",
+    // "text-halo-width": 100
+    "text-color": "white",
+    // "text-halo-color": "#fff",
+    // "text-halo-width": 100
   }
 
 });
 
-   map.addLayer({
-    'id': 'street',
-    'type': 'line',
-    'source': 'street',
-    'source-layer': STREETS_LAYER,
-     'paint': {
-     'line-color': 'white',
-    'line-width': 0.8
-       },
-  },
-  labelLayerId
-  );
+
  
 // set visibility of the layers
 map.setLayoutProperty('poi-labels', 'visibility', 'none');
-map.setLayoutProperty('street', 'visibility', 'visible');
+map.setLayoutProperty('street', 'visibility', 'none');
 map.setLayoutProperty('population', 'visibility', 'visible');
 map.setLayoutProperty('poi', 'visibility', 'visible');
 map.setLayoutProperty('iso_viz', 'visibility', 'visible');
@@ -543,20 +588,21 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
 //The "active" property of the filter object is initially set to false.
 
   function addLegendItem(item, index) {
-
-      if (item.group==0){
-        group = GROUPS_HOMES
+    if (item.group==0){
+        group = GROUPS_HOMES_5
       }
       else{
-        group = GROUPS_POIS
+
+        group =  GROUPS_CHILD_5
         if (index == 0) {  
           var legend_title = '</br><h3><img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/poi_on.png"> ' +
-          ' <span style="">Age diversity of the people who have access to each place within an X-minute walk </span> </h3>'
+          ' <span style=""> Age Characteristics of the people who have access to each place within an X-minute walk <p style="font-size: smaller;"> ' +
+   ' Age Diversity / Number of Children / Number of Elderly </p>   </span> </h3>'
           var newElement = document.createElement('div');
           newElement.innerHTML = legend_title;
 
       var textNode = document.createTextNode(legend_title);
-document.getElementById("legend-main").appendChild(newElement);
+      document.getElementById("legend-main").appendChild(newElement);
 
         }
       }
@@ -564,18 +610,18 @@ document.getElementById("legend-main").appendChild(newElement);
       if (group[index - 1] == null) {
         var low = item.value
         var high = Infinity
-        var string = low + item.unit + ' (+)'
+        var string =  '> Average'
 
       }
 
       else {
         if (item.value==0)
-          var low = 0
+          var string = '< Average'
         else
-          var low =item.value
+          var string ='≈ Average'
 
-        var high = group[index - 1].value
-        var string = low + ' - ' + high + item.unit
+        // var high = group[index - 1].value
+        // var string = 'asd'//low + ' - ' + high + item.unit
       }
 
       // filters.push({'condition': ['all',['>', 'width', low],['<=', 'width', high]], 'active': false})
@@ -600,9 +646,9 @@ document.getElementById("legend-main").appendChild(newElement);
   
 
 
-  GROUPS_HOMES.reverse().forEach(addLegendItem);
+  GROUPS_HOMES_5.reverse().forEach(addLegendItem);
 
-  GROUPS_POIS.reverse().forEach(addLegendItem);
+  GROUPS_CHILD_5.reverse().forEach(addLegendItem);
 
   // GROUPS_HOMES.reverse()
 
@@ -620,7 +666,7 @@ document.getElementById("legend-main").appendChild(newElement);
     var walk = '5'
     var button = document.getElementById("5min");
     console.log(button.style.color)
-    if (button.style.color==='white'){
+    if (button.style.color===button_col_off){
       walk = '15'
     }
     else {
@@ -741,8 +787,8 @@ map.on('mousemove', function (e) {
       if (features.length > 0) {
         var id = features[0].properties.c28992r100;
         var filter = ['==', 'c28992r100', id];
-        map.setPaintProperty('iso_viz', 'fill-color', '#3182bd');
-        map.setPaintProperty('iso_viz', 'fill-opacity', 0.4);
+        map.setPaintProperty('iso_viz', 'fill-color','black');// '#3182bd');
+        map.setPaintProperty('iso_viz', 'fill-opacity', 0.5);
         map.setFilter('iso_viz', filter);
 
         }  
