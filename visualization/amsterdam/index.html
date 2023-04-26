@@ -3,194 +3,210 @@
 <html>
 <head>
 
-<meta charset="utf-8" />
-<title>Into the X-minute City</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta charset="utf-8" />
+	<title>Into the X-minute City</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-<!-- Primary Meta Tags -->
-<title>Accessibilty and Co-Accessibility in Amsterdam<</title>
-<meta name="title" content="Into the X-minute City<">
-<meta name="description" content="The X-minute city requires a fundamental understanding of what is accessible, how, and for whom.">
+	<!-- Primary Meta Tags -->
+	<title>Accessibilty and Co-Accessibility in Amsterdam<</title>
+	<meta name="title" content="Into the X-minute City<">
+		<meta name="description" content="The X-minute city requires a fundamental understanding of what is accessible, how, and for whom.">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="">
-<meta property="og:title" content="Into the X-minute City">
-<meta property="og:description" content="The X-minute city requires a fundamental understanding of what is accessible, why, and for whom.">
-<meta property="og:image" content="">
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website">
+		<meta property="og:url" content="">
+		<meta property="og:title" content="Into the X-minute City">
+		<meta property="og:description" content="The X-minute city requires a fundamental understanding of what is accessible, why, and for whom.">
+		<meta property="og:image" content="">
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="">
-<meta property="twitter:title" content="Into the X-minute City">
-<meta property="twitter:description" content="The X-minute city requires a fundamental understanding of what is accessible, why, and for whom.">
-<meta property="twitter:image" content="">
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image">
+		<meta property="twitter:url" content="">
+		<meta property="twitter:title" content="Into the X-minute City">
+		<meta property="twitter:description" content="The X-minute city requires a fundamental understanding of what is accessible, why, and for whom.">
+		<meta property="twitter:image" content="">
 
-<!-- <link rel='icon' href='../favicon.ico?v=2' type='image/x-icon'/ > -->
-<script src='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js'></script>
+		<!-- <link rel='icon' href='../favicon.ico?v=2' type='image/x-icon'/ > -->
+		<script src='https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.js'></script>
 
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet" />
-
-
-<link rel="stylesheet" type="text/css" href="../css/styles.css"></link>
-
-<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
-<link
-rel="stylesheet"
-href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
-type="text/css"
-/>
-<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
-<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
-
-</head>
-<body>
-	<div id="menu">
-		<button id="info-button" title="Toggle info "class="button circle-button" onclick="toggleInfo()">
-			<img src="../assets/info_off.png" style="width: 28px; height: 28;"></img>
-		</button>
-
-		<button id="legend-button" title="Toggle legend" class="button circle-button" onclick="toggleLegend()">
-			<img src="../assets/legend_off.png " style="width: 28px; height: 28px;"></img>
-		</button>
-
-		<button id="layer-button" title="Toggle walkable street layer" class="button circle-button" onclick="toggleStreetLayer()">
-			<img id="layer-button-img" src="../assets/street_off.png" style="width: 28px; height: 28px;"></img>
-		</button>
+		<link href="https://api.mapbox.com/mapbox-gl-js/v2.4.1/mapbox-gl.css" rel="stylesheet" />
 
 
-		<button id="layer-button2" title="Toggle Population layer" class="button circle-button" onclick="toggleHouseLayer()">
-			<img id="layer-button2-img" src="../assets/house_off.png" style="width: 28px; height: 28px;"></img>
-		</button>
+		<link rel="stylesheet" type="text/css" href="../css/styles.css"></link>
+
+		<script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+		<link
+		rel="stylesheet"
+		href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+		type="text/css"
+		/>
+		<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 -->
+		<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
+	</head>
+	<body>
+		<div id="menu">
+			<button id="info-button" title="Toggle info "class="button circle-button" onclick="toggleInfo()">
+				<img src="../assets/info_off.png" style="width: 28px; height: 28;"></img>
+			</button>
+
+			<button id="legend-button" title="Toggle legend" class="button circle-button" onclick="toggleLegend()">
+				<img src="../assets/legend_off.png " style="width: 28px; height: 28px;"></img>
+			</button>
+
+			<button id="layer-button" title="Toggle walkable street layer" class="button circle-button" onclick="toggleStreetLayer()">
+				<img id="layer-button-img" src="../assets/street_off.png" style="width: 28px; height: 28px;"></img>
+			</button>
 
 
-		<button id="layer-button4" title="Toggle POI layer" class="button circle-button" onclick="togglePOILayer()">
-			<img id="layer-button4-img" src="../assets/poi_on.png" style="width: 28px; height: 28px;"></img>
-		</button>
+			<button id="layer-button2" title="Toggle Population layer" class="button circle-button" onclick="toggleHouseLayer()">
+				<img id="layer-button2-img" src="../assets/house_off.png" style="width: 28px; height: 28px;"></img>
+			</button>
 
-</br>
 
-    <div class="button-style-container">
+			<button id="layer-button4" title="Toggle POI layer" class="button circle-button" onclick="togglePOILayer()">
+				<img id="layer-button4-img" src="../assets/poi_on.png" style="width: 28px; height: 28px;"></img>
+			</button>
 
-  			<button id="light" title="Toggle Style" class="button circle-button right-button" onclick="toggleLight(event)">
-			<img id="light-img" src="../assets/sun_on.png" style="width: 28px; height: 28px;"></img>
-		</button>
-		<button id="dark" title="Toggle Style" class="button circle-button right-button"  onclick="toggleDark(event)">
-			<img  id = "dark-img" src="../assets/moon_off.png" style="width: 28px; height: 28px;"></img>
-		</button>
+		</br>
+
+		<div class="button-style-container">
+
+			<button id="light" title="Toggle Style" class="button circle-button right-button" onclick="toggleLight(event)">
+				<img id="light-img" src="../assets/sun_on.png" style="width: 28px; height: 28px;"></img>
+			</button>
+			<button id="dark" title="Toggle Style" class="button circle-button right-button"  onclick="toggleDark(event)">
+				<img  id = "dark-img" src="../assets/moon_off.png" style="width: 28px; height: 28px;"></img>
+			</button>
 
 			<button id="plain" title="Toggle Style" class="button circle-button right-button" onclick="togglePlain(event)">
-			<img id = "plain-img" src="../assets/plain_off.png" style="width: 28px; height: 28px;"></img>
-		</button>
-
-    </div>
-
-
-</br>
-
-
-			<button id="5min" title="Toggle POI layer" class="button circle-button" onclick="minutesLayer(event)"   style="margin-left: 15px;font-size : 15px; color: #FFAF33;"> 5 minutes </button>
-
-			<button id="15min" title="Toggle POI layer" class="button circle-button" onclick="minutesLayer(event)"  style=" margin-left: 15px; font-size : 15px; color:#FFFFFF"> 15 minutes </button>
-</br> 
-			<button id="agediv" title="Toggle Age layer" class="button circle-button" onclick="ageLayer(event)"  style=" margin-left: 15px; font-size : 15px; color:#FFAF33"> Age Diversity</button>
-
-			<button id="children" title="Toggle Age layer" class="button circle-button" onclick="ageLayer(event)"  style=" margin-left: 15px; font-size : 15px; color:#FFFFFF"> Children</button>
-
-			<button id="elderly" title="Toggle Age layer" class="button circle-button" onclick="ageLayer(event)"  style=" margin-left: 15px; font-size : 15px; color:#FFFFFF"> Elderly</button>
-
-
+				<img id = "plain-img" src="../assets/plain_off.png" style="width: 28px; height: 28px;"></img>
+			</button>
+		</br>
 
 
 	</div>
+	<div class="button-city-container">
 
-  <div id="info" class="window" style="display: block;">
-    <div class="window-content">
-      <h2>Into the X-minute city </h2>
-      <h3> Accessibility and Co-accessibility within an </br> X-minute walk in Amsterdam </h3>
-		</p>
-		<p><large><u>Toggle map layers <span style="color: orange;">on</span> or <span style="color:white;">off</span>:</u></large><br>
-			
-			<h3>
-			  <img style="vertical-align:middle" src="../assets/street_on.png">
-			  <span style="">Walkable Street layer</span>
-			  </br>
-			  </br>
-			</h3>
-			  <span style="">The walkable street network from OpenStreetMap that is used in this project.</span>
-					</br>
-
-			<h3>
-			  <img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/house_on.png">
-			  <span style="">Housing Blocks layer</span>
-			</h3>
-			</br>
-				<span style="">People's residences in a spatial resolution of 100x100m2 (CBS data).  </span>
-				</br>
-			<ul>
-					<li><span style=""><strong>Color:</strong> Number of accessible places within an X-minute walk</span></li>
-			</br>
-				<li><span style=""><strong>Click:</strong> Info about the accessible places within an X-minute walk</span> </li>
-			</ul>		
-
-			<h3>
-			  <img style="vertical-align:middle" src="../assets/poi_on.png">
-			  <span style="">Places layer</span>
-			</h3>
-						</br>
-					<span style="">Places collected from OpenStreetMap.  </span>
-			</br>
-				<ul>
-				<li><span style=""><strong> Color:</strong> Age diversity of the people who have access to each place within an X-minute walk</span></li>
-				</br>
-				<li><span style=""><strong>Click: </strong>Info about the people who have access to the clicked place within an X-minute walk</span></li>
-			</ul>
-
-		</p>
-      <p><small>DISCLAIMER</small><br>
-      	<div>
-      		<img style="vertical-align:middle" src="../assets/attention.png">
-      		<span><small><b>This map shows data from  <a href="https://www.cbs.nl/nl-nl/dossier/nederland-regionaal/geografische-data/kaart-van-100-meter-bij-100-meter-met-statistieken" target="_blank">CBS</a> and <a href="https://www.openstreetmap.org/#map=12/46.9661/11.3897" target="_blank">OpenStreetMap</a> . It might not reflect the current status of population, walkable street network, or available places in Amsterdam. <b> </a></b></small></span>
+		<div class="dropdown">
+			<button class="dropbtn button circle-button right-button">Other Cities</button>
+			<div class="dropdown-content">
+				<a href="file:///Users/vasileiosmilia/PhD/repos/coaccessibility/visualization/amsterdam/index.html">Amsterdam</a>
+				<a href="file:///Users/vasileiosmilia/PhD/repos/coaccessibility/visualization/rotterdam/index.html">Rotterdam</a>
+				<a href="file:///Users/vasileiosmilia/PhD/repos/coaccessibility/visualization/hague/index.html">The Hague</a>
+				<a href="file:///Users/vasileiosmilia/PhD/repos/coaccessibility/visualization/utrecht/index.html">Utrecht</a>
+				<a href="file:///Users/vasileiosmilia/PhD/repos/coaccessibility/visualization/eindhoven/index.html">Eindhoven</a>
+			</div>
 		</div>
-    </div>
-    <div class="close-window" onclick="toggleInfo()">
-      <button class="button">Explore the Map</button>
-    </div>
-  </div>
+	</div>
 
-	<div id="legend-window" class="window" style="display: none;">
-		<div class="window-content">
-			<h1>Legends</h1>
-			<h3>
-			  <img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/house_on.png">
-			  <span style="">Number of accessible places within an X-minute walk from each housing block </span>
-			</h3>
+
+
+</br>
+
+
+<button id="5min" title="Toggle POI layer" class="button circle-button" onclick="minutesLayer(event)"   style="margin-left: 15px;font-size : 15px; color: #FFAF33;"> 5 minutes </button>
+
+<button id="15min" title="Toggle POI layer" class="button circle-button" onclick="minutesLayer(event)"  style=" margin-left: 15px; font-size : 15px; color:#FFFFFF"> 15 minutes </button>
+</br> 
+<button id="agediv" title="Toggle Age layer" class="button circle-button" onclick="ageLayer(event)"  style=" margin-left: 15px; font-size : 15px; color:#FFAF33"> Age Diversity</button>
+
+<button id="children" title="Toggle Age layer" class="button circle-button" onclick="ageLayer(event)"  style=" margin-left: 15px; font-size : 15px; color:#FFFFFF"> Children</button>
+
+<button id="elderly" title="Toggle Age layer" class="button circle-button" onclick="ageLayer(event)"  style=" margin-left: 15px; font-size : 15px; color:#FFFFFF"> Elderly</button>
+
+
+
+
+</div>
+
+<div id="info" class="window" style="display: block;">
+	<div class="window-content">
+		<h2>Into the X-minute city </h2>
+		<h3> Accessibility and Co-accessibility within an </br> X-minute walk in Amsterdam </h3>
+	</p>
+	<p><large><u>Toggle map layers <span style="color: orange;">on</span> or <span style="color:white;">off</span>:</u></large><br>
 		
-			<ul id="legend-main" class="legend">
-			</ul>
-			
-			<p><small>The estimation of Age Diversity is based on the Shannon's Equitability Index.</small>
+		<h3>
+			<img style="vertical-align:middle" src="../assets/street_on.png">
+			<span style="">Walkable Street layer</span>
+		</br>
+	</br>
+</h3>
+<span style="">The walkable street network from OpenStreetMap that is used in this project.</span>
+</br>
+
+<h3>
+	<img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/house_on.png">
+	<span style="">Housing Blocks layer</span>
+</h3>
+</br>
+<span style="">People's residences in a spatial resolution of 100x100m2 (CBS data).  </span>
+</br>
+<ul>
+	<li><span style=""><strong>Color:</strong> Number of accessible places within an X-minute walk</span></li>
+</br>
+<li><span style=""><strong>Click:</strong> Info about the accessible places within an X-minute walk</span> </li>
+</ul>		
+
+<h3>
+	<img style="vertical-align:middle" src="../assets/poi_on.png">
+	<span style="">Places layer</span>
+</h3>
+</br>
+<span style="">Places collected from OpenStreetMap.  </span>
+</br>
+<ul>
+	<li><span style=""><strong> Color:</strong> Age diversity of the people who have access to each place within an X-minute walk</span></li>
+</br>
+<li><span style=""><strong>Click: </strong>Info about the people who have access to the clicked place within an X-minute walk</span></li>
+</ul>
+
+</p>
+<p><small>DISCLAIMER</small><br>
+	<div>
+		<img style="vertical-align:middle" src="../assets/attention.png">
+		<span><small><b>This map shows data from  <a href="https://www.cbs.nl/nl-nl/dossier/nederland-regionaal/geografische-data/kaart-van-100-meter-bij-100-meter-met-statistieken" target="_blank">CBS</a> and <a href="https://www.openstreetmap.org/#map=12/46.9661/11.3897" target="_blank">OpenStreetMap</a> . It might not reflect the current status of population, walkable street network, or available places in Amsterdam. <b> </a></b></small></span>
+	</div>
+</div>
+<div class="close-window" onclick="toggleInfo()">
+	<button class="button">Explore the Map</button>
+</div>
+</div>
+
+<div id="legend-window" class="window" style="display: none;">
+	<div class="window-content">
+		<h1>Legends</h1>
+		<h3>
+			<img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/house_on.png">
+			<span style="">Number of accessible places within an X-minute walk from each housing block </span>
+		</h3>
+		
+		<ul id="legend-main" class="legend">
+		</ul>
+		
+		<p><small>The estimation of Age Diversity is based on the Shannon's Equitability Index.</small>
 			<!-- Promise polyfill script required to use Mapbox GL Geocoder in IE 11 --> 
 
 			<small>For further information please refer to our open access journal article which you can find <a href="https://doi.org/10.1016/j.compenvurbsys.2022.101829" target="_blank">HERE</a>  </small> </p>	
 
 			<p><small>DISCLAIMER</small><br>
-      	<div>
-      		<img style="vertical-align:middle" src="../assets/attention.png">
-      		<span><small><b>This map shows data from  <a href="https://www.cbs.nl/nl-nl/dossier/nederland-regionaal/geografische-data/kaart-van-100-meter-bij-100-meter-met-statistieken" target="_blank">CBS</a> and <a href="https://www.openstreetmap.org/#map=12/46.9661/11.3897" target="_blank">OpenStreetMap</a>. It might not reflect the current status of population, walkable street network, or available places in Amsterdam.</a></b></small></span>
+				<div>
+					<img style="vertical-align:middle" src="../assets/attention.png">
+					<span><small><b>This map shows data from  <a href="https://www.cbs.nl/nl-nl/dossier/nederland-regionaal/geografische-data/kaart-van-100-meter-bij-100-meter-met-statistieken" target="_blank">CBS</a> and <a href="https://www.openstreetmap.org/#map=12/46.9661/11.3897" target="_blank">OpenStreetMap</a>. It might not reflect the current status of population, walkable street network, or available places in Amsterdam.</a></b></small></span>
+				</div>
+
+			</div>		
+			<div class="close-window" onclick="toggleLegend()">
+				<button class="button">Return to Map</button>
+			</div>
 		</div>
 
-</div>		
-		<div class="close-window" onclick="toggleLegend()">
-			<button class="button">Return to Map</button>
-		</div>
-	</div>
+		<div id="map"></div>
 
-  <div id="map"></div>
+		<script src="js/settings.js"></script>
+		<script src="js/app.js"></script>
 
-	<script src="js/settings.js"></script>
-  <script src="js/app.js"></script>
-
-</body>
-</html>
+	</body>
+	</html>
