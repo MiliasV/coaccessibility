@@ -45,7 +45,7 @@ function toggleDark(){
       accessToken: MAPBOX_TOKEN,
       mapboxgl: mapboxgl,
       countries: 'nl',
-      bbox: [4.72, 52.25,5.11, 52.44],
+      bbox: bbox_search,
     })
     );
   map.addControl(new mapboxgl.NavigationControl());
@@ -118,7 +118,7 @@ function togglePlain(){
       accessToken: MAPBOX_TOKEN,
       mapboxgl: mapboxgl,
       countries: 'nl',
-      bbox: [4.72, 52.25,5.11, 52.44],
+      bbox:[4.26, 51.85, 4.63, 52.05],
     })
     );
   map.addControl(new mapboxgl.NavigationControl());
@@ -441,7 +441,7 @@ function toggleStreetLayer() {
     map.setLayoutProperty('street', 'visibility', 'visible');
 
 
-}
+  }
 }
 
 
@@ -516,7 +516,8 @@ map.addControl(
     accessToken: MAPBOX_TOKEN,
     mapboxgl: mapboxgl,
     countries: 'nl',
-    bbox: [4.72, 52.25,5.11, 52.44],
+    bbox: bbox_search,
+
   })
   );
 
@@ -524,7 +525,7 @@ map.addControl(new mapboxgl.NavigationControl());
 initMap();
 
 function initMap(){
-map.on('load', function() {
+  map.on('load', function() {
   // Insert the layer beneath any symbol layer.
   var layers = map.getStyle().layers;
 
@@ -638,7 +639,7 @@ map.on('load', function() {
       // 'circle-stroke-color': 'black'
 
     },
-}
+  }
   // }, labelLayerId
   );
 
@@ -757,6 +758,12 @@ function addLegendItem(item, index) {
     // coordinates = [coordinates.lng, coordinates.lat + 0.003];  
     var walk = '5'
     var button = document.getElementById("5min");
+    var child_button = document.getElementById("children");
+    var eld_button = document.getElementById("elderly");
+    var child_color = rgbToHex(child_button.style.color)
+    var eld_color = rgbToHex(eld_button.style.color)
+
+
     if (rgbToHex(button.style.color)===button_col_off){
       walk = '15'
     }
@@ -788,19 +795,39 @@ function addLegendItem(item, index) {
      '</ul>' + 
 
      '<div style="color:' + lineColor + '" class="name"> ------------------------------------------------------------------------------ </div>' +
-     '<div class="message">Who can access this place within a ' + walk + ' minute walk? </div>' +
+     '<div class="message">Who can access this place within a ' + walk + ' minute walk? </div>' 
 
-
-     '<ul>' + 
-     '<li><div style="color:' + lineColor + '" class="message"> Number of Children: ' + children  + '</div>' +
+  if (child_color===button_col_on){
+    description+='<ul>' + 
      '<li><div style="color:' + lineColor + '" class="message"> Number of Adults: ' + adults  + '</div>' +
      '<li><div style="color:' + lineColor + '" class="message"> Number of Elderly: ' + elderly  + '</div>' +
+     '<li><div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' %</div>' +
      '</ul>' + 
-     '<div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' % </div>' 
-   }
+     '<div style="color:' + lineColor + '" class="message"> Number of  Children: ' + children  + '</div>' 
+    }
 
-   else  if(e.features[0].source === "population" || e.features[0].source === "population_15"){
-    var lineColor = e.features[0].layer.paint['fill-color'];
+    else if (eld_color===button_col_on){
+    description+='<ul>' + 
+      '<li><div style="color:' + lineColor + '" class="message"> Number of Children: ' + children  + '</div>' +
+     '<li><div style="color:' + lineColor + '" class="message"> Number of Adults: ' + adults  + '</div>' +
+     '<li><div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' %</div>' +
+     '</ul>' + 
+     '<div style="color:' + lineColor + '" class="message"> Number of  Elderly: ' + elderly  + '</div>' 
+    }
+
+
+    else{
+      description+= '<ul>' +
+      '<li><div style="color:' + lineColor + '" class="message"> Number of Children: ' + children  + '</div>' +
+     '<li><div style="color:' + lineColor + '" class="message"> Number of Adults: ' + adults  + '</div>' +
+     '<li><div style="color:' + lineColor + '" class="message"> Number of Elderly : ' + elderly  + '</div>' +
+     '</ul>' + 
+     '<div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' %</div>'    
+   }
+ }
+
+ else  if(e.features[0].source === "population" || e.features[0].source === "population_15"){
+  var lineColor = e.features[0].layer.paint['fill-color'];
         // var lineColor = '#0B0B0B';
 
         var places = e.features[0].properties['All Places']
@@ -895,7 +922,7 @@ function addLegendItem(item, index) {
    map.setLayoutProperty('poi-labels', 'visibility', 'visible');
 
  }
- });
+});
 });
 
 }
