@@ -46,7 +46,6 @@ type="text/css"
 
 </head>
 <body>
-
 	<div id="menu">
 		<button id="info-button" title="Toggle info "class="button circle-button" onclick="toggleInfo()">
 			<img src="../assets/info_off.png" style="width: 28px; height: 28;"></img>
@@ -61,7 +60,7 @@ type="text/css"
 		</button>
 
 
-		<button id="layer-button2" title="Toggle neighborhood layer" class="button circle-button" onclick="toggleHouseLayer()">
+		<button id="layer-button2" title="Toggle Population layer" class="button circle-button" onclick="toggleHouseLayer()">
 			<img id="layer-button2-img" src="../assets/house_off.png" style="width: 28px; height: 28px;"></img>
 		</button>
 
@@ -69,6 +68,25 @@ type="text/css"
 		<button id="layer-button4" title="Toggle POI layer" class="button circle-button" onclick="togglePOILayer()">
 			<img id="layer-button4-img" src="../assets/poi_on.png" style="width: 28px; height: 28px;"></img>
 		</button>
+
+</br>
+
+    <div class="button-style-container">
+
+  			<button id="light" title="Toggle Style" class="button circle-button right-button" onclick="toggleLight(event)">
+			<img id="light-img" src="../assets/sun_on.png" style="width: 28px; height: 28px;"></img>
+		</button>
+		<button id="dark" title="Toggle Style" class="button circle-button right-button"  onclick="toggleDark(event)">
+			<img  id = "dark-img" src="../assets/moon_off.png" style="width: 28px; height: 28px;"></img>
+		</button>
+
+			<button id="plain" title="Toggle Style" class="button circle-button right-button" onclick="togglePlain(event)">
+			<img id = "plain-img" src="../assets/plain_off.png" style="width: 28px; height: 28px;"></img>
+		</button>
+
+    </div>
+
+
 </br></br>
 
 
@@ -81,6 +99,9 @@ type="text/css"
 			<button id="children" title="Toggle Age layer" class="button" onclick="ageLayer(event)"  style=" margin-left: 15px; font-size : 20px; color:#FFFFFF"> Children</button>
 
 			<button id="elderly" title="Toggle Age layer" class="button" onclick="ageLayer(event)"  style=" margin-left: 15px; font-size : 20px; color:#FFFFFF"> Elderly</button>
+
+
+
 
 	</div>
 

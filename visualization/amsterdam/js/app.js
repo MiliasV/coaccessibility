@@ -17,6 +17,119 @@ function toggleInfo() {
 }
 
 
+
+function toggleDark(){
+  document.getElementById('dark-img').src = '../assets/moon_on.png'
+  document.getElementById('light-img').src = '../assets/sun_off.png'
+  document.getElementById('plain-img').src = '../assets/plain_off.png'
+  document.getElementById('layer-button-img').src = '../assets/street_off.png'
+  document.getElementById('layer-button2-img').src = '../assets/house_off.png'
+  document.getElementById("legend-main").innerHTML = ""; // Remove all child elements
+
+
+  MAPBOX_STYLE=dark
+  map.remove()
+  map = new mapboxgl.Map({
+    container: 'map',
+    style: MAPBOX_STYLE,
+    center: CENTER,
+    zoom: 1,
+    maxZoom: 18,
+    minZoom: 1,
+    maxBounds:MAXBOUNDS,
+    hash: true
+  });
+
+  map.addControl(
+    new MapboxGeocoder({
+      accessToken: MAPBOX_TOKEN,
+      mapboxgl: mapboxgl,
+      countries: 'nl',
+      bbox: [4.72, 52.25,5.11, 52.44],
+    })
+    );
+  map.addControl(new mapboxgl.NavigationControl());
+
+  iso_col = iso_dark
+  text_col = text_dark
+  initMap();
+}
+
+function toggleLight(){
+  document.getElementById('dark-img').src = '../assets/moon_off.png'
+  document.getElementById('light-img').src = '../assets/sun_on.png'
+  document.getElementById('plain-img').src = '../assets/plain_off.png'
+  document.getElementById('layer-button-img').src = '../assets/street_off.png'
+  document.getElementById('layer-button2-img').src = '../assets/house_off.png'
+  document.getElementById("legend-main").innerHTML = ""; // Remove all child elements
+
+  MAPBOX_STYLE=light
+  map.remove()
+  map = new mapboxgl.Map({
+    container: 'map',
+    style: MAPBOX_STYLE,
+    center: CENTER,
+    zoom: 1,
+    maxZoom: 18,
+    minZoom: 1,
+    maxBounds:MAXBOUNDS,
+    hash: true
+  });
+
+  map.addControl(
+    new MapboxGeocoder({
+      accessToken: MAPBOX_TOKEN,
+      mapboxgl: mapboxgl,
+      countries: 'nl',
+      bbox: [4.72, 52.25,5.11, 52.44],
+    })
+    );
+  map.addControl(new mapboxgl.NavigationControl());
+
+  iso_col = iso_light
+  text_col = text_light
+  initMap();
+
+}
+
+function togglePlain(){
+  document.getElementById('dark-img').src = '../assets/moon_off.png'
+  document.getElementById('light-img').src = '../assets/sun_off.png'
+  document.getElementById('plain-img').src = '../assets/plain_on.png'
+  document.getElementById('layer-button-img').src = '../assets/street_off.png'
+  document.getElementById('layer-button2-img').src = '../assets/house_off.png'
+  document.getElementById("legend-main").innerHTML = ""; // Remove all child elements
+
+  MAPBOX_STYLE=plain
+  map.remove()
+  map = new mapboxgl.Map({
+    container: 'map',
+    style: MAPBOX_STYLE,
+    center: CENTER,
+    zoom: 1,
+    maxZoom: 18,
+    minZoom: 1,
+    maxBounds:MAXBOUNDS,
+    hash: true
+  });
+
+  map.addControl(
+    new MapboxGeocoder({
+      accessToken: MAPBOX_TOKEN,
+      mapboxgl: mapboxgl,
+      countries: 'nl',
+      bbox: [4.72, 52.25,5.11, 52.44],
+    })
+    );
+  map.addControl(new mapboxgl.NavigationControl());
+
+  iso_col = iso_plain
+  text_col = text_plain
+  initMap();
+
+}
+
+
 function ageLayer(event){
   var buttonId = event.target.id;
   var button = document.getElementById(buttonId);
@@ -29,27 +142,27 @@ function ageLayer(event){
       map.setPaintProperty('poi', 'circle-color', childCircleColor_5);
     }
     else {
-            map.setPaintProperty('poi', 'circle-color', childCircleColor_15);
+      map.setPaintProperty('poi', 'circle-color', childCircleColor_15);
     }
-      button.style.color=button_col_on;
-      var eldbutton = document.getElementById("elderly");
-      var agedivbutton = document.getElementById("agediv");
-      eldbutton.style.color=button_col_off;
-      agedivbutton.style.color=button_col_off;
+    button.style.color=button_col_on;
+    var eldbutton = document.getElementById("elderly");
+    var agedivbutton = document.getElementById("agediv");
+    eldbutton.style.color=button_col_off;
+    agedivbutton.style.color=button_col_off;
 
   }
-   else if (buttonId=='elderly'){
-      if (button_5_color==button_col_on){
-        map.setPaintProperty('poi', 'circle-color', elderlyCircleColor_5);
+  else if (buttonId=='elderly'){
+    if (button_5_color==button_col_on){
+      map.setPaintProperty('poi', 'circle-color', elderlyCircleColor_5);
     }
     else {
-            map.setPaintProperty('poi', 'circle-color', elderlyCircleColor_15);
+      map.setPaintProperty('poi', 'circle-color', elderlyCircleColor_15);
     }
-      button.style.color=button_col_on;
-      var childbutton = document.getElementById("children");
-      var agedivbutton = document.getElementById("agediv");
-      childbutton.style.color=button_col_off
-      agedivbutton.style.color=button_col_off
+    button.style.color=button_col_on;
+    var childbutton = document.getElementById("children");
+    var agedivbutton = document.getElementById("agediv");
+    childbutton.style.color=button_col_off
+    agedivbutton.style.color=button_col_off
 
   }
   else{
@@ -57,7 +170,7 @@ function ageLayer(event){
       map.setPaintProperty('poi', 'circle-color', ageDivColor_5);
     }
     else {
-            map.setPaintProperty('poi', 'circle-color', ageDivColor_15);
+      map.setPaintProperty('poi', 'circle-color', ageDivColor_15);
     }
     button.style.color=button_col_on
     var childbutton = document.getElementById("children");
@@ -71,12 +184,12 @@ function ageLayer(event){
 }
 
 function rgbToHex(rgbString) {
-var rgbValues = rgbString.substring(4, rgbString.length - 1)
-                           .replace(/ /g, '')
-                           .split(',');
-var r = parseInt(rgbValues[0]);
-var g = parseInt(rgbValues[1]);
-var b = parseInt(rgbValues[2]);
+  var rgbValues = rgbString.substring(4, rgbString.length - 1)
+  .replace(/ /g, '')
+  .split(',');
+  var r = parseInt(rgbValues[0]);
+  var g = parseInt(rgbValues[1]);
+  var b = parseInt(rgbValues[2]);
 
   var hex = ((r << 16) | (g << 8) | b).toString(16);
   return "#" + ("000000" + hex).slice(-6);
@@ -92,7 +205,7 @@ function minutesLayer(event) {
   var poi_visibility = map.getLayoutProperty('poi', 'visibility');
   var poi_labels_visibility = map.getLayoutProperty('poi-labels', 'visibility');
   var pop_opacity = map.getPaintProperty('population', 'fill-opacity');
-  var pop_color = map.getPaintProperty('population', 'fill-color');
+  // var pop_color = map.getPaintProperty('population', 'fill-color');
 
   var childbutton = document.getElementById("children");
   var eldbutton = document.getElementById("elderly");
@@ -103,66 +216,66 @@ function minutesLayer(event) {
 
   // Perform different actions based on the button ID
   if (buttonId == "5min") {
-          if (childbutton_col==button_col_on){
-            circleColor = childCircleColor_5
-          }
-          else if (eldbutton_col==button_col_on){
-            circleColor=elderlyCircleColor_5
-          }
-          else{
-            circleColor= ageDivColor_5
-          }
+    if (childbutton_col==button_col_on){
+      circleColor = childCircleColor_5
+    }
+    else if (eldbutton_col==button_col_on){
+      circleColor=elderlyCircleColor_5
+    }
+    else{
+      circleColor= ageDivColor_5
+    }
 
-          var otherbutton = document.getElementById("15min");
+    var otherbutton = document.getElementById("15min");
 
-          if (button_color==button_col_off){
-            button.style.color=button_col_on
-            otherbutton.style.color=button_col_off
-            }
+    if (button_color==button_col_off){
+      button.style.color=button_col_on
+      otherbutton.style.color=button_col_off
+    }
 
-          map.removeLayer('population')
-           map.addLayer({
-              'id': 'population',
-              'type': 'fill',
-              'source': 'population',
-              'source-layer': POP_LAYER,
-             'paint': {
-              'fill-opacity' : pop_opacity ,
-              'fill-color': '#0B0B0B',
-             }
-            },
-            
-            );
-          map.setPaintProperty('population', 'fill-color', pop_color)
+    map.removeLayer('population')
+    map.addLayer({
+      'id': 'population',
+      'type': 'fill',
+      'source': 'population',
+      'source-layer': POP_LAYER,
+      'paint': {
+        'fill-opacity' : pop_opacity ,
+        'fill-color': populationColor_5,
+      }
+    },
+
+    );
+          // map.setPaintProperty('population', 'fill-color', pop_color)
           // remove existing and add the 5-minute isochrones layer
           map.removeLayer('iso_viz')
           map.addLayer({  
-              'id': 'iso_viz',
-              'type': 'fill',
-              'source': 'iso_viz',
-              'source-layer': ACCESS_AREA_LAYER,
-              'paint': {
-                'fill-opacity' : 0,
-                'fill-color' : 'gray',
-              }
-           },
+            'id': 'iso_viz',
+            'type': 'fill',
+            'source': 'iso_viz',
+            'source-layer': ACCESS_AREA_LAYER,
+            'paint': {
+              'fill-opacity' : 0,
+              'fill-color' : 'gray',
+            }
+          },
           );
         // remove existing and add 5-minute poi layer
         map.removeLayer('poi')
         map.removeLayer('poi-labels')
 
-         map.addLayer({
+        map.addLayer({
           'id': 'poi',
           'type': 'circle',
           'source': 'poi',
           'source-layer': POI_LAYER,
-              paint: {
+          paint: {
             'circle-radius': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              1,
-              5],
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            1,
+            5],
             'circle-opacity': 1,
             'circle-color': circleColor,
             //  'circle-stroke-width': 0.2,
@@ -174,59 +287,58 @@ function minutesLayer(event) {
         
         );
 
-       map.addLayer({
-        'id': 'poi-labels',
-        'type': 'symbol',
-        'source': 'poi',
-        'source-layer': POI_LAYER,
-        layout: {
+        map.addLayer({
+          'id': 'poi-labels',
+          'type': 'symbol',
+          'source': 'poi',
+          'source-layer': POI_LAYER,
+          layout: {
           'text-field': ['get', 'subcategory'], // set the label text to the 'name' property of your data
           'text-size': 14,
           'text-offset': [0, 1], // adjust the offset of the label from the circle
           'text-allow-overlap': false // allow labels to overlap with each other
         },
         paint: {
-          "text-color": "white",
+          "text-color": text_col,
           // "text-halo-color": "#fff",
           // "text-halo-width": 100
         }
 
       });
 
-  } 
+      } 
 
-  else if (buttonId == "15min") {
-    var otherbutton = document.getElementById("5min");
-    if (button_color==button_col_off){
-      button.style.color=button_col_on
-      otherbutton.style.color=button_col_off
-    }
+      else if (buttonId == "15min") {
+        var otherbutton = document.getElementById("5min");
+        if (button_color==button_col_off){
+          button.style.color=button_col_on
+          otherbutton.style.color=button_col_off
+        }
 
-     if (childbutton_col==button_col_on){
-      console.log('here')
-            circleColor = childCircleColor_15
-          }
-     else if (eldbutton_col==button_col_on){
-            circleColor=elderlyCircleColor_15
-          }
-     else{
-            circleColor= ageDivColor_15
-          }
+        if (childbutton_col==button_col_on){
+          circleColor = childCircleColor_15
+        }
+        else if (eldbutton_col==button_col_on){
+          circleColor=elderlyCircleColor_15
+        }
+        else{
+          circleColor= ageDivColor_15
+        }
 
-     map.removeLayer('population')
-     map.addLayer({
-        'id': 'population',
-        'type': 'fill',
-        'source': 'population_15',
-        'source-layer': POP_LAYER_15,
-       'paint': {
-        'fill-opacity' : pop_opacity  ,
-        'fill-color': pop_color,
+        map.removeLayer('population')
+        map.addLayer({
+          'id': 'population',
+          'type': 'fill',
+          'source': 'population_15',
+          'source-layer': POP_LAYER_15,
+          'paint': {
+            'fill-opacity' : pop_opacity  ,
+            'fill-color': populationColor_15,
         // 'fill-outline-color' : 'populationColor'
-       }
-      },
-      
-      );
+      }
+    },
+
+    );
     // Do something for 15 minutes button
     map.removeLayer('iso_viz')
     map.addLayer({
@@ -235,51 +347,51 @@ function minutesLayer(event) {
       'source': 'iso_viz_15',
       'source-layer': ACCESS_AREA_LAYER_15,
       'paint': {
-      'fill-opacity' : 0,
-      'fill-color' : 'gray',
-     }
-  },
-  );
+        'fill-opacity' : 0,
+        'fill-color' : 'gray',
+      }
+    },
+    );
 
-  map.removeLayer('poi')
-  map.addLayer({
-    'id': 'poi',
-    'type': 'circle',
-    'source': 'poi_15',
-    'source-layer': POI_LAYER_15,
-        paint: {
-      'circle-radius': [
+    map.removeLayer('poi')
+    map.addLayer({
+      'id': 'poi',
+      'type': 'circle',
+      'source': 'poi_15',
+      'source-layer': POI_LAYER_15,
+      paint: {
+        'circle-radius': [
         'interpolate',
         ['linear'],
         ['zoom'],
         1,
         5],
-      'circle-opacity': 1,
-      'circle-color': circleColor,
+        'circle-opacity': 1,
+        'circle-color': circleColor,
 
-    }
-  },
-  );
-  map.removeLayer('poi-labels')
+      }
+    },
+    );
+    map.removeLayer('poi-labels')
 
- map.addLayer({
-  'id': 'poi-labels',
-  'type': 'symbol',
-  'source': 'poi_15',
-  'source-layer': POI_LAYER_15,
-  layout: {
+    map.addLayer({
+      'id': 'poi-labels',
+      'type': 'symbol',
+      'source': 'poi_15',
+      'source-layer': POI_LAYER_15,
+      layout: {
     'text-field': ['get', 'subcategory'], // set the label text to the 'name' property of your data
     'text-size': 14,
     'text-offset': [0, 1], // adjust the offset of the label from the circle
     'text-allow-overlap': false // allow labels to overlap with each other
   },
   paint: {
-    "text-color": "white",
+    "text-color": text_col,
     // "text-halo-color": "#fff",
      // "text-halo-width": 100
-  }
+   }
 
-});
+ });
 
   }
 
@@ -317,30 +429,19 @@ function toggleStreetLayer() {
 	// toggle layer visibility by changing the layout object's visibility property
 	if (visibility === 'visible') {
   // if (color === street_color_on) {
-		map.setLayoutProperty('street', 'visibility', 'none');
+    map.setLayoutProperty('street', 'visibility', 'none');
     // map.setPaintProperty('street', 'line-color', street_color_off);
 
-		document.getElementById('layer-button-img').src = '../assets/street_off.png'
+    document.getElementById('layer-button-img').src = '../assets/street_off.png'
 		//this.className = '';
 	} 
   else {
 		//this.className = 'active';
 		document.getElementById('layer-button-img').src = '../assets/street_on.png'
-      map.setLayoutProperty('street', 'visibility', 'visible');
+    map.setLayoutProperty('street', 'visibility', 'visible');
 
-  //   map.removeLayer('street')
-  //  map.addLayer({
-  //   'id': 'street',
-  //   'type': 'line',
-  //   'source': 'street',
-  //   'source-layer': STREETS_LAYER,
-  //    'paint': {
-  //    'line-color': street_color_on,// '#A67F0E',
-  //   'line-width': 1.2
-  //      },
-  // },
-  // );
-	}
+
+}
 }
 
 
@@ -351,7 +452,7 @@ function toggleHouseLayer() {
   var opacity = map.getPaintProperty('population', 'fill-opacity');
   var button = document.getElementById('5min');
   var button_color = rgbToHex(button.style.color)
-   
+
 	// toggle layer visibility by changing the layout object's visibility property
 	if (opacity === 0) {
     if (button_color==button_col_on){
@@ -360,10 +461,10 @@ function toggleHouseLayer() {
     else {
             map.setPaintProperty('population', 'fill-color', populationColor_15); // change fill color to blue
 
-    }
+          }
     map.setPaintProperty('population', 'fill-opacity', 0.8); // change fill color to blue
 
-		document.getElementById('layer-button2-img').src = '../assets/house_on.png'
+    document.getElementById('layer-button2-img').src = '../assets/house_on.png'
 		//this.className = '';
 	} else {
 		//this.className = 'active';
@@ -371,15 +472,15 @@ function toggleHouseLayer() {
     map.setPaintProperty('population', 'fill-opacity', 0); // change fill color to blue
 
 
-		document.getElementById('layer-button2-img').src = '../assets/house_off.png'
-	}
+    document.getElementById('layer-button2-img').src = '../assets/house_off.png'
+  }
 }
 
 
 // POI Layer
 function togglePOILayer() {
 	var visibility = map.getLayoutProperty('poi', 'visibility');
- 
+
 	// toggle layer visibility by changing the layout object's visibility property
 	if (visibility === 'visible') {
 		map.setLayoutProperty('poi', 'visibility', 'none');
@@ -387,13 +488,15 @@ function togglePOILayer() {
     document.getElementById('layer-button4-img').src = '../assets/poi_off.png'
 
   }
-	 else {
+  else {
 		//this.className = 'active';
 		map.setLayoutProperty('poi', 'visibility', 'visible');
     map.setLayoutProperty('poi-labels', 'visibility', 'none');
-		document.getElementById('layer-button4-img').src = '../assets/poi_on.png'
-	};
+    document.getElementById('layer-button4-img').src = '../assets/poi_on.png'
+  };
 };
+
+// function initMap(MAPBOX_STYLE){
 
 // initialize map 
 mapboxgl.accessToken = MAPBOX_TOKEN;
@@ -409,16 +512,18 @@ var map = new mapboxgl.Map({
 });
 
 map.addControl(
-    new MapboxGeocoder({
-      accessToken: MAPBOX_TOKEN,
-      mapboxgl: mapboxgl,
-      countries: 'nl',
-      bbox: [4.72, 52.25,5.11, 52.44],
-    })
-    );
+  new MapboxGeocoder({
+    accessToken: MAPBOX_TOKEN,
+    mapboxgl: mapboxgl,
+    countries: 'nl',
+    bbox: [4.72, 52.25,5.11, 52.44],
+  })
+  );
 
 map.addControl(new mapboxgl.NavigationControl());
+initMap();
 
+function initMap(){
 map.on('load', function() {
   // Insert the layer beneath any symbol layer.
   var layers = map.getStyle().layers;
@@ -433,116 +538,116 @@ map.on('load', function() {
 
   // add layer sources to the map
   map.addSource('population', {
-     type: 'vector',
-     url: POP_TILESET
-  });
+   type: 'vector',
+   url: POP_TILESET
+ });
 
-    map.addSource('population_15', {
-     type: 'vector',
-     url: POP_TILESET_15
-  });
+  map.addSource('population_15', {
+   type: 'vector',
+   url: POP_TILESET_15
+ });
 
   map.addSource('iso_viz', {
-     type: 'vector',
-     url: ACCESS_AREA_TILESET
-  });
+   type: 'vector',
+   url: ACCESS_AREA_TILESET
+ });
 
-    map.addSource('iso_viz_15', {
-     type: 'vector',
-     url: ACCESS_AREA_TILESET_15
-  });
-	
+  map.addSource('iso_viz_15', {
+   type: 'vector',
+   url: ACCESS_AREA_TILESET_15
+ });
+
   map.addSource('poi', {
-     type: 'vector',
-     url: POI_TILESET,
+   type: 'vector',
+   url: POI_TILESET,
 
-  });
+ });
 
   map.addSource('poi_15', {
-     type: 'vector',
-     url: POI_TILESET_15,
-       cluster: true,
+   type: 'vector',
+   url: POI_TILESET_15,
+   cluster: true,
   clusterMaxZoom: 12, // set maximum zoom level for clustering
   clusterRadius: 50 // set cluster radius
-  });
-      map.addSource('street', {
-     type: 'vector',
-     url: STREETS_TILESET
-  });
+});
+  map.addSource('street', {
+   type: 'vector',
+   url: STREETS_TILESET
+ });
 
 
   // add the layer to the map
   
- map.addLayer({
+  map.addLayer({
     'id': 'population',
     'type': 'fill',
     'source': 'population',
     'source-layer': POP_LAYER,
-   'paint': {
-    'fill-opacity' : 0 ,
-    'fill-color': populationColor_5,
+    'paint': {
+      'fill-opacity' : 0 ,
+      'fill-color': populationColor_5,
     // 'fill-outline-color' : 'populationColor'
-   }
-  },
-  labelLayerId
-  );
+  }
+},
+// labelLayerId
+);
 
-	
+
   map.addLayer({
     'id': 'iso_viz',
     'type': 'fill',
     'source': 'iso_viz',
     'source-layer': ACCESS_AREA_LAYER,
     'paint': {
-    'fill-opacity' : 0,
-    'fill-color' : 'black',
-   }
+      'fill-opacity' : 0,
+      'fill-color' : iso_col,
+    }
   },
-  labelLayerId
+  // labelLayerId
   );
-	
 
-     map.addLayer({
+
+  map.addLayer({
     'id': 'street',
     'type': 'line',
     'source': 'street',
     'source-layer': STREETS_LAYER,
-     'paint': {
-     'line-color': street_color_on,
-    'line-width': 1.2
-       },
-  },
-  labelLayerId
-  );
-     
- map.addLayer({
+    'paint': {
+     'line-color': street_col,
+     'line-width': 0.8
+   },
+ },
+ // labelLayerId
+ );
+
+  map.addLayer({
     'id': 'poi',
     'type': 'circle',
     'source': 'poi',
     'source-layer': POI_LAYER,
     paint: {
       'circle-radius': [
-        'interpolate',
-        ['linear'],
-        ['zoom'],
-        1,
-        5],
+      'interpolate',
+      ['linear'],
+      ['zoom'],
+      1,
+      5],
       'circle-opacity': 1,
       'circle-color': ageDivColor_5,
       //  'circle-stroke-width': 0.2,
       // 'circle-stroke-color': 'black'
 
     },
+}
+  // }, labelLayerId
+  );
 
-}, labelLayerId
-);
-
- map.addLayer({
-  'id': 'poi-labels',
-  'type': 'symbol',
-  'source': 'poi',
-  'source-layer': POI_LAYER,
-  layout: {
+  map.addLayer({
+    'id': 'poi-labels',
+    'type': 'symbol',
+    'source': 'poi',
+    'source-layer': POI_LAYER,
+    layout: {
     'text-field': ['get', 'subcategory'], // set the label text to the 'name' property of your data
     'text-size': 12,
     'text-offset': [0, 1], // adjust the offset of the label from the circle
@@ -552,15 +657,13 @@ map.on('load', function() {
     // "text-color": "#A67F0E",
     // "text-halo-color": "#fff",
     // "text-halo-width": 100
-    "text-color": "white",
+    "text-color": text_col,
     // "text-halo-color": "#fff",
     // "text-halo-width": 100
   }
 
 });
 
-
- 
 // set visibility of the layers
 map.setLayoutProperty('poi-labels', 'visibility', 'none');
 map.setLayoutProperty('street', 'visibility', 'none');
@@ -576,49 +679,38 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
 //"item" is an object that contains information about a group, including its rating, value, and color. 
 //"index" is the index of the group in an array of groups called "GROUPS".
 
-//The function first checks if the previous group (i.e., the group with an index one less than the current group's index) exists. 
-//For instance, if it does not exist (i.e., the current group is the first group), then the low value of the group's range is set to the group's value, 
-//and the high value is set to infinity. The string variable is set to the low value.
 
-//The function then adds a filter object to an array called "filters". 
-// The filter object represents the range of values for the group, and it is used to filter the data that is displayed in the visualization. 
-// The filter object contains a "condition" property that is an array of two conditions: 
-//one that checks if a data point's "width" property is greater than the low value of the group's range, 
-//and another that checks if the "width" property is less than or equal to the high value of the group's range. 
-//The "active" property of the filter object is initially set to false.
-
-  function addLegendItem(item, index) {
-    if (item.group==0){
-        group = GROUPS_HOMES_5
-      }
-      else{
-
-        group =  GROUPS_CHILD_5
-        if (index == 0) {  
-          var legend_title = '</br><h3><img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/poi_on.png"> ' +
-          ' <span style=""> Age Characteristics of the people who have access to each place within an X-minute walk <p style="font-size: smaller;"> ' +
-   ' Age Diversity / Number of Children / Number of Elderly </p>   </span> </h3>'
-          var newElement = document.createElement('div');
-          newElement.innerHTML = legend_title;
+function addLegendItem(item, index) {
+  if (item.group==0){
+    group = GROUPS_HOMES_5
+  }
+  else{
+    group =  GROUPS_CHILD_5
+    if (index == 0) {  
+      var legend_title = '</br><h3><img style="width: 36px; height: 36px; vertical-align:middle " src="../assets/poi_on.png"> ' +
+      ' <span style=""> Age Characteristics of the people who have access to each place within an X-minute walk <p style="font-size: smaller;"> ' +
+      ' Age Diversity / Number of Children / Number of Elderly </p>   </span> </h3>'
+      var newElement = document.createElement('div');
+      newElement.innerHTML = legend_title;
 
       var textNode = document.createTextNode(legend_title);
       document.getElementById("legend-main").appendChild(newElement);
 
-        }
-      }
+    }
+  }
 
-      if (group[index - 1] == null) {
-        var low = item.value
-        var high = Infinity
-        var string =  '> Average'
+  if (group[index - 1] == null) {
+    var low = item.value
+    var high = Infinity
+    var string =  '> Average'
 
-      }
+  }
 
-      else {
-        if (item.value==0)
-          var string = '< Average'
-        else
-          var string ='≈ Average'
+  else {
+    if (item.value==0)
+      var string = '< Average'
+    else
+      var string ='≈ Average'
 
         // var high = group[index - 1].value
         // var string = 'asd'//low + ' - ' + high + item.unit
@@ -643,12 +735,12 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
       row.appendChild(rowRight);
       document.getElementById("legend-main").appendChild(row);
     }
-  
 
 
-  GROUPS_HOMES_5.reverse().forEach(addLegendItem);
 
-  GROUPS_CHILD_5.reverse().forEach(addLegendItem);
+    GROUPS_HOMES_5.reverse().forEach(addLegendItem);
+
+    GROUPS_CHILD_5.reverse().forEach(addLegendItem);
 
   // GROUPS_HOMES.reverse()
 
@@ -665,51 +757,50 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
     // coordinates = [coordinates.lng, coordinates.lat + 0.003];  
     var walk = '5'
     var button = document.getElementById("5min");
-    console.log(button.style.color)
-    if (button.style.color===button_col_off){
+    if (rgbToHex(button.style.color)===button_col_off){
       walk = '15'
     }
     else {
       walk='5'
     }
-  	var description = ''
+    var description = ''
 
-  	 if(e.features[0].source === "poi" || e.features[0].source === "poi_15"){
-       var lineColor = e.features[0].layer.paint['circle-color'];
+    if(e.features[0].source === "poi" || e.features[0].source === "poi_15"){
+     var lineColor = e.features[0].layer.paint['circle-color'];
 
-  		 var children = e.features[0].properties['Number of children']
-       var adults = e.features[0].properties['Number of adults']
-       var elderly = e.features[0].properties['Number of elderly']
+     var children = e.features[0].properties['Number of children']
+     var adults = e.features[0].properties['Number of adults']
+     var elderly = e.features[0].properties['Number of elderly']
 
-       var name = e.features[0].properties['name']
-       var category = e.features[0].properties['category']
-       var subcategory = e.features[0].properties['subcategory']
+     var name = e.features[0].properties['name']
+     var category = e.features[0].properties['category']
+     var subcategory = e.features[0].properties['subcategory']
 
-       var age_diversity = e.features[0].properties['Age diversity(%)']
+     var age_diversity = e.features[0].properties['Age diversity(%)']
 
-  		 description =
-   
-        '<div style="color:' + lineColor + '" class="message"> Place Info </div> ' + 
-        '<ul>' + 
-        '<li><div style="color:' + lineColor + '" class="message"> Name of Place: ' + name  + '</div>' +
-        '<li><div style="color:' + lineColor + '" class="message"> Category: ' + category  + '</div>' +
-        '<li><div style="color:' + lineColor + '" class="message"> Subcategory: ' + subcategory  + '</div>' +
-        '</ul>' + 
-        
-        '<div style="color:' + lineColor + '" class="name"> ------------------------------------------------------------------------------ </div>' +
-        '<div class="message">Who can access this place within a ' + walk + ' minute walk? </div>' +
+     description =
+
+     '<div style="color:' + lineColor + '" class="message"> Place Info </div> ' + 
+     '<ul>' + 
+     '<li><div style="color:' + lineColor + '" class="message"> Name of Place: ' + name  + '</div>' +
+     '<li><div style="color:' + lineColor + '" class="message"> Category: ' + category  + '</div>' +
+     '<li><div style="color:' + lineColor + '" class="message"> Subcategory: ' + subcategory  + '</div>' +
+     '</ul>' + 
+
+     '<div style="color:' + lineColor + '" class="name"> ------------------------------------------------------------------------------ </div>' +
+     '<div class="message">Who can access this place within a ' + walk + ' minute walk? </div>' +
 
 
-         '<ul>' + 
-        '<li><div style="color:' + lineColor + '" class="message"> Number of Children: ' + children  + '</div>' +
-        '<li><div style="color:' + lineColor + '" class="message"> Number of Adults: ' + adults  + '</div>' +
-        '<li><div style="color:' + lineColor + '" class="message"> Number of Elderly: ' + elderly  + '</div>' +
-        '</ul>' + 
-          '<div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' % </div>' 
-  	 }
+     '<ul>' + 
+     '<li><div style="color:' + lineColor + '" class="message"> Number of Children: ' + children  + '</div>' +
+     '<li><div style="color:' + lineColor + '" class="message"> Number of Adults: ' + adults  + '</div>' +
+     '<li><div style="color:' + lineColor + '" class="message"> Number of Elderly: ' + elderly  + '</div>' +
+     '</ul>' + 
+     '<div style="color:' + lineColor + '" class="message"> Age Diversity: ' + age_diversity  + ' % </div>' 
+   }
 
-      else  if(e.features[0].source === "population" || e.features[0].source === "population_15"){
-        var lineColor = e.features[0].layer.paint['fill-color'];
+   else  if(e.features[0].source === "population" || e.features[0].source === "population_15"){
+    var lineColor = e.features[0].layer.paint['fill-color'];
         // var lineColor = '#0B0B0B';
 
         var places = e.features[0].properties['All Places']
@@ -722,30 +813,30 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
 
         walk_area = walk_area.toLocaleString('en', {useGrouping:true})
         description = 
-          '<div class="message"> Accessible within a ' + walk + '  minute walk </div> ' +
-            '<ul>' + 
+        '<div class="message"> Accessible within a ' + walk + '  minute walk </div> ' +
+        '<ul>' + 
 
-          '<li> <div style="color:' + lineColor + '" class="message"> Public places: ' + public  + '</div></li>' +
-          '<li> <div style="color:' + lineColor + '" class="message"> Culture places: ' + culture  + '</div></li>' +
-          '<li> <div style="color:' + lineColor + '" class="message"> Food/drink places: ' + food_drink  + '</div></li>' +
-          '<li> <div style="color:' + lineColor + '" class="message"> Shops: ' + shop  + '</div></li></br>' +
-          '<li> <div style="color:' + lineColor + '" class="message"> Walking Area (m2): ' + walk_area  + '</div></li>' + 
-          '</ul>' +
-         '<div style="color:' + lineColor + '" class="name"> -------------------------------- ' + '</div>' +
-         '<div style="color:' + lineColor + '" class="message"> Total number of places: ' + places  + '</div>'
-     }
+        '<li> <div style="color:' + lineColor + '" class="message"> Public places: ' + public  + '</div></li>' +
+        '<li> <div style="color:' + lineColor + '" class="message"> Culture places: ' + culture  + '</div></li>' +
+        '<li> <div style="color:' + lineColor + '" class="message"> Food/drink places: ' + food_drink  + '</div></li>' +
+        '<li> <div style="color:' + lineColor + '" class="message"> Shops: ' + shop  + '</div></li></br>' +
+        '<li> <div style="color:' + lineColor + '" class="message"> Walking Area (m2): ' + walk_area  + '</div></li>' + 
+        '</ul>' +
+        '<div style="color:' + lineColor + '" class="name"> -------------------------------- ' + '</div>' +
+        '<div style="color:' + lineColor + '" class="message"> Total number of places: ' + places  + '</div>'
+      }
      // console.log(description)
 
-    popup.setLngLat(coordinates)
-    popup.setHTML(description)
-    popup.addTo(map)
+     popup.setLngLat(coordinates)
+     popup.setHTML(description)
+     popup.addTo(map)
 
-    popup._content.style.color = lineColor
-    popup._content.style.borderColor = lineColor
-    popup._content.style.minWidth = "450px";
+     popup._content.style.color = lineColor
+     popup._content.style.borderColor = lineColor
+     popup._content.style.minWidth = "450px";
 
 
-    if (popup._tip.offsetParent.className.includes('mapboxgl-popup-anchor-bottom')) {
+     if (popup._tip.offsetParent.className.includes('mapboxgl-popup-anchor-bottom')) {
       popup._tip.style.borderTopColor = lineColor
     }
     if (popup._tip.offsetParent.className.includes('mapboxgl-popup-anchor-top')) {
@@ -774,36 +865,39 @@ map.setLayoutProperty('iso_viz', 'visibility', 'visible');
   map.on('click', 'poi', function(e) {
     addPopup(e);
     var properties = e.features[0].properties;
-        console.log(properties['Number of children']/properties['Number of people']);
+        // console.log(properties['Number of children']/properties['Number of people']);
 
 
-});
-
-map.on('mousemove', function (e) {
-    var features = map.queryRenderedFeatures(e.point, {
-          layers: ['population'],
-          filter: ['==', '$type', 'Polygon']
       });
-      if (features.length > 0) {
-        var id = features[0].properties.c28992r100;
-        var filter = ['==', 'c28992r100', id];
-        map.setPaintProperty('iso_viz', 'fill-color','black');// '#3182bd');
-        map.setPaintProperty('iso_viz', 'fill-opacity', 0.5);
+
+  map.on('mousemove', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: ['population'],
+      filter: ['==', '$type', 'Polygon']
+    });
+    if (features.length > 0) {
+      var id = features[0].properties.c28992r100;
+      var filter = ['==', 'c28992r100', id];
+        map.setPaintProperty('iso_viz', 'fill-color',iso_col);// '#3182bd');
+        map.setPaintProperty('iso_viz', 'fill-opacity', iso_opacity);
         map.setFilter('iso_viz', filter);
 
-        }  
-});
+      }  
+    });
 
-map.on('zoom', function() {
-  var zoom = map.getZoom();
+  map.on('zoom', function() {
+    var zoom = map.getZoom();
   // console.log(zoom)
   if (zoom <= 14) { // change 10 to the desired zoom level
     map.setLayoutProperty('poi-labels', 'visibility', 'none');
   } else if (map.getLayoutProperty('poi', 'visibility') === 'visible')
-{
-       map.setLayoutProperty('poi-labels', 'visibility', 'visible');
+  {
+   map.setLayoutProperty('poi-labels', 'visibility', 'visible');
 
-  }
+ }
+ });
 });
 
-});
+}
+// call initMap() when the page loads
+// window.addEventListener('load', initMap(MAPBOX_STYLE));
