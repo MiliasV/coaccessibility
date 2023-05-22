@@ -3,7 +3,7 @@
 ### How could we assess how accessible a given destination is to people from different demographics (i.e., co-accessibility)?
 This repo contains code for calculating the demographics of people who can walk to urban amenities in 5, 10, and 15 minutes.
 <p align="center">
-    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/poster.png" width="80%">
+    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/poster.png" width="60%">
 </p>
 
 If you use the code or data shared in this repo in your work, please cite the journal article:
@@ -30,8 +30,8 @@ Adaptations are needed to use the code with other type of files (e.g., CSV).
 ## Research 
 To learn more about the concept of co-accessibility and how the shared code and data have been used for research look at our open access paper:   https://doi.org/10.1016/j.compenvurbsys.2022.101829
 
-<p align="center">
+<!-- <p align="center">
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/children_access_ex.png" width="70%">
 </p>
-
+ -->
 
