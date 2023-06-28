@@ -3,6 +3,7 @@
 ### How could we assess how accessible a given destination is to people from different demographics (i.e., co-accessibility)?
 This repo contains code for calculating the demographics of people who can walk to urban amenities in 5, 10, and 15 minutes.
 
+## [CTwalk Map](https://miliasv.github.io/CTwalkMap/info_page/)
 If you prefer a visual representation of co-accessibility check out [CTwalk Map](https://miliasv.github.io/CTwalkMap/info_page/), an interactive web tool that maps co-accessibility for the five most populous cities in the Netherlands.
 
 <p align="center">
