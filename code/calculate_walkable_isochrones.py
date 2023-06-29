@@ -88,7 +88,7 @@ if __name__ =='__main__':
     # speed in meters per minute
     walking_speed = {'avg_speed': 75.6}
     # 5, 10, 15
-    trip_times =[15, 10, 15]
+    trip_times =[5, 10, 15]
     for city in cities:
         print(city)
         if city=='hague':
