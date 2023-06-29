@@ -1,10 +1,19 @@
 
-# Co-accessibility and Spatial segregation
+# Pedestran Co-accessibility of urban places
 ### How could we assess how accessible a given destination is to people from different demographics (i.e., co-accessibility)?
 This repo contains code for calculating the demographics of people who can walk to urban amenities in 5, 10, and 15 minutes.
 
-If you prefer a visual representation of this concept check out [CTwalk Map](https://miliasv.github.io/CTwalkMap/info_page/), an interactive web tool that maps co-accessibility for the five most populous cities in the Netherlands.
+## [CTwalk Map](https://miliasv.github.io/CTwalkMap/info_page/)
+If you prefer a visual representation of co-accessibility check out [CTwalk Map](https://miliasv.github.io/CTwalkMap/info_page/), an interactive web tool that maps co-accessibility for the five most populous cities in the Netherlands.
 
+<p align="center">
+    <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/banner.png" width="100%">
+</p>
+
+## Research 
+To learn more about the concept of co-accessibility and how the shared code and data have been used for research look at our open access paper:   https://doi.org/10.1016/j.compenvurbsys.2022.101829
+
+and our poster:
 <p align="center">
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/poster.png" width="60%">
 </p>
@@ -30,8 +39,6 @@ Adaptations are needed to use the code with other type of files (e.g., CSV).
 * calculate_walkable_isochrones.py --> Calculate the 5, 10, and 15 minutes walkable environments.
 * calculate_place_isochrone_intersection --> Create a mapping based on the intersection of the walkable area of each population square and the location of the urban amenities 
 
-## Research 
-To learn more about the concept of co-accessibility and how the shared code and data have been used for research look at our open access paper:   https://doi.org/10.1016/j.compenvurbsys.2022.101829
 
 <!-- <p align="center">
     <img src="https://github.com/MiliasV/coaccessibility/blob/main/img/children_access_ex.png" width="70%">
