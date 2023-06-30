@@ -1,5 +1,5 @@
 
-# Pedestran Co-accessibility of urban places
+# Pedestrian Co-accessibility of urban places
 ### How could we assess how accessible a given destination is to people from different demographics (i.e., co-accessibility)?
 This repo contains code for calculating the demographics of people who can walk to urban amenities in 5, 10, and 15 minutes.
 
